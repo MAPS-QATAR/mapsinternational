@@ -110,25 +110,25 @@ const Hero = () => {
           }
           
           @keyframes blink {
-            0%, 50% { border-color: #FFD700; }
+            0%, 50% { border-color: #FFFFFF; }
             51%, 100% { border-color: transparent; }
           }
           
           @keyframes neon-pulse {
             0%, 100% { 
-              text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 15px #FFD700;
+              text-shadow: 0 0 5px #FFFFFF, 0 0 10px #FFFFFF, 0 0 15px #FFFFFF;
             }
             50% { 
-              text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+              text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF;
             }
           }
           
           @keyframes electric-glow {
             0%, 100% { 
-              text-shadow: 0 0 3px #00FFFF, 0 0 6px #00FFFF;
+              text-shadow: 0 0 3px #FFFFFF, 0 0 6px #FFFFFF;
             }
             50% { 
-              text-shadow: 0 0 5px #00FFFF, 0 0 10px #00FFFF;
+              text-shadow: 0 0 5px #FFFFFF, 0 0 10px #FFFFFF;
             }
           }
           
@@ -137,8 +137,7 @@ const Hero = () => {
             white-space: nowrap;
             margin: 0 auto;
             letter-spacing: 0.1em;
-            border-right: 3px solid #FFD700;
-            animation: typewriter 3s steps(20) 1s 1 normal both, blink 1s infinite 4s;
+            animation: typewriter 3s steps(20) 1s 1 normal both;
           }
         `}
       </style>
@@ -160,57 +159,65 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 py-20 flex flex-col items-center justify-center min-h-screen text-center">
-        {/* MAPS Logo - Large */}
-        <div className="-mb-6 -mt-8 animate-fade-in">
-          <div className="w-96 md:w-[500px] transition-all duration-300 hover:scale-105">
+        {/* MAPS INTERNATIONAL WLL Logo with Overlapping Text */}
+        <div className="relative -mb-4 -mt-8 animate-fade-in">
+          <div className="w-[500px] md:w-[700px] transition-all duration-300 hover:scale-105">
             <img
               src={mapsLogo}
-              alt="MAPS International Logo"
+              alt="MAPS INTERNATIONAL WLL Logo"
               className="w-full h-auto object-cover"
             />
           </div>
+          
+          {/* Overlapping Text - "Mapping Possibilities" */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-full" style={{ top: 'calc(100% - 170px)' }}>
+            <h2 className="text-4xl md:text-5xl font-bold typewriter-text text-center" style={{ 
+              animationDelay: '0.2s',
+              fontFamily: 'monospace'
+            }}>
+              <span className="inline-block animate-pulse" style={{ 
+                color: '#FFFFFF',
+                animationDelay: '0s',
+                textShadow: '0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.6)'
+              }}>Mapping</span> <span className="inline-block animate-pulse" style={{ 
+                color: '#FFFFFF',
+                animationDelay: '0.2s',
+                textShadow: '0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.6)'
+              }}>Possibilities</span>
+            </h2>
+          </div>
         </div>
 
-        {/* Main Tagline - Typewriter Effect */}
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 typewriter-text" style={{ 
-          animationDelay: '0.2s',
-          color: '#FFD700',
-          fontFamily: 'monospace'
-        }}>
-          Mapping Possibilities
-        </h2>
+        {/* Subtitle - FIXED TYPOGRAPHY */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 w-full" style={{ top: 'calc(100% - 400px)' }}>
+          <h3 className="text-4xl md:text-5xl font-bold typewriter-text text-center" style={{ 
+            animationDelay: '0.3s',
+            fontFamily: 'monospace'
+          }}>
+            <span className="inline-block animate-pulse" style={{ 
+              color: '#FFFFFF',
+              animationDelay: '0.4s',
+              textShadow: '0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.6)'
+            }}>Building</span> <span className="inline-block animate-pulse" style={{ 
+              color: '#FFFFFF',
+              animationDelay: '0.6s',
+              textShadow: '0 0 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.6)'
+            }}>Impact</span>
+          </h3>
+        </div>
 
-        {/* Subtitle - Electric Glow */}
-        <h3 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 animate-slide-up" style={{ 
-          animationDelay: '0.3s',
-          color: '#00FFFF',
-          animation: 'electric-glow 2s ease-in-out infinite alternate, slide-up 0.8s ease-out 0.3s both'
-        }}>
-          Building Impact
-        </h3>
-
-        {/* Description */}
-        <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-8 max-w-4xl animate-slide-up" style={{ animationDelay: '0.4s' }}>
-          Cultural Diplomacy • Events • Youth • Innovation
+        {/* Description - FIXED MOBILE TEXT */}
+        <p className="text-white/90 text-base md:text-lg leading-relaxed mb-8 max-w-4xl animate-slide-up" style={{ animationDelay: '0.4s' }}>
+          <span className="inline-block animate-pulse">Cultural Diplomacy</span> • <span className="inline-block animate-pulse" style={{ animationDelay: '0.2s' }}>Events</span> • <span className="inline-block animate-pulse" style={{ animationDelay: '0.4s' }}>Youth</span> • <span className="inline-block animate-pulse" style={{ animationDelay: '0.6s' }}>Innovation</span>
         </p>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap justify-center gap-6 animate-slide-up" style={{ animationDelay: '0.5s' }}>
+        {/* Action Button - FIXED COLORS */}
+        <div className="flex justify-center animate-slide-up" style={{ animationDelay: '0.5s' }}>
           <button 
-            onClick={() => document.getElementById('card-deck')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 hover:scale-105 border-2 border-yellow-400"
-            style={{
-              boxShadow: '0 0 20px rgba(255, 215, 0, 0.5)',
-              textShadow: '0 0 10px rgba(0, 0, 0, 0.5)'
-            }}
+            onClick={() => window.location.href = '/work'}
+            className="bg-magenta hover:bg-magenta-dark text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
           >
             Explore Our Work
-          </button>
-          <button 
-            onClick={openSponsorModal}
-            className="bg-white text-black px-8 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-white/50 transition-all duration-300 hover:scale-105 border border-gray-300"
-          >
-            Collaborate With Us
           </button>
         </div>
       </div>
@@ -227,3 +234,6 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
+

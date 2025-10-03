@@ -93,12 +93,12 @@ const Connect = () => {
         EMAILJS_PUBLIC_KEY
       );
 
-      toast({
-        title: "Message Sent!",
+    toast({
+      title: "Message Sent!",
         description: `Thank you for your ${activeForm} inquiry! We'll get back to you within 24 hours.`,
-      });
+    });
 
-      // Reset form
+    // Reset form
       resetForm();
     } catch (error) {
       console.error('EmailJS Error:', error);
@@ -260,7 +260,7 @@ const Connect = () => {
             <option value="25k-100k">$25,000 - $100,000</option>
             <option value="100k+">$100,000+</option>
           </select>
-        </div>
+            </div>
         <div>
           <label htmlFor="type" className="block text-sm font-medium text-dark mb-2">
             Sponsorship Type *
@@ -278,9 +278,9 @@ const Connect = () => {
             <option value="program">Program Sponsorship</option>
             <option value="general">General Sponsorship</option>
           </select>
+          </div>
         </div>
-      </div>
-
+        
       <div>
         <label htmlFor="timeline" className="block text-sm font-medium text-dark mb-2">
           Expected Timeline
@@ -298,7 +298,7 @@ const Connect = () => {
           <option value="medium">Medium term (3-6 months)</option>
           <option value="long">Long term (6+ months)</option>
         </select>
-      </div>
+        </div>
       
       <div>
         <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
@@ -419,7 +419,7 @@ const Connect = () => {
             <option value="event">Event Partnership</option>
             <option value="long-term">Long-term Collaboration</option>
           </select>
-        </div>
+                    </div>
         <div>
           <label htmlFor="experience" className="block text-sm font-medium text-dark mb-2">
             Organization Size
@@ -624,7 +624,7 @@ const Connect = () => {
                   className="text-red-500 hover:text-red-700"
                 >
                   <X className="w-4 h-4" />
-                </button>
+                  </button>
               </div>
             ))}
           </div>
@@ -643,7 +643,7 @@ const Connect = () => {
           value={formData.message}
           onChange={handleInputChange}
           className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your artistic vision, what you hope to achieve through collaboration with MAPS, and your creative goals..."
+          placeholder="Tell us about your artistic vision, what you hope to achieve through collaboration with MAPS INTERNATIONAL WLL, and your creative goals..."
         />
       </div>
     </div>
@@ -684,8 +684,8 @@ const Connect = () => {
             placeholder="Your age"
           />
         </div>
-      </div>
-      
+            </div>
+
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
@@ -773,7 +773,7 @@ const Connect = () => {
           value={formData.message}
           onChange={handleInputChange}
           className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-cta focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your goals, what you hope to learn, and how you'd like to contribute to MAPS' mission..."
+          placeholder="Tell us about your goals, what you hope to learn, and how you'd like to contribute to MAPS INTERNATIONAL WLL's mission..."
         />
       </div>
     </div>
@@ -781,21 +781,21 @@ const Connect = () => {
 
   const renderPressForm = () => (
     <div className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
-            Full Name *
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleInputChange}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleInputChange}
             className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-            placeholder="Your full name"
-          />
+                        placeholder="Your full name"
+                      />
         </div>
         <div>
           <label htmlFor="outlet" className="block text-sm font-medium text-dark mb-2">
@@ -812,8 +812,8 @@ const Connect = () => {
             placeholder="Your media outlet"
           />
         </div>
-      </div>
-      
+                    </div>
+                    
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
@@ -958,7 +958,7 @@ const Connect = () => {
           value={formData.message}
           onChange={handleInputChange}
           className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your coverage goals, story angle, and what aspects of MAPS you'd like to highlight..."
+          placeholder="Tell us about your coverage goals, story angle, and what aspects of MAPS INTERNATIONAL WLL you'd like to highlight..."
         />
       </div>
     </div>
@@ -982,37 +982,37 @@ const Connect = () => {
             placeholder="Your full name"
           />
         </div>
-        <div>
-          <label htmlFor="organization" className="block text-sm font-medium text-dark mb-2">
-            Organization
-          </label>
-          <input
-            type="text"
-            id="organization"
-            name="organization"
-            value={formData.organization}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-            placeholder="Your organization"
-          />
-        </div>
-      </div>
-      
+                    <div>
+                      <label htmlFor="organization" className="block text-sm font-medium text-dark mb-2">
+                        Organization
+                      </label>
+                      <input
+                        type="text"
+                        id="organization"
+                        name="organization"
+                        value={formData.organization}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
+                        placeholder="Your organization"
+                      />
+                    </div>
+                  </div>
+                  
       <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
-            Email Address *
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-            placeholder="your.email@example.com"
-          />
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
+                      placeholder="your.email@example.com"
+                    />
         </div>
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-dark mb-2">
@@ -1028,8 +1028,8 @@ const Connect = () => {
             placeholder="+1 (555) 123-4567"
           />
         </div>
-      </div>
-
+                  </div>
+                  
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="inquiryType" className="block text-sm font-medium text-dark mb-2">
@@ -1051,22 +1051,22 @@ const Connect = () => {
             <option value="other">Other</option>
           </select>
         </div>
-        <div>
-          <label htmlFor="timeline" className="block text-sm font-medium text-dark mb-2">
+                  <div>
+                    <label htmlFor="timeline" className="block text-sm font-medium text-dark mb-2">
             Timeline
-          </label>
-          <select
-            id="timeline"
-            name="timeline"
-            value={formData.timeline}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-          >
-            <option value="">Select timeline</option>
-            <option value="immediate">Immediate (1-2 weeks)</option>
-            <option value="short">Short term (1-3 months)</option>
-            <option value="medium">Medium term (3-6 months)</option>
-            <option value="long">Long term (6+ months)</option>
+                    </label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      value={formData.timeline}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
+                    >
+                      <option value="">Select timeline</option>
+                      <option value="immediate">Immediate (1-2 weeks)</option>
+                      <option value="short">Short term (1-3 months)</option>
+                      <option value="medium">Medium term (3-6 months)</option>
+                      <option value="long">Long term (6+ months)</option>
           </select>
         </div>
       </div>
@@ -1089,24 +1089,24 @@ const Connect = () => {
           <option value="25k-100k">$25,000 - $100,000</option>
           <option value="100k+">$100,000+</option>
           <option value="discuss">To be discussed</option>
-        </select>
-      </div>
-      
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
           Specific Inquiry Details *
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={5}
-          value={formData.message}
-          onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all resize-none"
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all resize-none"
           placeholder="Please provide specific details about your inquiry, what you're looking for, and how we can help..."
-        />
-      </div>
+                    />
+                  </div>
     </div>
   );
 
@@ -1153,7 +1153,7 @@ const Connect = () => {
         
         {/* Title Overlay */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white" style={{
+          <h1 className="text-4xl md:text-5xl font-bold text-white" style={{
             textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)'
           }}>
             Connect
@@ -1165,8 +1165,8 @@ const Connect = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <p className="text-xl md:text-2xl text-gray-700 leading-relaxed">
-              Join our mission to <span className="text-magenta font-semibold">connect cultures</span>, <span className="text-teal font-semibold">empower youth</span>, and create lasting impact across <span className="text-magenta font-semibold">70+ countries</span>.
+            <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+              Join our mission to <span className="text-pink-500 font-semibold">connect cultures</span>, <span className="text-cyan-500 font-semibold">empower youth</span>, and create lasting impact across <span className="text-pink-500 font-semibold">70+ countries</span>.
             </p>
           </div>
         </div>
@@ -1177,7 +1177,7 @@ const Connect = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-dark text-center mb-12">How Would You Like to Connect?</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-12">How Would You Like to Connect?</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
               {ctaButtons.map((button) => {
                 const rippleRef = useRipple();
@@ -1235,8 +1235,8 @@ const Connect = () => {
                         </>
                       ) : (
                         <>
-                          <Send className="w-5 h-5" />
-                          Send Message
+                      <Send className="w-5 h-5" />
+                      Send Message
                         </>
                       )}
                     </button>
@@ -1361,12 +1361,12 @@ const Connect = () => {
         
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6" style={{
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6" style={{
               textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)'
             }}>
               Ready to Connect?
             </h2>
-            <p className="text-xl text-white/90 mb-12 leading-relaxed">
+            <p className="text-base md:text-lg text-white/90 mb-12 leading-relaxed">
               Join us in creating extraordinary cultural experiences that inspire, engage, and empower communities worldwide.
             </p>
             
@@ -1375,7 +1375,7 @@ const Connect = () => {
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
                   <Mail className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Get in Touch</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Get in Touch</h3>
                 <p className="text-white/80 text-sm">info@mapsinternational.net</p>
               </div>
               
@@ -1383,7 +1383,7 @@ const Connect = () => {
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
                   <Phone className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Call Us</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Call Us</h3>
                 <p className="text-white/80 text-sm">+974 5560 3845</p>
               </div>
               
@@ -1391,7 +1391,7 @@ const Connect = () => {
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
                   <MapPin className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Visit Us</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Visit Us</h3>
                 <p className="text-white/80 text-sm">Katara Cultural Village</p>
               </div>
             </div>
@@ -1399,13 +1399,13 @@ const Connect = () => {
             <div className="flex flex-wrap justify-center gap-4">
               <button 
                 onClick={() => window.open('mailto:info@mapsinternational.net', '_blank')}
-                className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 hover:scale-105 border border-white/30"
+                className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Send Email
               </button>
               <button 
                 onClick={() => window.open('tel:+97455603845', '_blank')}
-                className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 hover:scale-105 border border-white/30"
+                className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Call Now
               </button>

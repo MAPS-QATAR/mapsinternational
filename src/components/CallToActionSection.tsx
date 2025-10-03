@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { Users, Handshake, Palette, Calendar, Mail, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Users, Handshake, Palette, Calendar, Mail, ArrowRight, Settings } from "lucide-react";
 
-const CallToActionSection = () => {
+const CallToActionSection = ({ showAdmin = false, onToggleAdmin }: { showAdmin?: boolean; onToggleAdmin?: () => void } = {}) => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [cards, setCards] = useState<any[]>([]);
 
-  const ctaCards = [
+  const defaultCards = [
     {
       id: 1,
       title: "Join QIAF 2025",
@@ -14,7 +15,8 @@ const CallToActionSection = () => {
       buttonLink: "/connect",
       color: "from-magenta to-pink-500",
       bgColor: "from-pink-50 to-pink-100",
-      stats: ["400+ Artists", "70+ Countries", "6 Days"]
+      stats: ["400+ Artists", "70+ Countries", "6 Days"],
+      image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center"
     },
     {
       id: 2,
@@ -25,7 +27,8 @@ const CallToActionSection = () => {
       buttonLink: "/connect",
       color: "from-teal to-cyan-500",
       bgColor: "from-teal-50 to-cyan-100",
-      stats: ["Government", "NGOs", "Cultural"]
+      stats: ["Government", "NGOs", "Cultural"],
+      image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop&crop=center"
     },
     {
       id: 3,
@@ -34,9 +37,10 @@ const CallToActionSection = () => {
       icon: <Users className="w-8 h-8" />,
       buttonText: "Get Involved",
       buttonLink: "/connect",
-      color: "from-cta to-orange-500",
-      bgColor: "from-orange-50 to-yellow-100",
-      stats: ["500+ Youth", "Innovation", "Leadership"]
+      color: "from-magenta to-pink-500",
+      bgColor: "from-pink-50 to-pink-100",
+      stats: ["500+ Youth", "Innovation", "Leadership"],
+      image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop&crop=center"
     },
     {
       id: 4,
@@ -45,11 +49,22 @@ const CallToActionSection = () => {
       icon: <Calendar className="w-8 h-8" />,
       buttonText: "View Events",
       buttonLink: "/work",
-      color: "from-purple-500 to-indigo-500",
-      bgColor: "from-purple-50 to-indigo-100",
-      stats: ["15+ Components", "Year Round", "Global"]
+      color: "from-teal to-cyan-500",
+      bgColor: "from-teal-50 to-cyan-100",
+      stats: ["15+ Components", "Year Round", "Global"],
+      image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop&crop=center"
     }
   ];
+
+  // Load cards from localStorage on component mount
+  useEffect(() => {
+    const savedCards = localStorage.getItem('ctaCards');
+    if (savedCards) {
+      setCards(JSON.parse(savedCards));
+    } else {
+      setCards(defaultCards);
+    }
+  }, []);
 
   const handleCardClick = (link: string) => {
     if (link.startsWith('/')) {
@@ -63,14 +78,26 @@ const CallToActionSection = () => {
     <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-dark mb-6">Join Our Community</h2>
+          <div className="flex justify-between items-center mb-6">
+            <div></div>
+            <h2 className="text-4xl md:text-5xl font-bold text-dark">Join Our Community</h2>
+            {onToggleAdmin && (
+              <button
+                onClick={onToggleAdmin}
+                className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors duration-200"
+              >
+                <Settings className="w-4 h-4" />
+                Manage Cards
+              </button>
+            )}
+          </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Whether you're an artist, partner, youth leader, or cultural enthusiast, there's a place for you in the MAPS International WLL community.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {ctaCards.map((card, index) => (
+          {cards.map((card, index) => (
             <div
               key={card.id}
               className={`group relative overflow-hidden rounded-3xl p-8 text-center transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl cursor-pointer bg-gradient-to-br ${card.bgColor}`}
@@ -90,8 +117,17 @@ const CallToActionSection = () => {
               {/* Animated Background */}
               <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
               
-              {/* Icon */}
+              {/* Image */}
               <div className="relative z-10 mb-6">
+                <div className="w-full h-32 rounded-xl overflow-hidden mb-4">
+                  <img 
+                    src={card.image} 
+                    alt={card.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                
+                {/* Icon */}
                 <div className={`w-16 h-16 bg-gradient-to-br ${card.color} rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300`}>
                   <div className="text-white">
                     {card.icon}

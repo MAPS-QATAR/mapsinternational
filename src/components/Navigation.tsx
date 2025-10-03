@@ -45,20 +45,20 @@ const Navigation = () => {
               <div className="flex items-center gap-3">
                 <img 
                   src={mapsLogo} 
-                  alt="MAPS International" 
+                  alt="MAPS International WLL" 
                   className="w-12 h-12 object-contain hover:scale-110 transition-transform duration-300"
                 />
-                <span className="text-xl font-bold text-white text-glow">MAPS</span>
+                <span className="text-xl font-bold text-white text-glow">MAPS INTERNATIONAL WLL</span>
               </div>
             ) : (
               // Option 2: Clean MAPS Logo for light pages
               <div className="flex items-center gap-3">
                 <img 
                   src={mapsLogo} 
-                  alt="MAPS International" 
+                  alt="MAPS International WLL" 
                   className="w-12 h-12 object-contain hover:scale-110 transition-transform duration-300"
                 />
-                <span className="text-xl font-bold text-dark">MAPS</span>
+                <span className="text-xl font-bold text-dark">MAPS INTERNATIONAL WLL</span>
               </div>
             )}
           </div>
@@ -84,9 +84,9 @@ const Navigation = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (isDarkPage) {
-                    e.currentTarget.style.color = '#ff69b4'; // Neon pink
-                    e.currentTarget.style.textShadow = '0 0 20px rgba(255, 105, 180, 0.8)';
-                    e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255, 105, 180, 0.6))';
+                    e.currentTarget.style.color = '#E91E63'; // Brand magenta
+                    e.currentTarget.style.textShadow = '0 0 20px rgba(233, 30, 99, 0.8)';
+                    e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(233, 30, 99, 0.6))';
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -139,9 +139,9 @@ const Navigation = () => {
                   }}
                   onMouseEnter={(e) => {
                     if (isDarkPage) {
-                      e.currentTarget.style.color = '#ff69b4'; // Neon pink
-                      e.currentTarget.style.textShadow = '0 0 20px rgba(255, 105, 180, 0.8)';
-                      e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255, 105, 180, 0.6))';
+                      e.currentTarget.style.color = '#E91E63'; // Brand magenta
+                      e.currentTarget.style.textShadow = '0 0 20px rgba(233, 30, 99, 0.8)';
+                      e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(233, 30, 99, 0.6))';
                     }
                   }}
                   onMouseLeave={(e) => {

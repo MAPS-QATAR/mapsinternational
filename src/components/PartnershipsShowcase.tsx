@@ -141,13 +141,13 @@ const BentoCard = ({
                   />
                   {/* Fallback placeholder when image fails to load */}
                   <div 
-                    className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-200/20 to-purple-300/20"
+                    className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-magenta/20 to-teal/20"
                     style={{ display: 'none' }}
                   >
                     <div className="text-center">
-                      <Building className="w-16 h-16 text-purple-600/60 mx-auto mb-2" />
-                      <p className="text-purple-700/80 font-medium">{partnership.name}</p>
-                      <p className="text-purple-600/60 text-sm">Logo Coming Soon</p>
+                      <Building className="w-16 h-16 text-magenta/60 mx-auto mb-2" />
+                      <p className="text-magenta/80 font-medium">{partnership.name}</p>
+                      <p className="text-magenta/60 text-sm">Logo Coming Soon</p>
                     </div>
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
@@ -697,10 +697,10 @@ const PartnershipsShowcase = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-purple-100/20 backdrop-blur-lg border border-purple-200/30 rounded-3xl shadow-lg hover:shadow-2xl hover:shadow-purple-300/20 transition-all duration-500 hover:-translate-y-2 group cursor-pointer overflow-hidden"
+              className="bg-white border border-gray-200 rounded-3xl shadow-lg hover:shadow-2xl hover:shadow-magenta/20 transition-all duration-500 hover:-translate-y-2 group cursor-pointer overflow-hidden"
             >
               {/* Image Section */}
-              <div className="relative h-48 bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center p-6">
+              <div className="relative h-48 bg-gradient-to-br from-magenta/5 to-teal/5 flex items-center justify-center p-6">
                 <img
                   src={partnership.logo}
                   alt={partnership.name}
@@ -723,12 +723,12 @@ const PartnershipsShowcase = () => {
                 />
                 {/* Fallback placeholder */}
                 <div 
-                  className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-200/20 to-purple-300/20"
+                  className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-magenta/20 to-teal/20"
                   style={{ display: 'none' }}
                 >
                   <div className="text-center">
-                    <Building className="w-12 h-12 text-purple-600/60 mx-auto mb-2" />
-                    <p className="text-purple-700/80 font-medium text-sm">{partnership.name}</p>
+                    <Building className="w-12 h-12 text-magenta/60 mx-auto mb-2" />
+                    <p className="text-magenta/80 font-medium text-sm">{partnership.name}</p>
                   </div>
                 </div>
                 

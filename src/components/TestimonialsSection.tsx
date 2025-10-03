@@ -56,7 +56,7 @@ const TestimonialsSection = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-dark mb-6">What People Say</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Hear from the artists, partners, and leaders who have experienced the magic of MAPS International
+            Hear from the artists, partners, and leaders who have experienced the magic of MAPS INTERNATIONAL WLL
           </p>
         </div>
 

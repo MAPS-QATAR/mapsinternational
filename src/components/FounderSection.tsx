@@ -9,33 +9,33 @@ const FounderSection = () => {
       title: "Cultural Curation",
       description: "20+ years of curating transformative cultural experiences",
       icon: <Star className="w-8 h-8" />,
-      color: "from-pink-200/40 to-rose-300/40",
-      borderColor: "border-pink-300/50",
-      hoverColor: "hover:shadow-pink-300/20"
+      color: "from-magenta/10 to-teal/10",
+      borderColor: "border-magenta/20",
+      hoverColor: "hover:shadow-magenta/20"
     },
     {
       title: "Strategic Planning",
       description: "Bridging art and business through innovative strategies",
       icon: <Building className="w-8 h-8" />,
-      color: "from-blue-200/40 to-cyan-300/40",
-      borderColor: "border-blue-300/50",
-      hoverColor: "hover:shadow-blue-300/20"
+      color: "from-teal/10 to-cyan-500/10",
+      borderColor: "border-teal/20",
+      hoverColor: "hover:shadow-teal/20"
     },
     {
       title: "Global Leadership",
       description: "Leading international organizations and cultural diplomacy",
       icon: <Globe className="w-8 h-8" />,
-      color: "from-green-200/40 to-emerald-300/40",
-      borderColor: "border-green-300/50",
-      hoverColor: "hover:shadow-green-300/20"
+      color: "from-magenta/10 to-pink-500/10",
+      borderColor: "border-magenta/20",
+      hoverColor: "hover:shadow-magenta/20"
     },
     {
       title: "Social Impact",
       description: "Driving positive change through art and cultural engagement",
       icon: <Users className="w-8 h-8" />,
-      color: "from-yellow-200/40 to-amber-300/40",
-      borderColor: "border-yellow-300/50",
-      hoverColor: "hover:shadow-yellow-300/20"
+      color: "from-teal/10 to-cyan-500/10",
+      borderColor: "border-teal/20",
+      hoverColor: "hover:shadow-teal/20"
     }
   ];
 
@@ -43,9 +43,9 @@ const FounderSection = () => {
     {
       category: "International Organizations",
       icon: <Globe className="w-6 h-6" />,
-      color: "from-indigo-200/40 to-purple-300/40",
-      borderColor: "border-indigo-300/50",
-      hoverColor: "hover:shadow-indigo-300/20",
+      color: "from-magenta/10 to-teal/10",
+      borderColor: "border-magenta/20",
+      hoverColor: "hover:shadow-magenta/20",
       positions: [
         {
           title: "Chairperson & International Director",
@@ -70,9 +70,9 @@ const FounderSection = () => {
     {
       category: "Arts & Media",
       icon: <Star className="w-6 h-6" />,
-      color: "from-teal-200/40 to-cyan-300/40",
-      borderColor: "border-teal-300/50",
-      hoverColor: "hover:shadow-teal-300/20",
+      color: "from-teal/10 to-cyan-500/10",
+      borderColor: "border-teal/20",
+      hoverColor: "hover:shadow-teal/20",
       positions: [
         {
           title: "Proprietor",
@@ -103,27 +103,27 @@ const FounderSection = () => {
       title: "Qatar Ministry of Culture Recognition",
       description: "Official recognition for outstanding contribution to Qatar's cultural landscape",
       icon: <Trophy className="w-8 h-8" />,
-      color: "from-purple-200/40 to-violet-300/40",
-      borderColor: "border-purple-300/50",
-      hoverColor: "hover:shadow-purple-300/20"
+      color: "from-magenta/10 to-pink-500/10",
+      borderColor: "border-magenta/20",
+      hoverColor: "hover:shadow-magenta/20"
     },
     {
       year: "2019",
       title: "Best NRI Women Entrepreneur",
       description: "Celebrating exceptional leadership and innovation in cultural entrepreneurship",
       icon: <Crown className="w-8 h-8" />,
-      color: "from-orange-200/40 to-red-300/40",
-      borderColor: "border-orange-300/50",
-      hoverColor: "hover:shadow-orange-300/20"
+      color: "from-teal/10 to-cyan-500/10",
+      borderColor: "border-teal/20",
+      hoverColor: "hover:shadow-teal/20"
     },
     {
       year: "2018",
       title: "Asia Pride Award",
       description: "Honoring significant contributions to Asian cultural heritage and social impact",
       icon: <Award className="w-8 h-8" />,
-      color: "from-emerald-200/40 to-teal-300/40",
-      borderColor: "border-emerald-300/50",
-      hoverColor: "hover:shadow-emerald-300/20"
+      color: "from-magenta/10 to-teal/10",
+      borderColor: "border-magenta/20",
+      hoverColor: "hover:shadow-magenta/20"
     }
   ];
 
@@ -296,16 +296,6 @@ const FounderSection = () => {
             </div>
           </div>
 
-          {/* Global Social Impact */}
-          <div className="bg-gradient-to-r from-magenta to-teal rounded-3xl p-12 text-center shadow-2xl">
-            <h3 className="text-4xl font-bold mb-8 text-white">Global Social Impact</h3>
-            <p className="text-xl text-white/95 mb-6 max-w-5xl mx-auto leading-relaxed font-medium">
-              As <span className="font-bold">Chairperson and International Director</span> of the Human Rights International Federation and <span className="font-bold">International Director & National Chairperson (Qatar)</span> of the Anti-Corruption Foundation, she exemplifies ethical leadership and social justice advocacy on a global scale.
-            </p>
-            <p className="text-lg text-white/90 max-w-4xl mx-auto leading-relaxed">
-              Her commitment to human rights and anti-corruption initiatives demonstrates her dedication to creating a more just and equitable world through cultural diplomacy and social impact.
-            </p>
-          </div>
         </div>
       </div>
     </section>

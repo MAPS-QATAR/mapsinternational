@@ -36,8 +36,8 @@ const NewsUpdates = () => {
       date: "October 8, 2025",
       category: "Achievement",
       icon: <TrendingUp className="w-6 h-6" />,
-      color: "from-cta to-orange-500",
-      bgColor: "from-orange-50 to-yellow-100",
+      color: "from-teal to-cyan-500",
+      bgColor: "from-teal-50 to-cyan-100",
       link: "/work",
       featured: true
     },
@@ -48,8 +48,8 @@ const NewsUpdates = () => {
       date: "October 5, 2025",
       category: "Education",
       icon: <Award className="w-6 h-6" />,
-      color: "from-purple-500 to-indigo-500",
-      bgColor: "from-purple-50 to-indigo-100",
+      color: "from-teal to-cyan-500",
+      bgColor: "from-teal-50 to-cyan-100",
       link: "/work",
       featured: false
     },
@@ -60,8 +60,8 @@ const NewsUpdates = () => {
       date: "October 1, 2025",
       category: "Milestone",
       icon: <Users className="w-6 h-6" />,
-      color: "from-green-500 to-emerald-500",
-      bgColor: "from-green-50 to-emerald-100",
+      color: "from-teal to-cyan-500",
+      bgColor: "from-teal-50 to-cyan-100",
       link: "/about",
       featured: true
     }
@@ -142,7 +142,7 @@ const NewsUpdates = () => {
                               {news.category}
                             </span>
                             {news.featured && (
-                              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+                              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r from-teal to-cyan-500 text-white">
                                 Featured
                               </span>
                             )}
@@ -161,7 +161,7 @@ const NewsUpdates = () => {
                             <span className="text-sm text-gray-500">{news.date}</span>
                             <button
                               onClick={() => handleNewsClick(news.link)}
-                              className="flex items-center space-x-1 text-magenta hover:text-pink-600 transition-colors duration-300"
+                              className="flex items-center space-x-1 text-magenta hover:text-magenta-dark transition-colors duration-300"
                             >
                               <span className="text-sm font-medium">Read More</span>
                               <ExternalLink className="w-4 h-4" />

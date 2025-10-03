@@ -30,7 +30,7 @@ const ImpactMetrics = () => {
       value: 11,
       label: "Years of Excellence",
       suffix: "+",
-      color: "from-cta to-orange-500"
+      color: "from-magenta to-pink-500"
     }
   ];
 
