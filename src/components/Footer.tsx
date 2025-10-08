@@ -83,8 +83,8 @@ const Footer = () => {
         </svg>
       </div>
 
-      <div className="container mx-auto px-6 md:px-12 pt-20 pb-0 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-2">
+      <div className="container mx-auto px-6 md:px-12 pt-12 sm:pt-16 md:pt-20 pb-0 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10 md:gap-12 mb-2">
           
           {/* Brand Section - Wider */}
           <motion.div

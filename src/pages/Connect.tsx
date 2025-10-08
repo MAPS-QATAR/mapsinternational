@@ -986,7 +986,7 @@ const Connect = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto mb-12 sm:mb-16 px-4 sm:px-0">
             {connectionOptions.map((option, index) => (
               <motion.div
                 key={option.id}
@@ -1035,9 +1035,9 @@ const Connect = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.4 }}
-                className="max-w-3xl mx-auto"
+                className="max-w-3xl mx-auto px-4"
               >
-                <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl shadow-2xl p-8 md:p-12">
+                <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12">
                   <div className="flex items-center justify-between mb-8">
                   <div>
                       <h3 className="text-3xl font-bold text-gray-900 mb-2 capitalize">
@@ -1058,20 +1058,20 @@ const Connect = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {renderFormFields()}
                   
-                    <div className="flex gap-4 pt-6">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6">
                     <LoadingButton
                       type="submit"
                       isLoading={isSubmitting}
-                        className="flex-1 px-8 py-4 bg-gradient-to-r from-[#E91E63] to-[#00BCD4] text-white text-lg font-semibold rounded-xl hover:scale-105 transition-all duration-300"
+                        className="flex-1 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#E91E63] to-[#00BCD4] text-white text-base sm:text-lg font-semibold rounded-xl hover:scale-105 transition-all duration-300"
                     >
                       <span className="flex items-center justify-center gap-2">
-                      <Send className="w-5 h-5" />
+                      <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                       Send Message
                       </span>
                     </LoadingButton>
                     <RippleButton
                       onClick={() => setActiveForm(null)}
-                        className="px-8 py-4 border-2 border-gray-300 text-gray-700 text-lg font-semibold rounded-xl hover:bg-gray-50 transition-all duration-300"
+                        className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-gray-300 text-gray-700 text-base sm:text-lg font-semibold rounded-xl hover:bg-gray-50 transition-all duration-300"
                     >
                       Cancel
                     </RippleButton>

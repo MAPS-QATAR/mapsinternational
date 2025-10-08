@@ -28,115 +28,54 @@ const Work = () => {
   return (
     <div className="bg-transparent overflow-hidden relative">
       {/* ============================================ */}
-      {/* FULL PAGE ANIMATED COLOR BALLOONS */}
+      {/* ANIMATED COLOR BALLOONS - Optimized Performance */}
       {/* ============================================ */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        {/* Balloon 1 - Pink - Diagonal Journey */}
+        {/* Balloon 1 - Pink - Top Left to Bottom Right */}
         <motion.div
           animate={{ 
-            x: [-100, 200, 100, -100], 
-            y: [-50, 100, 200, -50] 
+            x: [-100, 250, -100], 
+            y: [-50, 300, -50] 
           }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-0 left-0 w-96 h-96 bg-[#E91E63] rounded-full opacity-10 blur-3xl"
         />
         
-        {/* Balloon 2 - Teal - Circular Path */}
+        {/* Balloon 2 - Teal - Bottom Left Circular */}
         <motion.div
           animate={{ 
-            x: [-200, -100, 100, 200, 100, -100, -200], 
-            y: [100, 300, 400, 300, 100, -50, 100] 
+            x: [-200, 100, 200, -200], 
+            y: [100, 350, 100, 100] 
           }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 32, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#00BCD4] rounded-full opacity-10 blur-3xl"
         />
         
-        {/* Balloon 3 - Purple - Floating Right to Left */}
+        {/* Balloon 3 - Purple - Right Side Float */}
         <motion.div
           animate={{ 
-            x: [400, -400], 
-            y: [0, -80, 0, 80, 0] 
+            x: [200, -100, 200], 
+            y: [0, -80, 0] 
           }}
-          transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 36, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-[30%] right-0 w-80 h-80 bg-[#9C27B0] rounded-full opacity-8 blur-3xl"
         />
         
-        {/* Balloon 4 - Orange - Rising Motion */}
+        {/* Balloon 4 - Orange - Bottom Right Drift */}
         <motion.div
           animate={{ 
-            x: [0, 100, -50, 0], 
-            y: [500, -100, 500] 
+            x: [100, -50, 100], 
+            y: [0, 80, 0] 
           }}
-          transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 left-[10%] w-64 h-64 bg-[#FF9800] rounded-full opacity-8 blur-2xl"
-        />
-        
-        {/* Balloon 5 - Pink - Wave Pattern */}
-        <motion.div
-          animate={{ 
-            x: [-100, 50, 200, 300, 200, 50, -100], 
-            y: [200, 150, 200, 250, 300, 250, 200] 
-          }}
-          transition={{ duration: 32, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute top-[35%] left-0 w-72 h-72 bg-[#E91E63] rounded-full opacity-8 blur-3xl"
-        />
-        
-        {/* Balloon 6 - Teal - Zigzag */}
-        <motion.div
-          animate={{ 
-            x: [300, 100, 300, 500, 300], 
-            y: [0, 150, 300, 150, 0] 
-          }}
-          transition={{ duration: 26, repeat: Infinity, ease: "linear", delay: 4 }}
-          className="absolute top-[50%] right-0 w-96 h-96 bg-[#00BCD4] rounded-full opacity-10 blur-3xl"
-        />
-        
-        {/* Balloon 7 - Purple - Sine Wave */}
-        <motion.div
-          animate={{ 
-            x: [0, 150, 300, 150, 0, -150, -300, -150, 0], 
-            y: [0, -100, 0, 100, 0, 100, 0, -100, 0] 
-          }}
-          transition={{ duration: 40, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute top-[65%] left-[30%] w-80 h-80 bg-[#9C27B0] rounded-full opacity-8 blur-3xl"
-        />
-        
-        {/* Balloon 8 - Orange - Bouncing */}
-        <motion.div
-          animate={{ 
-            x: [200, 0, 200, 400, 200], 
-            y: [0, 100, 50, 100, 0] 
-          }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-          className="absolute bottom-[15%] right-[5%] w-64 h-64 bg-[#FF9800] rounded-full opacity-8 blur-2xl"
-        />
-        
-        {/* Balloon 9 - Pink - Figure-8 */}
-        <motion.div
-          animate={{ 
-            x: [-150, 0, 150, 0, -150], 
-            y: [100, 200, 100, 0, 100] 
-          }}
-          transition={{ duration: 34, repeat: Infinity, ease: "easeInOut", delay: 5 }}
-          className="absolute bottom-[30%] left-[20%] w-72 h-72 bg-[#E91E63] rounded-full opacity-8 blur-3xl"
-        />
-        
-        {/* Balloon 10 - Teal - Spiral */}
-        <motion.div
-          animate={{ 
-            x: [0, 200, 300, 200, 0, -200, -300, -200, 0], 
-            y: [0, -50, 0, 50, 100, 50, 0, -50, 0],
-            scale: [1, 1.3, 1.1, 1.3, 1]
-          }}
-          transition={{ duration: 45, repeat: Infinity, ease: "easeInOut", delay: 6 }}
-          className="absolute bottom-0 right-[30%] w-80 h-80 bg-[#00BCD4] rounded-full opacity-10 blur-3xl"
+          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-[10%] right-[5%] w-72 h-72 bg-[#FF9800] rounded-full opacity-8 blur-3xl"
         />
       </div>
 
       {/* ============================================ */}
       {/* HERO SECTION - Artistic & Compact */}
       {/* ============================================ */}
-      <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-transparent z-10">
+      <section className="relative min-h-[500px] sm:min-h-[450px] md:h-[50vh] flex items-center justify-center overflow-hidden bg-transparent z-10">
         
         {/* Sketchy Artistic Elements */}
         <div className="absolute inset-0 opacity-20">
@@ -183,7 +122,7 @@ const Work = () => {
             transition={{ duration: 0.8 }}
           >
             {/* Main Title */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-8 leading-none relative inline-block">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 sm:mb-8 leading-none relative inline-block px-4 sm:px-0">
               The Work That Matters
               {/* Hand-drawn underline */}
               <svg className="absolute -bottom-3 left-0 w-full h-4" viewBox="0 0 300 10" preserveAspectRatio="none">
@@ -193,7 +132,7 @@ const Work = () => {
             </h1>
             
             {/* Description Copy */}
-            <div className="space-y-4 text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
+            <div className="space-y-3 sm:space-y-4 text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto px-6 sm:px-4">
               <p className="font-semibold">
                 Every festival. Every workshop. Every connection.
               </p>
@@ -202,7 +141,7 @@ const Work = () => {
                 <br />
                 Cultures bridged. Futures reimagined.
               </p>
-              <p className="text-base md:text-lg italic text-gray-600">
+              <p className="text-sm sm:text-base md:text-lg italic text-gray-600">
                 Because impact isn't measured in attendance—
                 <br />
                 it's measured in lives transformed.

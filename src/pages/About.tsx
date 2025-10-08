@@ -128,11 +128,11 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/20 to-rose-50 overflow-hidden relative">
       {/* ============================================ */}
-      {/* ARTISTIC BACKGROUND ELEMENTS - Full Page */}
+      {/* ARTISTIC BACKGROUND ELEMENTS - Optimized */}
       {/* ============================================ */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-15">
 
-        {/* Ribbon Flow */}
+        {/* Ribbon Flow - Top Right */}
         <motion.svg 
           className="absolute top-1/4 right-20 w-96 h-64 text-purple-500"
           viewBox="0 0 300 200"
@@ -140,7 +140,7 @@ const About = () => {
             y: [0, -30, 20, 0],
             rotate: [0, -10, 5, 0]
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         >
           <path 
             d="M50 100 Q 100 50, 150 100 T 250 100" 
@@ -150,25 +150,17 @@ const About = () => {
             strokeLinecap="round"
             opacity="0.4"
           />
-          <path 
-            d="M60 110 Q 110 60, 160 110 T 260 110" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="4" 
-            strokeLinecap="round"
-            opacity="0.3"
-          />
         </motion.svg>
 
-        {/* Hand-drawn Circle */}
+        {/* Hand-drawn Circle - Top Left */}
         <motion.svg 
           className="absolute top-1/3 left-1/4 w-48 h-48 text-[#00BCD4]"
           viewBox="0 0 150 150"
           animate={{ 
-            scale: [1, 1.1, 0.95, 1],
+            scale: [1, 1.1, 1],
             rotate: [0, 180, 360]
           }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
         >
           <circle 
             cx="75" 
@@ -190,7 +182,7 @@ const About = () => {
             x: [0, -40, 30, 0],
             rotate: [0, -5, 5, 0]
           }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         >
           <path 
             d="M20 60 Q 80 30, 140 60 T 230 60" 
@@ -202,7 +194,7 @@ const About = () => {
           />
         </motion.svg>
 
-        {/* Scattered Paint Dots */}
+        {/* Scattered Paint Dots - Mid Right */}
         <motion.svg 
           className="absolute top-1/2 right-1/4 w-96 h-96 text-gray-700"
           viewBox="0 0 300 300"
@@ -217,34 +209,8 @@ const About = () => {
           <circle cx="220" cy="100" r="3" fill="currentColor" opacity="0.3" />
           <circle cx="80" cy="180" r="5" fill="currentColor" opacity="0.35" />
           <circle cx="260" cy="220" r="4" fill="currentColor" opacity="0.3" />
-          <circle cx="150" cy="260" r="7" fill="currentColor" opacity="0.4" />
-          <circle cx="40" cy="240" r="3" fill="currentColor" opacity="0.3" />
         </motion.svg>
 
-        {/* Abstract Ribbon - Right Side */}
-        <motion.svg 
-          className="absolute bottom-1/3 right-10 w-72 h-96 text-purple-400"
-          viewBox="0 0 200 300"
-          animate={{ 
-            y: [0, 40, -20, 0],
-            x: [0, -20, 10, 0]
-          }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-        >
-          <path 
-            d="M100 50 Q 120 100, 100 150 T 100 250" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="8" 
-            strokeLinecap="round"
-            opacity="0.3"
-          />
-        </motion.svg>
-
-
-
-        {/* MORE ARTISTIC ELEMENTS */}
-        
         {/* Zigzag Line - Top Center */}
         <motion.svg 
           className="absolute top-10 left-1/2 w-72 h-48 text-[#FF9800]"
@@ -253,7 +219,7 @@ const About = () => {
             x: [0, 30, -20, 0],
             y: [0, 15, -10, 0]
           }}
-          transition={{ duration: 19, repeat: Infinity, ease: "easeInOut", delay: 7 }}
+          transition={{ duration: 19, repeat: Infinity, ease: "easeInOut" }}
         >
           <path 
             d="M10 20 L 40 60 L 70 30 L 100 70 L 130 40 L 160 80 L 190 50" 
@@ -266,7 +232,6 @@ const About = () => {
           />
         </motion.svg>
 
-
         {/* Curved Ribbon - Middle Right */}
         <motion.svg 
           className="absolute top-1/2 right-32 w-56 h-80 text-[#E91E63]"
@@ -275,7 +240,7 @@ const About = () => {
             y: [0, -35, 20, 0],
             rotate: [0, 10, -8, 0]
           }}
-          transition={{ duration: 23, repeat: Infinity, ease: "easeInOut", delay: 8 }}
+          transition={{ duration: 23, repeat: Infinity, ease: "easeInOut" }}
         >
           <path 
             d="M90 20 Q 110 80, 90 140 T 90 220" 
@@ -284,114 +249,6 @@ const About = () => {
             strokeWidth="7" 
             strokeLinecap="round"
             opacity="0.3"
-          />
-          <path 
-            d="M80 30 Q 100 90, 80 150 T 80 230" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="4" 
-            strokeLinecap="round"
-            opacity="0.25"
-          />
-        </motion.svg>
-
-        {/* Triangle Sketch - Bottom Right */}
-        <motion.svg 
-          className="absolute bottom-32 right-16 w-40 h-40 text-[#00BCD4]"
-          viewBox="0 0 120 120"
-          animate={{ 
-            rotate: [0, 20, -15, 0],
-            scale: [1, 1.15, 1]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 9 }}
-        >
-          <path 
-            d="M60 20 L 100 100 L 20 100 Z" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2.5"
-            strokeDasharray="7,9"
-            strokeLinecap="round"
-          />
-        </motion.svg>
-
-        {/* Spiral Doodle - Top Right */}
-        <motion.svg 
-          className="absolute top-20 right-1/4 w-52 h-52 text-purple-500"
-          viewBox="0 0 160 160"
-          animate={{ 
-            rotate: [0, 360],
-            scale: [1, 1.05, 1]
-          }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-        >
-          <path 
-            d="M80 80 Q 90 70, 95 80 Q 100 95, 85 100 Q 65 100, 60 85 Q 60 65, 80 60 Q 105 60, 110 85 Q 110 115, 80 120" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2.5" 
-            strokeLinecap="round"
-            strokeDasharray="5,7"
-            opacity="0.35"
-          />
-        </motion.svg>
-
-        {/* Cross Hatch Pattern - Bottom Left */}
-        <motion.svg 
-          className="absolute bottom-1/4 left-16 w-48 h-48 text-gray-600"
-          viewBox="0 0 140 140"
-          animate={{ 
-            x: [0, 20, -15, 0],
-            y: [0, -20, 10, 0]
-          }}
-          transition={{ duration: 21, repeat: Infinity, ease: "easeInOut", delay: 10 }}
-        >
-          <line x1="20" y1="30" x2="70" y2="80" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
-          <line x1="30" y1="20" x2="80" y2="70" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
-          <line x1="40" y1="25" x2="90" y2="75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
-          <line x1="70" y1="30" x2="20" y2="80" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
-          <line x1="80" y1="20" x2="30" y2="70" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
-        </motion.svg>
-
-        {/* Wavy Ribbon - Center */}
-        <motion.svg 
-          className="absolute top-1/3 left-1/2 w-80 h-32 text-[#FF9800]"
-          viewBox="0 0 250 100"
-          animate={{ 
-            x: [-30, 30, -30],
-            y: [0, -20, 0]
-          }}
-          transition={{ duration: 24, repeat: Infinity, ease: "easeInOut", delay: 11 }}
-        >
-          <path 
-            d="M10 50 Q 40 30, 70 50 T 130 50 T 190 50 T 240 50" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="5" 
-            strokeLinecap="round"
-            strokeDasharray="8,12"
-            opacity="0.3"
-          />
-        </motion.svg>
-
-        {/* Star Sketch - Top Left */}
-        <motion.svg 
-          className="absolute top-40 left-1/3 w-36 h-36 text-[#E91E63]"
-          viewBox="0 0 100 100"
-          animate={{ 
-            rotate: [0, -360],
-            scale: [1, 1.2, 1]
-          }}
-          transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
-        >
-          <path 
-            d="M50 15 L55 40 L80 45 L58 60 L65 85 L50 70 L35 85 L42 60 L20 45 L45 40 Z" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2"
-            strokeDasharray="4,6"
-            strokeLinecap="round"
-            opacity="0.35"
           />
         </motion.svg>
 
@@ -403,7 +260,7 @@ const About = () => {
             y: [0, 25, -15, 0],
             rotate: [0, 8, -5, 0]
           }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 12 }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
         >
           <path 
             d="M20 75 Q 50 50, 80 75 Q 110 100, 140 75 Q 160 60, 180 75" 
@@ -413,27 +270,6 @@ const About = () => {
             strokeLinecap="round"
             strokeDasharray="6,9"
             opacity="0.35"
-          />
-        </motion.svg>
-
-        {/* Dashed Arc - Right Side */}
-        <motion.svg 
-          className="absolute top-1/4 right-5 w-48 h-96 text-[#00BCD4]"
-          viewBox="0 0 150 300"
-          animate={{ 
-            y: [0, -30, 20, 0],
-            x: [0, 15, -10, 0]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 13 }}
-        >
-          <path 
-            d="M75 50 Q 100 100, 75 150 Q 50 200, 75 250" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="3" 
-            strokeLinecap="round"
-            strokeDasharray="10,15"
-            opacity="0.3"
           />
         </motion.svg>
         </div>
@@ -451,11 +287,11 @@ const About = () => {
               transition={{ duration: 1 }}
               className="relative h-full"
             >
-              <div className="relative w-full h-[600px] lg:h-[700px]">
+              <div className="relative w-full h-[400px] sm:h-[500px] md:h-[550px] lg:h-[700px]">
                 <img
                   src={rashmiSpeaking}
                   alt="Rashmi Agarwal Speaking"
-                  className="w-full h-full object-cover object-center rounded-3xl shadow-2xl"
+                  className="w-full h-full object-cover object-center rounded-2xl sm:rounded-3xl shadow-2xl"
                 />
                 {/* Floating Badge */}
                 <div className="absolute bottom-8 left-8 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-2xl p-6 shadow-2xl">
@@ -472,9 +308,9 @@ const About = () => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="lg:pl-16"
+              className="lg:pl-16 px-6 sm:px-0"
             >
-              <p className="text-[#E91E63] font-black text-2xl mb-6 relative inline-block tracking-wide">
+              <p className="text-[#E91E63] font-black text-xl sm:text-2xl mb-4 sm:mb-6 relative inline-block tracking-wide">
                 THE VISIONARY
                 {/* Hand-drawn underline */}
                 <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 150 8" preserveAspectRatio="none">
@@ -482,13 +318,13 @@ const About = () => {
                     style={{ strokeLinecap: 'round' }} />
                 </svg>
               </p>
-              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
                 "In 2014, I had a vision"
               </h1>
-              <p className="text-2xl text-gray-700 mb-8 leading-relaxed italic">
+              <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-6 sm:mb-8 leading-relaxed italic">
                 What if culture could be the bridge that connects continents?
               </p>
-              <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
+              <div className="space-y-3 sm:space-y-4 text-base sm:text-lg text-gray-700 leading-relaxed">
                 <p>
                   Today, MAPS International WLL connects <span className="text-[#E91E63] font-bold">70+ countries</span>,
                   empowers <span className="text-[#FF9800] font-bold">500+ youth</span>, and celebrates
@@ -552,28 +388,28 @@ const About = () => {
                   style={{ strokeLinecap: 'round' }} />
               </svg>
             </p>
-            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-10">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 sm:mb-8 md:mb-10">
               MAPS International WLL
             </h2>
-            <p className="text-3xl font-semibold text-gray-800 mb-16">
+            <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 mb-8 sm:mb-12 md:mb-16">
               Mapping Possibilities. Building Impact.
             </p>
             
-            <div className="space-y-10 text-left max-w-4xl mx-auto">
-              <p className="text-2xl md:text-3xl text-gray-700 leading-[1.7] font-medium">
-                <span className="font-black text-gray-900 text-3xl md:text-4xl">MAPS International WLL</span> is a dynamic, Qatar-based enterprise specializing in <span className="font-semibold text-gray-900">arts management</span>, <span className="font-semibold text-gray-900">creative consultancy</span>, <span className="font-semibold text-gray-900">cultural diplomacy</span>, <span className="font-semibold text-gray-900">events</span>, <span className="font-semibold text-gray-900">exhibitions</span>, and <span className="font-semibold text-gray-900">youth development programs</span>.
+            <div className="space-y-6 sm:space-y-8 md:space-y-10 text-left max-w-4xl mx-auto px-4 sm:px-0">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-700 leading-[1.7] font-medium">
+                <span className="font-black text-gray-900 text-xl sm:text-2xl md:text-3xl lg:text-4xl">MAPS International WLL</span> is a dynamic, Qatar-based enterprise specializing in <span className="font-semibold text-gray-900">arts management</span>, <span className="font-semibold text-gray-900">creative consultancy</span>, <span className="font-semibold text-gray-900">cultural diplomacy</span>, <span className="font-semibold text-gray-900">events</span>, <span className="font-semibold text-gray-900">exhibitions</span>, and <span className="font-semibold text-gray-900">youth development programs</span>.
               </p>
               
-              <p className="text-2xl md:text-3xl text-gray-700 leading-[1.7] font-medium">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-700 leading-[1.7] font-medium">
                 Founded with a vision to integrate creativity with strategic collaboration, MAPS serves as a catalyst for connecting communities, fostering talent, and enhancing cultural exchange through impactful initiatives.
               </p>
               
-              <p className="text-2xl md:text-3xl text-gray-700 leading-[1.7] font-medium">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-700 leading-[1.7] font-medium">
                 With a <span className="font-semibold text-gray-900">multidisciplinary approach</span>, our work spans from curating international art festivals to managing corporate branding, public-private partnerships, and community-driven cultural projects.
               </p>
               
-              <p className="text-2xl md:text-3xl text-gray-700 leading-[1.7] font-medium">
-                We believe in <span className="font-bold text-[#E91E63] text-3xl md:text-4xl">innovation</span>, <span className="font-bold text-[#00BCD4] text-3xl md:text-4xl">sustainability</span>, and <span className="font-bold text-[#FF9800] text-3xl md:text-4xl">purpose-driven engagement</span> to create lasting social and cultural value.
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-700 leading-[1.7] font-medium">
+                We believe in <span className="font-bold text-[#E91E63] text-xl sm:text-2xl md:text-3xl lg:text-4xl">innovation</span>, <span className="font-bold text-[#00BCD4] text-xl sm:text-2xl md:text-3xl lg:text-4xl">sustainability</span>, and <span className="font-bold text-[#FF9800] text-xl sm:text-2xl md:text-3xl lg:text-4xl">purpose-driven engagement</span> to create lasting social and cultural value.
               </p>
         </div>
           </motion.div>
@@ -964,7 +800,7 @@ const About = () => {
               <div className="absolute top-8 left-0 right-0 h-1 bg-gradient-to-r from-[#E91E63] via-[#00BCD4] to-[#E91E63] hidden md:block" />
 
               {/* Timeline Items - Horizontal Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8">
                 {timeline.map((item, index) => (
                   <motion.div
                     key={item.year}

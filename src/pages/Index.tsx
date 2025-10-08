@@ -193,7 +193,7 @@ const Index = () => {
             <img
               src={mapsLogo}
               alt="MAPS International WLL"
-              className="w-[600px] max-w-[90vw] mx-auto drop-shadow-2xl"
+              className="w-[280px] sm:w-[400px] md:w-[500px] lg:w-[600px] max-w-[90vw] mx-auto drop-shadow-2xl"
             />
           </motion.div>
 
@@ -202,7 +202,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight px-4"
             style={{ 
               textShadow: '0 4px 20px rgba(0,0,0,0.5), 0 0 40px rgba(255,255,255,0.1)'
             }}
@@ -216,7 +216,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.9 }}
-            className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4"
             style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
           >
             From Doha to <span className="text-[#E91E63] font-semibold">70+ countries</span>, connecting{' '}
@@ -556,50 +556,50 @@ const Index = () => {
                 </div>
                 
                 {/* Real-time Countdown */}
-                <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
                   <motion.div 
-                    key={timeLeft.days}
+                    key="countdown-days"
                     initial={{ scale: 1.2, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 min-w-[90px]"
+                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 min-w-[70px] sm:min-w-[90px]"
                   >
-                    <div className="text-3xl font-bold text-white mb-1">
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
                       {timeLeft.days.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-sm text-white/80 uppercase tracking-wide font-semibold">Days</div>
+                    <div className="text-xs sm:text-sm text-white/80 uppercase tracking-wide font-semibold">Days</div>
                   </motion.div>
                   <motion.div
-                    key={timeLeft.hours}
+                    key="countdown-hours"
                     initial={{ scale: 1.2, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 min-w-[90px]"
+                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 min-w-[70px] sm:min-w-[90px]"
                   >
-                    <div className="text-3xl font-bold text-white mb-1">
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
                       {timeLeft.hours.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-sm text-white/80 uppercase tracking-wide font-semibold">Hours</div>
+                    <div className="text-xs sm:text-sm text-white/80 uppercase tracking-wide font-semibold">Hours</div>
                   </motion.div>
                   <motion.div
-                    key={timeLeft.minutes}
+                    key="countdown-minutes"
                     initial={{ scale: 1.2, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 min-w-[90px]"
+                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 min-w-[70px] sm:min-w-[90px]"
                   >
-                    <div className="text-3xl font-bold text-white mb-1">
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
                       {timeLeft.minutes.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-sm text-white/80 uppercase tracking-wide font-semibold">Minutes</div>
+                    <div className="text-xs sm:text-sm text-white/80 uppercase tracking-wide font-semibold">Minutes</div>
                   </motion.div>
                   <motion.div
-                    key={timeLeft.seconds}
+                    key="countdown-seconds"
                     initial={{ scale: 1.2, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 min-w-[90px]"
+                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 min-w-[70px] sm:min-w-[90px]"
                   >
-                    <div className="text-3xl font-bold text-white mb-1">
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
                       {timeLeft.seconds.toString().padStart(2, '0')}
                     </div>
-                    <div className="text-sm text-white/80 uppercase tracking-wide font-semibold">Seconds</div>
+                    <div className="text-xs sm:text-sm text-white/80 uppercase tracking-wide font-semibold">Seconds</div>
                   </motion.div>
                 </div>
               </div>
@@ -607,7 +607,7 @@ const Index = () => {
               {/* Main Content - Image Left, Text Right */}
               <div className="grid lg:grid-cols-2 gap-0">
                 {/* Left Side - QIAF Card Image */}
-                <div className="relative overflow-hidden h-[500px] lg:h-auto">
+                <div className="relative overflow-hidden h-[350px] sm:h-[400px] md:h-[450px] lg:h-auto">
                   <img
                     src={qiafCardImage}
                     alt="Qatar International Art Festival 2025 - 7th Edition"

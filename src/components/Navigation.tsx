@@ -42,23 +42,23 @@ const Navigation = () => {
           >
             {isDarkPage ? (
               // Option 1: Clean MAPS Logo for dark pages
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <img 
                   src={mapsLogo} 
                   alt="MAPS International WLL" 
-                  className="w-12 h-12 object-contain hover:scale-110 transition-transform duration-300"
+                  className="w-10 h-10 sm:w-12 sm:h-12 object-contain hover:scale-110 transition-transform duration-300"
                 />
-                <span className="text-xl font-bold text-white text-glow">MAPS INTERNATIONAL WLL</span>
+                <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white text-glow">MAPS INTERNATIONAL WLL</span>
               </div>
             ) : (
               // Option 2: Clean MAPS Logo for light pages
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <img 
                   src={mapsLogo} 
                   alt="MAPS International WLL" 
-                  className="w-12 h-12 object-contain hover:scale-110 transition-transform duration-300"
+                  className="w-10 h-10 sm:w-12 sm:h-12 object-contain hover:scale-110 transition-transform duration-300"
                 />
-                <span className="text-xl font-bold text-dark">MAPS INTERNATIONAL WLL</span>
+                <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-dark">MAPS INTERNATIONAL WLL</span>
               </div>
             )}
           </div>
