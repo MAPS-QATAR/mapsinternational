@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, Star, Award, Users, Calendar, Globe, FileText, Heart, Upload, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Phone, MapPin, Send, Star, Award, Users, Heart, FileText, MessageCircle, Globe, Sparkles, X, Upload, Instagram, Facebook } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useRipple } from "@/hooks/useAdvancedAnimations";
-import ParticleSystem from "@/components/ParticleSystem";
 import backgroundImage from "@/assets/background.jpg";
-import emailjs from '@emailjs/browser';
+import Footer from "@/components/Footer";
+import { LoadingButton } from "@/components/ui/loading-button";
+import { RippleButton } from "@/components/ui/ripple-button";
 
-// EmailJS Configuration
-const EMAILJS_SERVICE_ID = 'service_maps_international'; // You'll need to replace this with your actual service ID
-const EMAILJS_TEMPLATE_ID = 'template_contact_form'; // You'll need to replace this with your actual template ID
-const EMAILJS_PUBLIC_KEY = 'your_public_key_here'; // You'll need to replace this with your actual public key
+// Web3Forms Configuration
+const WEB3FORMS_ACCESS_KEY = 'aacf6a5a-85d1-4445-86d3-4c49e5fae773';
 
 const Connect = () => {
   const [activeForm, setActiveForm] = useState<string | null>(null);
@@ -40,14 +39,55 @@ const Connect = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const { toast } = useToast();
 
-
-  const ctaButtons = [
-    { id: "sponsor", label: "Sponsor", icon: <Star className="w-5 h-5" />, color: "magenta" },
-    { id: "partner", label: "Partner", icon: <Award className="w-5 h-5" />, color: "teal" },
-    { id: "artist", label: "Artist", icon: <Users className="w-5 h-5" />, color: "accent" },
-    { id: "youth", label: "Youth", icon: <Heart className="w-5 h-5" />, color: "cta" },
-    { id: "press", label: "Press", icon: <FileText className="w-5 h-5" />, color: "teal" },
-    { id: "inquiry", label: "Inquiry", icon: <Mail className="w-5 h-5" />, color: "magenta" }
+  const connectionOptions = [
+    {
+      id: "sponsor",
+      label: "Sponsor",
+      title: "Fund Cultural Impact",
+      description: "Support world-class cultural events that connect continents",
+      icon: <Star className="w-8 h-8" />,
+      gradient: "from-yellow-500 to-orange-500"
+    },
+    {
+      id: "partner",
+      label: "Partner",
+      title: "Collaborate with Us",
+      description: "Build long-term partnerships for cultural exchange",
+      icon: <Award className="w-8 h-8" />,
+      gradient: "from-[#00BCD4] to-cyan-600"
+    },
+    {
+      id: "artist",
+      label: "Artist",
+      title: "Join Our Network",
+      description: "Showcase your work to audiences across 70+ countries",
+      icon: <Users className="w-8 h-8" />,
+      gradient: "from-purple-500 to-pink-500"
+    },
+    {
+      id: "youth",
+      label: "Youth",
+      title: "Get Empowered",
+      description: "Access programs in arts, STEM, and cultural exchange",
+      icon: <Heart className="w-8 h-8" />,
+      gradient: "from-[#E91E63] to-red-600"
+    },
+    {
+      id: "press",
+      label: "Press",
+      title: "Cover Our Story",
+      description: "Get exclusive access to our cultural initiatives",
+      icon: <FileText className="w-8 h-8" />,
+      gradient: "from-blue-500 to-indigo-600"
+    },
+    {
+      id: "inquiry",
+      label: "General",
+      title: "Ask Us Anything",
+      description: "Have a question? We're here to help",
+      icon: <MessageCircle className="w-8 h-8" />,
+      gradient: "from-green-500 to-emerald-600"
+    }
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,56 +95,69 @@ const Connect = () => {
     setIsSubmitting(true);
     
     try {
-      // Prepare template parameters for EmailJS
-      const templateParams = {
-        form_type: activeForm?.charAt(0).toUpperCase() + activeForm?.slice(1) || 'Inquiry',
-        name: formData.name,
-        organization: formData.organization || 'Not provided',
-        email: formData.email,
-        phone: formData.phone || 'Not provided',
-        website: formData.website || 'Not provided',
-        message: formData.message,
-        timeline: formData.timeline || 'Not specified',
-        budget: formData.budget || 'Not specified',
-        type: formData.type || 'Not specified',
-        experience: formData.experience || 'Not specified',
-        age: formData.age || 'Not provided',
-        school: formData.school || 'Not provided',
-        interest: formData.interest || 'Not specified',
-        availability: formData.availability || 'Not specified',
-        art_style: formData.artStyle || 'Not specified',
-        medium: formData.medium || 'Not specified',
-        outlet: formData.outlet || 'Not provided',
-        article_type: formData.articleType || 'Not specified',
-        deadline: formData.deadline || 'Not specified',
-        target_audience: formData.targetAudience || 'Not specified',
-        inquiry_type: formData.inquiryType || 'Not specified',
-        files_count: uploadedFiles.length,
-        files_info: uploadedFiles.map(file => `${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`).join(', ') || 'No files uploaded',
-        to_email: 'info@mapsinternational.net',
-        reply_to: formData.email
-      };
+      // Create FormData for Web3Forms
+      const formDataToSend = new FormData();
+      
+      // Add Web3Forms access key
+      formDataToSend.append('access_key', WEB3FORMS_ACCESS_KEY);
+      
+      // Add form type as subject
+      const formType = activeForm?.charAt(0).toUpperCase() + activeForm?.slice(1) || 'General Inquiry';
+      formDataToSend.append('subject', `New ${formType} Form - MAPS International`);
+      
+      // Add all form fields
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('form_type', formType);
+      
+      // Add optional fields if they exist
+      if (formData.phone) formDataToSend.append('phone', formData.phone);
+      if (formData.organization) formDataToSend.append('organization', formData.organization);
+      if (formData.website) formDataToSend.append('website', formData.website);
+      if (formData.message) formDataToSend.append('message', formData.message);
+      if (formData.timeline) formDataToSend.append('timeline', formData.timeline);
+      if (formData.budget) formDataToSend.append('budget', formData.budget);
+      if (formData.type) formDataToSend.append('type', formData.type);
+      if (formData.experience) formDataToSend.append('experience', formData.experience);
+      if (formData.age) formDataToSend.append('age', formData.age);
+      if (formData.school) formDataToSend.append('school', formData.school);
+      if (formData.interest) formDataToSend.append('interest', formData.interest);
+      if (formData.availability) formDataToSend.append('availability', formData.availability);
+      if (formData.artStyle) formDataToSend.append('art_style', formData.artStyle);
+      if (formData.medium) formDataToSend.append('medium', formData.medium);
+      if (formData.outlet) formDataToSend.append('outlet', formData.outlet);
+      if (formData.articleType) formDataToSend.append('article_type', formData.articleType);
+      if (formData.deadline) formDataToSend.append('deadline', formData.deadline);
+      if (formData.targetAudience) formDataToSend.append('target_audience', formData.targetAudience);
+      if (formData.inquiryType) formDataToSend.append('inquiry_type', formData.inquiryType);
+      
+      // Add uploaded files
+      uploadedFiles.forEach((file, index) => {
+        formDataToSend.append(`attachment_${index + 1}`, file);
+      });
+      
+      // Send to Web3Forms
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataToSend
+      });
 
-      // Send email using EmailJS
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      );
+      const data = await response.json();
 
-    toast({
-      title: "Message Sent!",
-        description: `Thank you for your ${activeForm} inquiry! We'll get back to you within 24 hours.`,
-    });
-
-    // Reset form
+      if (data.success) {
+        toast({
+          title: "Message Sent! ✅",
+          description: `Thank you! We'll get back to you at ${formData.email} within 24 hours.`,
+        });
       resetForm();
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
     } catch (error) {
-      console.error('EmailJS Error:', error);
+      console.error('Error:', error);
       toast({
         title: "Error",
-        description: "Sorry, there was an error sending your message. Please try again or contact us directly at info@mapsinternational.net",
+        description: "Please try again or email us directly at info@mapsinternational.net",
         variant: "destructive"
       });
     } finally {
@@ -124,20 +177,10 @@ const Connect = () => {
     const validFiles = files.filter(file => {
       const isValidType = file.type === 'application/pdf' || 
                          file.type === 'image/png' || 
-                         file.type === 'image/jpeg' || 
-                         file.type === 'image/jpg';
-      const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB limit
+                         file.type === 'image/jpeg';
+      const isValidSize = file.size <= 10 * 1024 * 1024;
       return isValidType && isValidSize;
     });
-    
-    if (validFiles.length !== files.length) {
-      toast({
-        title: "Invalid Files",
-        description: "Some files were rejected. Only PDF, PNG, and JPEG files under 10MB are allowed.",
-        variant: "destructive"
-      });
-    }
-    
     setUploadedFiles(prev => [...prev, ...validFiles]);
   };
 
@@ -173,12 +216,13 @@ const Connect = () => {
     setActiveForm(null);
   };
 
-  // Form field renderers for different categories
-  const renderSponsorForm = () => (
-    <div className="space-y-6">
+  // Render different form fields based on active form type
+  const renderFormFields = () => {
+    // Common name and email fields for all forms
+    const nameEmailFields = (
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
+          <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
             Full Name *
           </label>
           <input
@@ -188,30 +232,12 @@ const Connect = () => {
             required
             value={formData.name}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
             placeholder="Your full name"
           />
         </div>
         <div>
-          <label htmlFor="organization" className="block text-sm font-medium text-dark mb-2">
-            Organization *
-          </label>
-          <input
-            type="text"
-            id="organization"
-            name="organization"
-            required
-            value={formData.organization}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-            placeholder="Your organization"
-          />
-        </div>
-      </div>
-      
-      <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
+          <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
             Email Address *
           </label>
           <input
@@ -221,12 +247,37 @@ const Connect = () => {
             required
             value={formData.email}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
             placeholder="your.email@example.com"
           />
         </div>
+      </div>
+    );
+
+    // SPONSOR FORM - Funding Cultural Impact
+    if (activeForm === 'sponsor') {
+      return (
+        <>
+          {nameEmailFields}
+      
+      <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="organization" className="block text-sm font-semibold text-gray-700 mb-2">
+                Organization/Company Name *
+          </label>
+          <input
+                type="text"
+                id="organization"
+                name="organization"
+            required
+                value={formData.organization}
+            onChange={handleInputChange}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="Your organization"
+          />
+        </div>
+        <div>
+              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
             Phone Number
           </label>
           <input
@@ -235,16 +286,16 @@ const Connect = () => {
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-            placeholder="+1 (555) 123-4567"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="+974 XXXX XXXX"
           />
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="budget" className="block text-sm font-medium text-dark mb-2">
-            Budget Range *
+              <label htmlFor="budget" className="block text-sm font-semibold text-gray-700 mb-2">
+                Funding Amount Range *
           </label>
           <select
             id="budget"
@@ -252,17 +303,19 @@ const Connect = () => {
             required
             value={formData.budget}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-          >
-            <option value="">Select budget range</option>
-            <option value="1k-5k">$1,000 - $5,000</option>
-            <option value="5k-25k">$5,000 - $25,000</option>
-            <option value="25k-100k">$25,000 - $100,000</option>
-            <option value="100k+">$100,000+</option>
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              >
+                <option value="">Select range</option>
+                <option value="under-50k">Under $50,000</option>
+                <option value="50k-100k">$50,000 - $100,000</option>
+                <option value="100k-250k">$100,000 - $250,000</option>
+                <option value="250k-500k">$250,000 - $500,000</option>
+                <option value="500k-plus">$500,000+</option>
+                <option value="discuss">Prefer to discuss</option>
           </select>
             </div>
         <div>
-          <label htmlFor="type" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="type" className="block text-sm font-semibold text-gray-700 mb-2">
             Sponsorship Type *
           </label>
           <select
@@ -271,38 +324,36 @@ const Connect = () => {
             required
             value={formData.type}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
           >
-            <option value="">Select sponsorship type</option>
+                <option value="">Select type</option>
             <option value="event">Event Sponsorship</option>
             <option value="program">Program Sponsorship</option>
-            <option value="general">General Sponsorship</option>
+                <option value="general">General Support</option>
+                <option value="naming">Naming Rights</option>
           </select>
           </div>
         </div>
         
       <div>
-        <label htmlFor="timeline" className="block text-sm font-medium text-dark mb-2">
-          Expected Timeline
+            <label htmlFor="timeline" className="block text-sm font-semibold text-gray-700 mb-2">
+              Preferred Timeline *
         </label>
-        <select
+            <input
+              type="text"
           id="timeline"
           name="timeline"
+              required
           value={formData.timeline}
           onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-        >
-          <option value="">Select timeline</option>
-          <option value="immediate">Immediate (1-2 weeks)</option>
-          <option value="short">Short term (1-3 months)</option>
-          <option value="medium">Medium term (3-6 months)</option>
-          <option value="long">Long term (6+ months)</option>
-        </select>
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              placeholder="e.g., Q1 2026, QIAF 2025, 12-month commitment"
+            />
         </div>
       
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
-          Sponsorship Goals & Details *
+            <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+              Additional Information *
         </label>
         <textarea
           id="message"
@@ -311,34 +362,24 @@ const Connect = () => {
           rows={5}
           value={formData.message}
           onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your sponsorship goals, target audience, and how you'd like to collaborate..."
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all resize-none"
+              placeholder="Tell us about your goals, preferred benefits, or any specific requirements..."
         />
       </div>
-    </div>
-  );
+        </>
+      );
+    }
 
-  const renderPartnerForm = () => (
-    <div className="space-y-6">
+    // PARTNER FORM - Collaborate with Us
+    if (activeForm === 'partner') {
+      return (
+        <>
+          {nameEmailFields}
+          
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
-            Full Name *
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-            placeholder="Your full name"
-          />
-        </div>
-        <div>
-          <label htmlFor="organization" className="block text-sm font-medium text-dark mb-2">
-            Organization *
+              <label htmlFor="organization" className="block text-sm font-semibold text-gray-700 mb-2">
+                Organization/Institution *
           </label>
           <input
             type="text"
@@ -347,30 +388,12 @@ const Connect = () => {
             required
             value={formData.organization}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
             placeholder="Your organization"
           />
         </div>
-      </div>
-      
-      <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
-            Email Address *
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-            placeholder="your.email@example.com"
-          />
-        </div>
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
             Phone Number
           </label>
           <input
@@ -379,30 +402,15 @@ const Connect = () => {
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-            placeholder="+1 (555) 123-4567"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="+974 XXXX XXXX"
           />
         </div>
       </div>
 
-      <div>
-        <label htmlFor="website" className="block text-sm font-medium text-dark mb-2">
-          Organization Website
-        </label>
-        <input
-          type="url"
-          id="website"
-          name="website"
-          value={formData.website}
-          onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-          placeholder="https://your-organization.com"
-        />
-      </div>
-
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="type" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="type" className="block text-sm font-semibold text-gray-700 mb-2">
             Partnership Type *
           </label>
           <select
@@ -411,91 +419,76 @@ const Connect = () => {
             required
             value={formData.type}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-          >
-            <option value="">Select partnership type</option>
-            <option value="cultural-exchange">Cultural Exchange</option>
-            <option value="educational">Educational</option>
-            <option value="event">Event Partnership</option>
-            <option value="long-term">Long-term Collaboration</option>
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              >
+                <option value="">Select type</option>
+                <option value="government">Government Body</option>
+                <option value="ngo">NGO/Non-Profit</option>
+                <option value="corporate">Corporate Partnership</option>
+                <option value="cultural">Cultural Institution</option>
+                <option value="educational">Educational Institution</option>
           </select>
                     </div>
         <div>
-          <label htmlFor="experience" className="block text-sm font-medium text-dark mb-2">
-            Organization Size
+              <label htmlFor="website" className="block text-sm font-semibold text-gray-700 mb-2">
+                Website
           </label>
-          <select
-            id="experience"
-            name="experience"
-            value={formData.experience}
+              <input
+                type="url"
+                id="website"
+                name="website"
+                value={formData.website}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-          >
-            <option value="">Select organization size</option>
-            <option value="small">Small (1-50 employees)</option>
-            <option value="medium">Medium (51-200 employees)</option>
-            <option value="large">Large (201-1000 employees)</option>
-            <option value="enterprise">Enterprise (1000+ employees)</option>
-          </select>
-        </div>
-      </div>
-      
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
-          Partnership Vision & Previous Collaborations *
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={5}
-          value={formData.message}
-          onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your partnership vision, previous collaborations, and how you'd like to work together..."
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="https://yourwebsite.com"
         />
       </div>
     </div>
-  );
 
-  const renderArtistForm = () => (
-    <div className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
-            Full Name *
+            <label htmlFor="timeline" className="block text-sm font-semibold text-gray-700 mb-2">
+              Project Timeline *
           </label>
           <input
             type="text"
-            id="name"
-            name="name"
+              id="timeline"
+              name="timeline"
             required
-            value={formData.name}
+              value={formData.timeline}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-            placeholder="Your full name"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              placeholder="e.g., 6 months, 2025-2026, Ongoing"
           />
         </div>
+
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
-            Email Address *
+            <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+              Partnership Goals & Scope *
           </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
+            <textarea
+              id="message"
+              name="message"
             required
-            value={formData.email}
+              rows={5}
+              value={formData.message}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-            placeholder="your.email@example.com"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all resize-none"
+              placeholder="Describe your partnership vision, objectives, and how we can collaborate..."
           />
         </div>
-      </div>
+        </>
+      );
+    }
+
+    // ARTIST FORM - Join Our Network
+    if (activeForm === 'artist') {
+      return (
+        <>
+          {nameEmailFields}
       
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
             Phone Number
           </label>
           <input
@@ -504,119 +497,105 @@ const Connect = () => {
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-            placeholder="+1 (555) 123-4567"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="+974 XXXX XXXX"
           />
         </div>
         <div>
-          <label htmlFor="website" className="block text-sm font-medium text-dark mb-2">
-            Portfolio Website
+              <label htmlFor="website" className="block text-sm font-semibold text-gray-700 mb-2">
+                Portfolio/Instagram *
           </label>
           <input
             type="url"
             id="website"
             name="website"
+                required
             value={formData.website}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-            placeholder="https://your-portfolio.com"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="https://instagram.com/yourhandle or portfolio link"
           />
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="artStyle" className="block text-sm font-medium text-dark mb-2">
-            Art Style *
+              <label htmlFor="medium" className="block text-sm font-semibold text-gray-700 mb-2">
+                Primary Art Medium *
           </label>
           <select
-            id="artStyle"
-            name="artStyle"
+                id="medium"
+                name="medium"
             required
-            value={formData.artStyle}
+                value={formData.medium}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-          >
-            <option value="">Select art style</option>
-            <option value="digital">Digital Art</option>
-            <option value="traditional">Traditional Art</option>
-            <option value="mixed-media">Mixed Media</option>
-            <option value="photography">Photography</option>
-            <option value="sculpture">Sculpture</option>
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              >
+                <option value="">Select medium</option>
             <option value="painting">Painting</option>
+                <option value="sculpture">Sculpture</option>
+                <option value="photography">Photography</option>
+                <option value="digital">Digital Art</option>
+                <option value="mixed">Mixed Media</option>
+                <option value="installation">Installation</option>
+                <option value="performance">Performance Art</option>
             <option value="other">Other</option>
           </select>
         </div>
         <div>
-          <label htmlFor="experience" className="block text-sm font-medium text-dark mb-2">
-            Experience Level *
+              <label htmlFor="artStyle" className="block text-sm font-semibold text-gray-700 mb-2">
+                Art Style/Genre
           </label>
-          <select
-            id="experience"
-            name="experience"
-            required
-            value={formData.experience}
+              <input
+                type="text"
+                id="artStyle"
+                name="artStyle"
+                value={formData.artStyle}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-          >
-            <option value="">Select experience level</option>
-            <option value="emerging">Emerging Artist</option>
-            <option value="mid-career">Mid-career Artist</option>
-            <option value="established">Established Artist</option>
-          </select>
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="e.g., Contemporary, Abstract, Realism"
+              />
         </div>
       </div>
 
       <div>
-        <label htmlFor="medium" className="block text-sm font-medium text-dark mb-2">
-          Preferred Medium
+            <label htmlFor="experience" className="block text-sm font-semibold text-gray-700 mb-2">
+              Previous Exhibitions/Experience
         </label>
         <input
           type="text"
-          id="medium"
-          name="medium"
-          value={formData.medium}
+              id="experience"
+              name="experience"
+              value={formData.experience}
           onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-          placeholder="e.g., Oil on canvas, Digital illustration, Watercolor..."
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              placeholder="List major exhibitions, galleries, or projects"
         />
       </div>
 
-      {/* File Upload Section */}
       <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Portfolio & Artwork Samples *
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Portfolio Upload (Optional)
         </label>
-        <div className="border-2 border-dashed border-accent/30 rounded-xl p-6 text-center hover:border-accent/50 transition-colors">
-          <Upload className="w-8 h-8 text-accent mx-auto mb-2" />
-          <p className="text-sm text-gray-600 mb-2">
-            Upload your portfolio (PDF) and artwork samples (PNG/JPEG)
-          </p>
-          <p className="text-xs text-gray-500 mb-4">
-            Max 5 files, 10MB each. Supported: PDF, PNG, JPEG
-          </p>
+            <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-[#E91E63] transition-all">
+              <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
           <input
             type="file"
             multiple
-            accept=".pdf,.png,.jpg,.jpeg"
+                accept=".pdf,.jpg,.jpeg,.png"
             onChange={handleFileUpload}
             className="hidden"
-            id="file-upload"
-          />
-          <label
-            htmlFor="file-upload"
-            className="bg-accent text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-accent/90 transition-colors"
-          >
-            Choose Files
+                id="portfolio-upload"
+              />
+              <label htmlFor="portfolio-upload" className="cursor-pointer">
+                <span className="text-[#E91E63] font-semibold">Click to upload</span>
+                <span className="text-gray-600"> or drag and drop</span>
+                <p className="text-xs text-gray-500 mt-1">PDF, JPG, PNG up to 10MB</p>
           </label>
-        </div>
-        
-        {/* File Preview */}
         {uploadedFiles.length > 0 && (
-          <div className="mt-4 space-y-2">
-            <p className="text-sm font-medium text-dark">Uploaded Files:</p>
+                <div className="mt-3 space-y-2">
             {uploadedFiles.map((file, index) => (
-              <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-lg">
+                    <div key={index} className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-lg">
                 <span className="text-sm text-gray-700">{file.name}</span>
                 <button
                   type="button"
@@ -629,11 +608,12 @@ const Connect = () => {
             ))}
           </div>
         )}
+            </div>
       </div>
       
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
-          Artistic Vision & Goals *
+            <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+              About Your Work *
         </label>
         <textarea
           id="message"
@@ -642,33 +622,23 @@ const Connect = () => {
           rows={5}
           value={formData.message}
           onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your artistic vision, what you hope to achieve through collaboration with MAPS INTERNATIONAL WLL, and your creative goals..."
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all resize-none"
+              placeholder="Tell us about your artistic practice, vision, and why you'd like to join MAPS..."
         />
       </div>
-    </div>
-  );
+        </>
+      );
+    }
 
-  const renderYouthForm = () => (
-    <div className="space-y-6">
+    // YOUTH FORM - Get Empowered
+    if (activeForm === 'youth') {
+      return (
+        <>
+          {nameEmailFields}
+          
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
-            Full Name *
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-cta focus:border-transparent transition-all"
-            placeholder="Your full name"
-          />
-        </div>
-        <div>
-          <label htmlFor="age" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="age" className="block text-sm font-semibold text-gray-700 mb-2">
             Age *
           </label>
           <input
@@ -676,52 +646,49 @@ const Connect = () => {
             id="age"
             name="age"
             required
-            min="13"
+                min="10"
             max="30"
             value={formData.age}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-cta focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
             placeholder="Your age"
           />
         </div>
-            </div>
-
-      <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
-            Email Address *
+              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+                Phone Number
           </label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            value={formData.email}
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-cta focus:border-transparent transition-all"
-            placeholder="your.email@example.com"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="+974 XXXX XXXX"
           />
         </div>
+          </div>
+
         <div>
-          <label htmlFor="school" className="block text-sm font-medium text-dark mb-2">
-            School/University
+            <label htmlFor="school" className="block text-sm font-semibold text-gray-700 mb-2">
+              School/University *
           </label>
           <input
             type="text"
             id="school"
             name="school"
+              required
             value={formData.school}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-cta focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
             placeholder="Your school or university"
           />
-        </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="interest" className="block text-sm font-medium text-dark mb-2">
-            Interest Area *
+            <label htmlFor="interest" className="block text-sm font-semibold text-gray-700 mb-2">
+              Areas of Interest *
           </label>
           <select
             id="interest"
@@ -729,41 +696,35 @@ const Connect = () => {
             required
             value={formData.interest}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-cta focus:border-transparent transition-all"
-          >
-            <option value="">Select interest area</option>
-            <option value="arts">Arts & Culture</option>
-            <option value="stem">STEM & Science</option>
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+            >
+              <option value="">Select your interests</option>
+              <option value="arts">Visual Arts & Culture</option>
+              <option value="stem">STEM & Space Science</option>
+              <option value="both">Both Arts & STEM</option>
             <option value="leadership">Leadership & Development</option>
-            <option value="cultural-exchange">Cultural Exchange</option>
-            <option value="social-impact">Social Impact</option>
-            <option value="other">Other</option>
+              <option value="cultural">Cultural Exchange</option>
           </select>
         </div>
+
         <div>
-          <label htmlFor="availability" className="block text-sm font-medium text-dark mb-2">
-            Availability *
+            <label htmlFor="availability" className="block text-sm font-semibold text-gray-700 mb-2">
+              How did you hear about us?
           </label>
-          <select
+            <input
+              type="text"
             id="availability"
             name="availability"
-            required
             value={formData.availability}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-cta focus:border-transparent transition-all"
-          >
-            <option value="">Select availability</option>
-            <option value="weekends">Weekends</option>
-            <option value="evenings">Evenings</option>
-            <option value="school-breaks">School breaks</option>
-            <option value="flexible">Flexible</option>
-          </select>
-        </div>
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              placeholder="e.g., School, Friend, Social Media"
+            />
       </div>
       
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
-          Goals & Aspirations *
+            <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+              Why do you want to join? *
         </label>
         <textarea
           id="message"
@@ -772,33 +733,23 @@ const Connect = () => {
           rows={5}
           value={formData.message}
           onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-cta focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your goals, what you hope to learn, and how you'd like to contribute to MAPS INTERNATIONAL WLL's mission..."
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all resize-none"
+              placeholder="Tell us about your goals and what you hope to gain from MAPS programs..."
         />
       </div>
-    </div>
-  );
+        </>
+      );
+    }
 
-  const renderPressForm = () => (
-    <div className="space-y-6">
+    // PRESS FORM - Cover Our Story
+    if (activeForm === 'press') {
+      return (
+        <>
+          {nameEmailFields}
+          
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-                        placeholder="Your full name"
-                      />
-        </div>
-        <div>
-          <label htmlFor="outlet" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="outlet" className="block text-sm font-semibold text-gray-700 mb-2">
             Media Outlet *
           </label>
           <input
@@ -808,30 +759,12 @@ const Connect = () => {
             required
             value={formData.outlet}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-            placeholder="Your media outlet"
-          />
-        </div>
-                    </div>
-                    
-      <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
-            Email Address *
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-            placeholder="your.email@example.com"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="Publication/Channel name"
           />
         </div>
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
             Phone Number
           </label>
           <input
@@ -840,16 +773,16 @@ const Connect = () => {
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-            placeholder="+1 (555) 123-4567"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+                placeholder="+974 XXXX XXXX"
           />
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="articleType" className="block text-sm font-medium text-dark mb-2">
-            Article Type *
+              <label htmlFor="articleType" className="block text-sm font-semibold text-gray-700 mb-2">
+                Coverage Type *
           </label>
           <select
             id="articleType"
@@ -857,18 +790,18 @@ const Connect = () => {
             required
             value={formData.articleType}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
           >
-            <option value="">Select article type</option>
-            <option value="news">News Article</option>
-            <option value="feature">Feature Story</option>
+                <option value="">Select type</option>
+                <option value="feature">Feature Article</option>
             <option value="interview">Interview</option>
-            <option value="press-release">Press Release</option>
-            <option value="other">Other</option>
+                <option value="event">Event Coverage</option>
+                <option value="news">News Story</option>
+                <option value="documentary">Documentary/Video</option>
           </select>
         </div>
         <div>
-          <label htmlFor="deadline" className="block text-sm font-medium text-dark mb-2">
+              <label htmlFor="deadline" className="block text-sm font-semibold text-gray-700 mb-2">
             Deadline
           </label>
           <input
@@ -877,78 +810,45 @@ const Connect = () => {
             name="deadline"
             value={formData.deadline}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="targetAudience" className="block text-sm font-medium text-dark mb-2">
-          Target Audience
+            <label htmlFor="targetAudience" className="block text-sm font-semibold text-gray-700 mb-2">
+              Target Audience/Circulation *
         </label>
         <input
           type="text"
           id="targetAudience"
           name="targetAudience"
+              required
           value={formData.targetAudience}
           onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all"
-          placeholder="e.g., General public, Art enthusiasts, Cultural community..."
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              placeholder="e.g., National Qatar audience, International arts community"
         />
       </div>
 
-      {/* File Upload Section */}
       <div>
-        <label className="block text-sm font-medium text-dark mb-2">
-          Press Kit & Previous Articles
+            <label htmlFor="website" className="block text-sm font-semibold text-gray-700 mb-2">
+              Previous Work Sample (Link)
         </label>
-        <div className="border-2 border-dashed border-teal/30 rounded-xl p-6 text-center hover:border-teal/50 transition-colors">
-          <Upload className="w-8 h-8 text-teal mx-auto mb-2" />
-          <p className="text-sm text-gray-600 mb-2">
-            Upload press kit (PDF) and previous articles (PDF)
-          </p>
-          <p className="text-xs text-gray-500 mb-4">
-            Max 5 files, 10MB each. Supported: PDF
-          </p>
           <input
-            type="file"
-            multiple
-            accept=".pdf"
-            onChange={handleFileUpload}
-            className="hidden"
-            id="press-file-upload"
-          />
-          <label
-            htmlFor="press-file-upload"
-            className="bg-teal text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-teal/90 transition-colors"
-          >
-            Choose Files
-          </label>
-        </div>
-        
-        {/* File Preview */}
-        {uploadedFiles.length > 0 && (
-          <div className="mt-4 space-y-2">
-            <p className="text-sm font-medium text-dark">Uploaded Files:</p>
-            {uploadedFiles.map((file, index) => (
-              <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-lg">
-                <span className="text-sm text-gray-700">{file.name}</span>
-                <button
-                  type="button"
-                  onClick={() => removeFile(index)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
+              type="url"
+              id="website"
+              name="website"
+              value={formData.website}
+              onChange={handleInputChange}
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              placeholder="Link to your previous article/video"
+            />
       </div>
       
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
-          Coverage Goals & Story Angle *
+            <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+              Coverage Details *
         </label>
         <textarea
           id="message"
@@ -957,65 +857,22 @@ const Connect = () => {
           rows={5}
           value={formData.message}
           onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-teal focus:border-transparent transition-all resize-none"
-          placeholder="Tell us about your coverage goals, story angle, and what aspects of MAPS INTERNATIONAL WLL you'd like to highlight..."
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all resize-none"
+              placeholder="Tell us about your story angle, what you'd like to cover, and any specific requirements..."
         />
       </div>
-    </div>
-  );
+        </>
+      );
+    }
 
-  const renderInquiryForm = () => (
-    <div className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-dark mb-2">
-            Full Name *
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-            placeholder="Your full name"
-          />
-        </div>
-                    <div>
-                      <label htmlFor="organization" className="block text-sm font-medium text-dark mb-2">
-                        Organization
-                      </label>
-                      <input
-                        type="text"
-                        id="organization"
-                        name="organization"
-                        value={formData.organization}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-                        placeholder="Your organization"
-                      />
-                    </div>
-                  </div>
+    // GENERAL INQUIRY FORM (Default)
+    return (
+      <>
+        {nameEmailFields}
                   
       <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-dark mb-2">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-                      placeholder="your.email@example.com"
-                    />
-        </div>
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-dark mb-2">
+            <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
             Phone Number
           </label>
           <input
@@ -1024,77 +881,33 @@ const Connect = () => {
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-            placeholder="+1 (555) 123-4567"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+              placeholder="+974 XXXX XXXX"
           />
         </div>
-                  </div>
-                  
-      <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="inquiryType" className="block text-sm font-medium text-dark mb-2">
-            Inquiry Type *
+            <label htmlFor="inquiryType" className="block text-sm font-semibold text-gray-700 mb-2">
+              Inquiry Type
           </label>
           <select
             id="inquiryType"
             name="inquiryType"
-            required
             value={formData.inquiryType}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-          >
-            <option value="">Select inquiry type</option>
-            <option value="general">General Inquiry</option>
-            <option value="event">Event Related</option>
-            <option value="partnership">Partnership</option>
-            <option value="media">Media Inquiry</option>
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
+            >
+              <option value="">Select type</option>
+              <option value="general">General Question</option>
+              <option value="event">Event Information</option>
+              <option value="volunteer">Volunteering</option>
             <option value="other">Other</option>
-          </select>
-        </div>
-                  <div>
-                    <label htmlFor="timeline" className="block text-sm font-medium text-dark mb-2">
-            Timeline
-                    </label>
-                    <select
-                      id="timeline"
-                      name="timeline"
-                      value={formData.timeline}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-                    >
-                      <option value="">Select timeline</option>
-                      <option value="immediate">Immediate (1-2 weeks)</option>
-                      <option value="short">Short term (1-3 months)</option>
-                      <option value="medium">Medium term (3-6 months)</option>
-                      <option value="long">Long term (6+ months)</option>
           </select>
         </div>
       </div>
 
       <div>
-        <label htmlFor="budget" className="block text-sm font-medium text-dark mb-2">
-          Budget Range
-        </label>
-        <select
-          id="budget"
-          name="budget"
-          value={formData.budget}
-          onChange={handleInputChange}
-          className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all"
-        >
-          <option value="">Select budget range</option>
-          <option value="under-1k">Under $1,000</option>
-          <option value="1k-5k">$1,000 - $5,000</option>
-          <option value="5k-25k">$5,000 - $25,000</option>
-          <option value="25k-100k">$25,000 - $100,000</option>
-          <option value="100k+">$100,000+</option>
-          <option value="discuss">To be discussed</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-dark mb-2">
-          Specific Inquiry Details *
+          <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+            Message *
                     </label>
                     <textarea
                       id="message"
@@ -1103,316 +916,351 @@ const Connect = () => {
                       rows={5}
                       value={formData.message}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-input rounded-xl focus:ring-2 focus:ring-magenta focus:border-transparent transition-all resize-none"
-          placeholder="Please provide specific details about your inquiry, what you're looking for, and how we can help..."
+            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all resize-none"
+            placeholder="Tell us about your inquiry..."
                     />
                   </div>
-    </div>
-  );
-
-  // Function to render the appropriate form based on activeForm
-  const renderForm = () => {
-    switch (activeForm) {
-      case 'sponsor':
-        return renderSponsorForm();
-      case 'partner':
-        return renderPartnerForm();
-      case 'artist':
-        return renderArtistForm();
-      case 'youth':
-        return renderYouthForm();
-      case 'press':
-        return renderPressForm();
-      case 'inquiry':
-        return renderInquiryForm();
-      default:
-        return null;
-    }
+      </>
+    );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 relative">
-      {/* Particle System Background */}
-      <ParticleSystem 
-        particleCount={30} 
-        colors={['#e91e63', '#00bcd4', '#ff9800', '#4caf50']}
-        mouseInteraction={true}
-      />
-      {/* Hero Section - Clean Title on Image */}
-      <section className="relative overflow-hidden">
-        {/* Background Image */}
-        <div
-          className="h-52 md:h-64"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        />
-        
-        {/* Title Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white" style={{
-            textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)'
-          }}>
-            Connect
-          </h1>
+    <div className="min-h-screen bg-white overflow-hidden">
+      {/* ============================================ */}
+      {/* HERO SECTION - Bright & Inviting */}
+      {/* ============================================ */}
+      <section className="relative py-32 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+        {/* Floating Gradient Orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            animate={{ x: [0, 100, 0], y: [0, -50, 0] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-20 left-20 w-96 h-96 bg-[#E91E63]/10 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ x: [0, -100, 0], y: [0, 50, 0] }}
+            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-20 right-20 w-96 h-96 bg-[#00BCD4]/10 rounded-full blur-3xl"
+          />
         </div>
-      </section>
 
-      {/* Description Section - Below Image */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-              Join our mission to <span className="text-pink-500 font-semibold">connect cultures</span>, <span className="text-cyan-500 font-semibold">empower youth</span>, and create lasting impact across <span className="text-pink-500 font-semibold">70+ countries</span>.
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <p className="text-[#E91E63] font-semibold text-lg mb-4 tracking-wide">GET IN TOUCH</p>
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
+              Let's Create Something<br />
+              <span className="bg-gradient-to-r from-[#E91E63] to-[#00BCD4] bg-clip-text text-transparent">
+                Extraordinary Together
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 leading-relaxed">
+              Whether you're an artist seeking a platform, a sponsor looking to make impact,
+              or a young innovator ready to grow — we'd love to hear from you.
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-
-      {/* Dynamic Forms Section */}
+      {/* ============================================ */}
+      {/* CONNECTION OPTIONS - Beautiful Cards */}
+      {/* ============================================ */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-12">How Would You Like to Connect?</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
-              {ctaButtons.map((button) => {
-                const rippleRef = useRipple();
-                return (
-                  <button
-                    key={button.id}
-                    ref={rippleRef}
-                    onClick={() => setActiveForm(activeForm === button.id ? null : button.id)}
-                    className={`group liquid-button ripple bg-white border-2 border-gray-200 text-gray-700 p-6 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg flex flex-col items-center gap-2 hover:border-${button.color} hover:text-${button.color} ${
-                      activeForm === button.id ? `border-${button.color} text-${button.color} bg-${button.color}/5` : ''
-                    }`}
-                    style={{
-                      background: activeForm === button.id 
-                        ? `linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(0, 188, 212, 0.05) 100%)`
-                        : 'white'
-                    }}
-                  >
-                    <div className={`group-hover:scale-110 transition-transform duration-300 group-hover:text-glow`}>
-                      {button.icon}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              How Would You Like to Connect?
+            </h2>
+            <p className="text-xl text-gray-600">
+              Choose the option that best describes you
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-16">
+            {connectionOptions.map((option, index) => (
+              <motion.div
+                key={option.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                onClick={() => setActiveForm(option.id)}
+                className={`group cursor-pointer relative overflow-hidden rounded-3xl bg-gradient-to-br ${option.gradient} p-8 text-white hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl ${
+                  activeForm === option.id ? 'ring-4 ring-white scale-105' : ''
+                }`}
+              >
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                    {option.icon}
                     </div>
-                    <span className="text-sm md:text-base text-morphing">{button.label}</span>
-                  </button>
-                );
-              })}
+                  <h3 className="text-2xl font-bold mb-2">{option.title}</h3>
+                  <p className="text-white/90 leading-relaxed mb-4">{option.description}</p>
+                  <div className="flex items-center gap-2 text-white/90 font-semibold">
+                    <span>Select</span>
+                    <Sparkles className="w-5 h-5" />
+          </div>
+      </div>
+                {activeForm === option.id && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute top-4 right-4"
+                  >
+                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                      <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+        </div>
+                  </motion.div>
+                )}
+              </motion.div>
+            ))}
             </div>
 
-            {/* Dynamic Contact Form */}
+          {/* FORM - Conversational */}
+          <AnimatePresence mode="wait">
             {activeForm && (
-              <div className="bg-white rounded-2xl shadow-elegant p-8 animate-scale-in">
-                <div className="flex items-center gap-3 mb-6">
-                  {ctaButtons.find(btn => btn.id === activeForm)?.icon}
-                  <h3 className="text-2xl font-semibold text-dark capitalize">
-                    {activeForm} Collaboration Form
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.4 }}
+                className="max-w-3xl mx-auto"
+              >
+                <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl shadow-2xl p-8 md:p-12">
+                  <div className="flex items-center justify-between mb-8">
+                  <div>
+                      <h3 className="text-3xl font-bold text-gray-900 mb-2 capitalize">
+                        {connectionOptions.find(opt => opt.id === activeForm)?.title}
                   </h3>
+                      <p className="text-gray-600">
+                        Fill out the form below and we'll be in touch within 24 hours
+            </p>
+          </div>
+                  <button
+                      onClick={() => setActiveForm(null)}
+                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <X className="w-6 h-6" />
+                  </button>
                 </div>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {renderForm()}
+                    {renderFormFields()}
                   
-                  <div className="flex gap-4">
-                    <button
+                    <div className="flex gap-4 pt-6">
+                    <LoadingButton
                       type="submit"
-                      disabled={isSubmitting}
-                      className={`neu-button text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 flex items-center gap-2 pulse-glow disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
-                        activeForm === 'sponsor' || activeForm === 'inquiry' ? 'bg-magenta hover:bg-magenta/90' :
-                        activeForm === 'partner' || activeForm === 'press' ? 'bg-teal hover:bg-teal/90' :
-                        activeForm === 'artist' ? 'bg-accent hover:bg-accent/90' :
-                        'bg-cta hover:bg-cta/90'
-                      }`}
+                      isLoading={isSubmitting}
+                        className="flex-1 px-8 py-4 bg-gradient-to-r from-[#E91E63] to-[#00BCD4] text-white text-lg font-semibold rounded-xl hover:scale-105 transition-all duration-300"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          Sending...
-                        </>
-                      ) : (
-                        <>
+                      <span className="flex items-center justify-center gap-2">
                       <Send className="w-5 h-5" />
                       Send Message
-                        </>
-                      )}
-                    </button>
-                    <button
-                      type="button"
+                      </span>
+                    </LoadingButton>
+                    <RippleButton
                       onClick={() => setActiveForm(null)}
-                      className="neu-button text-gray-700 px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300"
+                        className="px-8 py-4 border-2 border-gray-300 text-gray-700 text-lg font-semibold rounded-xl hover:bg-gray-50 transition-all duration-300"
                     >
                       Cancel
-                    </button>
+                    </RippleButton>
                   </div>
                 </form>
               </div>
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* Work Opportunities Section */}
-      <section className="py-20 bg-gradient-light">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold text-dark mb-6">Work with us</h2>
-            <p className="text-xl text-gray-600 mb-12">
-              Currently, we don't have any open positions, but we're always looking for passionate individuals who share our vision of cultural excellence and social impact.
-            </p>
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-gray-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-dark mb-2">No Open Positions</h3>
-                <p className="text-gray-600 mb-6">
-                  We're not currently hiring, but we'd love to hear from talented individuals who are passionate about cultural diplomacy and youth empowerment.
-                </p>
-                <button 
-                  onClick={() => window.open('mailto:careers@mapsinternational.net', '_blank')}
-                  className="bg-gradient-primary text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
-                >
-                  Send Us Your CV
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Office Location */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-dark text-center mb-12">Our Location</h2>
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-8">
-                <div className="group cursor-pointer bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-gray-100">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="text-magenta group-hover:scale-110 transition-transform duration-300">
-                      <MapPin className="w-8 h-8" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-dark group-hover:text-gray-700 transition-colors duration-300">
-                        Doha
-                      </h3>
-                      <p className="text-gray-600 group-hover:text-gray-500 transition-colors duration-300">
-                        Katara Cultural Village, Building 12
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-gray-500 group-hover:text-gray-600 transition-colors duration-300">
-                    Doha, Qatar
-                  </p>
-                </div>
-                
-                <div className="group cursor-pointer bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-gray-100">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="text-teal group-hover:scale-110 transition-transform duration-300">
-                      <Globe className="w-8 h-8" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-dark group-hover:text-gray-700 transition-colors duration-300">
-                        Everywhere
-                      </h3>
-                      <p className="text-gray-600 group-hover:text-gray-500 transition-colors duration-300">
-                        We create cultural magic globally
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-gray-500 group-hover:text-gray-600 transition-colors duration-300">
-                    info@mapsinternational.net
-                  </p>
-                </div>
+      {/* ============================================ */}
+      {/* CONTACT INFO - Visual & Interactive */}
+      {/* ============================================ */}
+      <section className="py-32 bg-gradient-to-br from-amber-50 via-orange-50/30 to-rose-50 relative overflow-hidden">
+        {/* Artistic Elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          {/* Hand-drawn circles */}
+          <svg className="absolute top-20 left-20 w-32 h-32 text-[#E91E63]" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2" 
+              strokeDasharray="5,8" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          {/* Wavy decoration */}
+          <svg className="absolute bottom-20 right-20 w-48 h-48 text-[#FF9800]" viewBox="0 0 150 150">
+            <path d="M10 75 Q 40 70, 70 75 T 130 75" fill="none" stroke="currentColor" strokeWidth="2" 
+              strokeDasharray="4,6" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          {/* Scattered dots */}
+          <svg className="absolute top-1/2 left-1/3 w-64 h-64 text-gray-700" viewBox="0 0 200 200">
+            <circle cx="30" cy="40" r="2" fill="currentColor" />
+            <circle cx="80" cy="20" r="3" fill="currentColor" />
+            <circle cx="150" cy="60" r="2" fill="currentColor" />
+            <circle cx="50" cy="120" r="2.5" fill="currentColor" />
+          </svg>
               </div>
               
-              <div className="bg-gradient-light rounded-2xl p-8 text-center">
-                <div className="w-24 h-24 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Globe className="w-12 h-12 text-white" />
+        {/* Floating gradient orbs */}
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.15, 0.1] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-20 right-40 w-96 h-96 bg-[#E91E63] rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.15, 0.1] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-20 left-40 w-96 h-96 bg-[#FF9800] rounded-full blur-3xl"
+          />
                 </div>
-                <h3 className="text-2xl font-bold text-dark mb-4">Global Reach</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  From our base in Doha, we connect cultures across 70+ countries, 
-                  creating meaningful partnerships and cultural exchanges worldwide.
-                </p>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 relative inline-block">
+              Or Reach Us Directly
+              {/* Hand-drawn underline */}
+              <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 500 10" preserveAspectRatio="none">
+                <path d="M0 5 Q 125 8, 250 5 T 500 5" fill="none" stroke="#E91E63" strokeWidth="2.5" 
+                  style={{ strokeLinecap: 'round' }} />
+              </svg>
+            </h2>
+            <p className="text-xl text-gray-700">
+              We're always happy to hear from you
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-center group"
+            >
+              <div className="w-20 h-20 bg-white/80 backdrop-blur-xl rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white/90 transition-all duration-300 shadow-lg border border-gray-200/50">
+                <Mail className="w-10 h-10 text-[#E91E63]" />
+                </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Email Us</h3>
+              <a
+                href="mailto:info@mapsinternational.net"
+                className="text-gray-700 hover:text-gray-900 transition-colors text-lg font-semibold"
+              >
+                info@mapsinternational.net
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center group"
+            >
+              <div className="w-20 h-20 bg-white/80 backdrop-blur-xl rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white/90 transition-all duration-300 shadow-lg border border-gray-200/50">
+                <Phone className="w-10 h-10 text-[#FF9800]" />
               </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Call Us</h3>
+              <a
+                href="tel:+97455603845"
+                className="text-gray-700 hover:text-gray-900 transition-colors text-lg font-semibold"
+              >
+                +974 5560 3845
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center group"
+            >
+              <div className="w-20 h-20 bg-white/80 backdrop-blur-xl rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white/90 transition-all duration-300 shadow-lg border border-gray-200/50">
+                <MapPin className="w-10 h-10 text-[#E91E63]" />
+                </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Visit Us</h3>
+              <p className="text-gray-700 text-lg font-semibold">
+                Katara Cultural Village<br />
+                    Doha, Qatar
+                  </p>
+            </motion.div>
+              </div>
+              
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-center mt-16"
+          >
+            <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-xl rounded-full px-8 py-4 shadow-lg border border-gray-200/50">
+              <Globe className="w-6 h-6 text-[#E91E63]" />
+              <span className="text-lg font-bold text-gray-900">Connecting 70+ Countries Worldwide</span>
+                </div>
+          </motion.div>
+
+          {/* Social Media CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="text-center mt-12"
+          >
+            <p className="text-gray-700 text-lg font-semibold mb-6">Follow our journey</p>
+            <div className="flex justify-center gap-4">
+              <motion.a
+                href="https://www.instagram.com/mapsinternational.qa"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.15, rotate: [0, -5, 5, -5, 0] }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-[#E4405F] to-[#F09433] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+                <span>Instagram</span>
+              </motion.a>
+              <motion.a
+                href="https://www.facebook.com/themapsinternational"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.15, rotate: [0, -5, 5, -5, 0] }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-[#1877F2] to-[#4267B2] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+                aria-label="Follow us on Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+                <span>Facebook</span>
+              </motion.a>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
       
-      {/* Call to Action Footer */}
-      <section className="py-20 relative overflow-hidden">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        />
-        
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6" style={{
-              textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)'
-            }}>
-              Ready to Connect?
-            </h2>
-            <p className="text-base md:text-lg text-white/90 mb-12 leading-relaxed">
-              Join us in creating extraordinary cultural experiences that inspire, engage, and empower communities worldwide.
-            </p>
-            
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Get in Touch</h3>
-                <p className="text-white/80 text-sm">info@mapsinternational.net</p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Call Us</h3>
-                <p className="text-white/80 text-sm">+974 5560 3845</p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Visit Us</h3>
-                <p className="text-white/80 text-sm">Katara Cultural Village</p>
-              </div>
-            </div>
-            
-            <div className="flex flex-wrap justify-center gap-4">
-              <button 
-                onClick={() => window.open('mailto:info@mapsinternational.net', '_blank')}
-                className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                Send Email
-              </button>
-              <button 
-                onClick={() => window.open('tel:+97455603845', '_blank')}
-                className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                Call Now
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ============================================ */}
+      {/* FOOTER */}
+      {/* ============================================ */}
+      <Footer />
     </div>
   );
 };

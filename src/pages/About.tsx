@@ -1,1266 +1,1628 @@
-import { useEffect, useRef, useState } from "react";
-import { Globe, Users, Award, Zap, Heart, Star, Trophy, Calendar, MapPin, Mail, Camera, Image, ExternalLink, ArrowRight, Play, Target, TrendingUp, Clock, CheckCircle, Menu, X, Building } from "lucide-react";
-import FounderSection from "@/components/FounderSection";
-import PartnershipsShowcase from "@/components/PartnershipsShowcase";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { Globe, Users, Award, Zap, Heart, ExternalLink, ArrowRight, Building, CheckCircle, TrendingUp } from "lucide-react";
 import backgroundImage from "@/assets/background.jpg";
-import culturalExcellenceImage from "@/assets/values/culturalexcellence.jpg";
-import youthEmpowermentImage from "@/assets/values/Youthempowerment.jpg";
-import globalCollabImage from "@/assets/values/globalcollab.jpg";
-import innovationImage from "@/assets/values/innovation.jpg";
+import Footer from "@/components/Footer";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { RippleButton } from "@/components/ui/ripple-button";
 import rashmiImage from "@/assets/Rashmi-founder/rashmi-agarwal-professional.jpg";
-// Partnership images
+import rashmiSpeaking from "@/assets/Rashmi-founder/rashmi-speaking-event.jpg";
+import culturalExcellence from "@/assets/values/culturalexcellence.jpg";
+import youthEmpowerment from "@/assets/values/Youthempowerment.jpg";
+import globalCollab from "@/assets/values/globalcollab.jpg";
+import innovation from "@/assets/values/innovation.jpg";
+
+// Partnership logos - Selected partnerships
+// Ministries (3 - removed Foreign Affairs)
 import ministryCulture from "@/assets/partnerships/ministries/culture/partnership.jpg";
 import ministryEducation from "@/assets/partnerships/ministries/education/collaboration.jpg";
-import ministryYouth from "@/assets/partnerships/ministries/youth-sports/partnership.jpg";
-import ministryForeign from "@/assets/partnerships/ministries/foreign-affairs/diplomacy.jpg";
-import qatarLibrary from "@/assets/partnerships/government-bodies/qatar-national-library/programs.jpg";
-import kataraCultural from "@/assets/partnerships/government-bodies/katara-cultural-village/collaboration.jpg";
+import ministryYouthSports from "@/assets/partnerships/ministries/youth-sports/partnership.jpg";
+
+// Government Bodies (2 - removed Qatar National Library)
 import qatarFoundation from "@/assets/partnerships/government-bodies/qatar-foundation/partnership.jpg";
-import qatarMuseums from "@/assets/partnerships/government-bodies/qatar-museums/exhibitions.jpg";
-import educationAboveAll from "@/assets/partnerships/ngos/education-above-all/programs.jpg";
-import qatarCharity from "@/assets/partnerships/ngos/qatar-charity/initiatives.jpg";
-import reachOutAsia from "@/assets/partnerships/ngos/reach-out-asia/programs.jpg";
-import alFakhoora from "@/assets/partnerships/ngos/al-fakhoora/education.jpg";
-import nationalMuseum from "@/assets/partnerships/cultural-institutions/national-museum-qatar/partnership.jpg";
+import kataraCultural from "@/assets/partnerships/government-bodies/katara-cultural-village/collaboration.jpg";
+
+// Cultural Institutions (3 - removed Philharmonic)
+import mathafArabMuseum from "@/assets/partnerships/cultural-institutions/mathaf-arab-museum/collaboration.jpg";
 import fireStateArtists from "@/assets/partnerships/cultural-institutions/fire-state-artists/residency.jpg";
-import qatarPhilharmonic from "@/assets/partnerships/cultural-institutions/qatar-philharmonic/collaboration.jpg";
-import mathafMuseum from "@/assets/partnerships/cultural-institutions/mathaf-arab-museum/collaboration.jpg";
+import nationalMuseumQatar from "@/assets/partnerships/cultural-institutions/national-museum-qatar/partnership.jpg";
+
+// NGOs (1 - removed Qatar Charity, Al Fakhoora, Reach Out Asia)
+import educationAboveAll from "@/assets/partnerships/ngos/education-above-all/programs.jpg";
 
 const About = () => {
-  const leadRef = useRef<HTMLDivElement>(null);
-  const storyRef = useRef<HTMLDivElement>(null);
-  const impactRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLDivElement>(null);
-  const valuesRef = useRef<HTMLDivElement>(null);
-  const leadershipRef = useRef<HTMLDivElement>(null);
-  const partnershipsRef = useRef<HTMLDivElement>(null);
-  const teamRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
-  const [showNav, setShowNav] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  const [activeValue, setActiveValue] = useState(0);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
 
-  // Navigation items for floating menu
-  const navItems = [
-    { id: 'story', label: 'Our Story', ref: storyRef },
-    { id: 'impact', label: 'Our Impact', ref: impactRef },
-    { id: 'services', label: 'What We Do', ref: servicesRef },
-    { id: 'values', label: 'Our Values', ref: valuesRef },
-    { id: 'leadership', label: 'Leadership', ref: leadershipRef },
-    { id: 'partnerships', label: 'Partnerships', ref: partnershipsRef },
-    { id: 'team', label: 'Team', ref: teamRef }
-  ];
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.05]);
 
-  // Impact metrics with animation
-  const impactMetrics = [
-    { number: 70, suffix: "+", label: "Countries Reached", icon: <Globe className="w-6 h-6" /> },
-    { number: 400, suffix: "+", label: "Artists Connected", icon: <Users className="w-6 h-6" /> },
-    { number: 11, suffix: "+", label: "Years of Excellence", icon: <Award className="w-6 h-6" /> },
-    { number: 500, suffix: "+", label: "Youth Empowered", icon: <Zap className="w-6 h-6" /> }
-  ];
-
-  // What We Do - Services
-  const services = [
-    {
-      title: "Cultural Diplomacy",
-      description: "Building bridges between nations through art, culture, and meaningful exchange programs.",
-      icon: <Globe className="w-8 h-8" />,
-      color: "from-magenta to-pink-500",
-      image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop"
-    },
-    {
-      title: "Youth Programs", 
-      description: "Empowering the next generation through space science, innovation, and leadership development.",
-      icon: <Users className="w-8 h-8" />,
-      color: "from-teal to-cyan-500",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop"
-    },
-    {
-      title: "Art Festivals",
-      description: "Creating world-class cultural experiences that celebrate diversity and artistic excellence.",
-      icon: <Award className="w-8 h-8" />,
-      color: "from-magenta to-pink-500",
-      image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop"
-    },
-    {
-      title: "Space Science",
-      description: "Bringing cutting-edge space technology education to students across Qatar and beyond.",
-      icon: <Zap className="w-8 h-8" />,
-      color: "from-teal to-cyan-500",
-      image: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=300&fit=crop"
-    },
-    {
-      title: "Community Building",
-      description: "Fostering strong, connected communities through collaborative cultural initiatives.",
-      icon: <Heart className="w-8 h-8" />,
-      color: "from-magenta to-pink-500",
-      image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=300&fit=crop"
-    }
-  ];
-
-  // Our Values with photos
-  const values = [
-    {
-      title: "Cultural Excellence",
-      text: "We believe in the transformative power of culture to bridge divides and create meaningful connections. Every project we undertake is driven by our commitment to cultural excellence and authentic representation.",
-      image: culturalExcellenceImage,
-      icon: <Award className="w-8 h-8" />
-    },
-    {
-      title: "Youth Empowerment",
-      text: "The next generation is our greatest asset. We create platforms and opportunities for young people to lead, innovate, and shape the future of cultural exchange and community development.",
-      image: youthEmpowermentImage,
-      icon: <Users className="w-8 h-8" />
-    },
-    {
-      title: "Global Collaboration",
-      text: "From Qatar to 70+ countries worldwide, we believe in the power of international collaboration. Our partnerships span continents, bringing together diverse perspectives to create something truly extraordinary.",
-      image: globalCollabImage,
-      icon: <Globe className="w-8 h-8" />
-    },
-    {
-      title: "Innovation & Creativity",
-      text: "We constantly push boundaries, exploring new ways to connect cultures and communities. Our approach combines traditional wisdom with cutting-edge innovation to create lasting impact.",
-      image: innovationImage,
-      icon: <Zap className="w-8 h-8" />
-    }
-  ];
-
-
-  // Scroll tracking for responsive sizing
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
+    const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Intersection Observer for scroll animations
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.getAttribute('data-section');
-            if (sectionId) {
-              setVisibleSections(prev => new Set([...prev, sectionId]));
-            }
-            
-            // Add reveal class to the section
-            entry.target.classList.add('reveal');
-            
-            // Animate individual items with stagger
-            const items = entry.target.querySelectorAll('.animate-item');
-            items.forEach((item, index) => {
-                setTimeout(() => {
-                  item.classList.add('reveal');
-                }, index * 100);
-              });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    // Observe all sections
-    [leadRef, storyRef, impactRef, servicesRef, valuesRef, leadershipRef, partnershipsRef, teamRef].forEach(ref => {
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-    });
-
-    return () => observer.disconnect();
+    const interval = setInterval(() => {
+      setActiveValue((prev) => (prev + 1) % values.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
-  // Smooth scroll to section
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-    setShowNav(false);
-  };
+  const impactMetrics = [
+    { number: 70, suffix: "+", label: "Countries Reached", icon: <Globe className="w-6 h-6" /> },
+    { number: 450, suffix: "+", label: "Artists Connected", icon: <Users className="w-6 h-6" /> },
+    { number: 11, suffix: "+", label: "Years of Excellence", icon: <Award className="w-6 h-6" /> },
+    { number: 500, suffix: "+", label: "Youth Empowered", icon: <Zap className="w-6 h-6" /> }
+  ];
+
+  const values = [
+    {
+      title: "Cultural Excellence",
+      text: "We believe in the transformative power of culture to bridge divides and create meaningful connections.",
+      image: culturalExcellence,
+      icon: <Award className="w-8 h-8" />,
+      color: "from-[#E91E63] to-pink-600"
+    },
+    {
+      title: "Youth Empowerment",
+      text: "The next generation is our greatest asset. We create platforms for young people to lead and innovate.",
+      image: youthEmpowerment,
+      icon: <Users className="w-8 h-8" />,
+      color: "from-[#00BCD4] to-cyan-600"
+    },
+    {
+      title: "Global Collaboration",
+      text: "From Qatar to 70+ countries worldwide, we believe in the power of international collaboration.",
+      image: globalCollab,
+      icon: <Globe className="w-8 h-8" />,
+      color: "from-purple-500 to-purple-700"
+    },
+    {
+      title: "Innovation & Creativity",
+      text: "We constantly push boundaries, exploring new ways to connect cultures and communities.",
+      image: innovation,
+      icon: <Zap className="w-8 h-8" />,
+      color: "from-orange-500 to-red-600"
+    }
+  ];
+
+  const timeline = [
+    { year: 2014, title: "Founded", description: "MAPS International WLL established in Doha" },
+    { year: 2019, title: "QIAF Begins", description: "First Qatar International Art Festival launched" },
+    { year: 2021, title: "Global Expansion", description: "Reached 60+ countries with cultural programs" },
+    { year: 2024, title: "KSSP Launches", description: "Katara Space Science Program inspires thousands" },
+    { year: 2025, title: "400+ Artists", description: "QIAF grows to 70+ countries participation" }
+  ];
+
+  const featuredPartnerships = [
+    {
+      name: "Qatar Foundation",
+      description: "Educational and cultural development initiatives",
+      image: qatarFoundation,
+      years: "Since 2019"
+    },
+    {
+      name: "Katara Cultural Village",
+      description: "Premier cultural destination for exhibitions",
+      image: kataraCultural,
+      years: "Since 2018"
+    },
+    {
+      name: "Ministry of Culture",
+      description: "Strategic partnership for cultural initiatives",
+      image: ministryCulture,
+      years: "Since 2018"
+    },
+    {
+      name: "Ministry of Education",
+      description: "Youth development and educational programs",
+      image: ministryEducation,
+      years: "Since 2019"
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-white text-black relative overflow-hidden">
-      {/* Cultural & Artistic Background Elements */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{opacity: 1}}>
-        {/* Abstract Art Patterns - Inspired by QIAF */}
-        <div className="absolute top-16 left-16 w-48 h-32" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-gradient-to-br from-magenta/60 via-transparent to-teal/60 transform rotate-12" style={{opacity: 1}}></div>
-          <div className="absolute top-2 left-2 w-8 h-8 bg-magenta/80 rounded-full" style={{opacity: 1}}></div>
-          <div className="absolute bottom-2 right-2 w-6 h-6 bg-teal/80 rounded-full" style={{opacity: 1}}></div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/20 to-rose-50 overflow-hidden relative">
+      {/* ============================================ */}
+      {/* ARTISTIC BACKGROUND ELEMENTS - Full Page */}
+      {/* ============================================ */}
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-15">
 
-        {/* Cultural Motifs - Geometric Patterns */}
-        <div className="absolute top-32 right-24 w-40 h-40" style={{opacity: 0.45}}>
-          <div className="w-full h-full border-2 border-magenta/70 transform rotate-45 animate-spin" style={{animationDuration: '120s'}}></div>
-          <div className="absolute inset-4 border border-teal/70 transform -rotate-45 animate-spin" style={{animationDuration: '90s'}}></div>
-          <div className="absolute inset-8 border border-magenta/60 transform rotate-45 animate-spin" style={{animationDuration: '150s'}}></div>
-        </div>
-
-        {/* Artistic Brush Strokes */}
-        <div className="absolute bottom-24 left-1/4 w-56 h-20" style={{opacity: 0.55}}>
-          <div className="w-full h-full bg-gradient-to-r from-transparent via-magenta/50 to-transparent transform -rotate-6"></div>
-          <div className="absolute top-1 w-3/4 h-2 bg-teal/60 transform rotate-3"></div>
-          <div className="absolute bottom-1 w-1/2 h-1 bg-magenta/70 transform -rotate-2"></div>
-        </div>
-
-        {/* Paint Splashes */}
-        <div className="absolute top-1/2 right-16 w-32 h-32" style={{opacity: 0.5}}>
-          <div className="w-16 h-16 bg-magenta/70 rounded-full absolute top-0 left-0"></div>
-          <div className="w-12 h-12 bg-teal/70 rounded-full absolute top-4 right-0"></div>
-          <div className="w-8 h-8 bg-magenta/60 rounded-full absolute bottom-0 left-4"></div>
-          <div className="w-6 h-6 bg-teal/60 rounded-full absolute bottom-2 right-4"></div>
-        </div>
-
-        {/* Abstract Cultural Symbols */}
-        <div className="absolute bottom-32 right-1/3 w-24 h-24" style={{opacity: 0.45}}>
-          <div className="w-full h-full border-2 border-magenta/70 rounded-full"></div>
-          <div className="absolute inset-2 border border-teal/70 rounded-full"></div>
-          <div className="absolute inset-4 border border-magenta/60 rounded-full"></div>
-        </div>
-
-        {/* Flowing Artistic Lines */}
-        <div className="absolute top-2/3 left-16 w-64 h-8" style={{opacity: 0.5}}>
-          <div className="w-full h-1 bg-gradient-to-r from-transparent via-magenta/60 to-teal/60 transform rotate-3"></div>
-          <div className="absolute top-2 w-3/4 h-0.5 bg-teal/50 transform -rotate-2"></div>
-          <div className="absolute top-4 w-1/2 h-0.5 bg-magenta/50 transform rotate-1"></div>
-        </div>
-
-        {/* Cultural Pattern Dots */}
-        <div className="absolute top-1/4 left-1/2 w-20 h-20" style={{opacity: 0.4}}>
-          <div className="grid grid-cols-3 gap-1 w-full h-full">
-            <div className="w-2 h-2 bg-magenta/60 rounded-full"></div>
-            <div className="w-2 h-2 bg-teal/60 rounded-full"></div>
-            <div className="w-2 h-2 bg-magenta/60 rounded-full"></div>
-            <div className="w-2 h-2 bg-teal/60 rounded-full"></div>
-            <div className="w-2 h-2 bg-magenta/60 rounded-full"></div>
-            <div className="w-2 h-2 bg-teal/60 rounded-full"></div>
-            <div className="w-2 h-2 bg-magenta/60 rounded-full"></div>
-            <div className="w-2 h-2 bg-teal/60 rounded-full"></div>
-            <div className="w-2 h-2 bg-magenta/60 rounded-full"></div>
-          </div>
-        </div>
-
-        {/* Abstract Art Canvas */}
-        <div className="absolute bottom-16 right-1/4 w-40 h-40" style={{opacity: 0.45}}>
-          <div className="w-full h-full bg-gradient-to-br from-magenta/40 via-transparent to-teal/40 transform rotate-12"></div>
-          <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-teal/50 transform -rotate-6"></div>
-          <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-magenta/50 transform rotate-6"></div>
-        </div>
-
-        {/* Cultural Heritage Motifs */}
-        <div className="absolute top-1/2 left-1/3 w-16 h-16" style={{opacity: 0.5}}>
-          <div className="w-full h-full border-2 border-teal/70 transform rotate-45 animate-spin" style={{animationDuration: '180s'}}></div>
-          <div className="absolute inset-2 border border-magenta/70 transform -rotate-45 animate-spin" style={{animationDuration: '150s'}}></div>
-        </div>
-
-        {/* Additional Elements - More Coverage */}
-        <div className="absolute top-8 right-8 w-24 h-24" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-gradient-to-br from-teal/50 to-magenta/50 rounded-full"></div>
-        </div>
-
-        <div className="absolute top-1/3 left-8 w-32 h-16" style={{opacity: 0.45}}>
-          <div className="w-full h-full bg-gradient-to-r from-magenta/40 to-teal/40 transform rotate-45"></div>
-        </div>
-
-        <div className="absolute bottom-8 left-8 w-20 h-20" style={{opacity: 0.5}}>
-          <div className="w-full h-full border-2 border-magenta/60 rounded-full"></div>
-        </div>
-
-        <div className="absolute top-3/4 right-1/3 w-28 h-28" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-gradient-to-br from-teal/50 via-transparent to-magenta/50 transform -rotate-12"></div>
-        </div>
-
-        <div className="absolute top-1/6 left-1/3 w-16 h-16" style={{opacity: 0.45}}>
-          <div className="w-full h-full border border-teal/60 transform rotate-45 animate-spin" style={{animationDuration: '108s'}}></div>
-        </div>
-
-        <div className="absolute bottom-1/3 right-8 w-24 h-12" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-gradient-to-r from-magenta/50 to-transparent transform rotate-12"></div>
-        </div>
-
-        <div className="absolute top-2/3 left-1/4 w-20 h-20" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-teal/50 rounded-full"></div>
-        </div>
-
-        <div className="absolute top-1/4 right-1/4 w-32 h-8" style={{opacity: 0.45}}>
-          <div className="w-full h-full bg-gradient-to-r from-transparent via-teal/50 to-magenta/50 transform -rotate-6"></div>
-        </div>
-
-        <div className="absolute bottom-1/4 left-1/6 w-16 h-16" style={{opacity: 0.5}}>
-          <div className="w-full h-full border-2 border-magenta/70 transform rotate-30"></div>
-        </div>
-
-        <div className="absolute top-1/2 right-1/6 w-24 h-24" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-gradient-to-br from-magenta/40 to-teal/40 transform rotate-60"></div>
-        </div>
-
-        <div className="absolute bottom-1/6 left-1/2 w-28 h-16" style={{opacity: 0.45}}>
-          <div className="w-full h-full bg-gradient-to-r from-teal/50 via-magenta/30 to-teal/50 transform rotate-15"></div>
-        </div>
-
-        <div className="absolute top-1/8 right-1/2 w-20 h-20" style={{opacity: 0.5}}>
-          <div className="w-full h-full border border-teal/60 rounded-full"></div>
-        </div>
-
-        <div className="absolute bottom-1/8 left-1/8 w-24 h-24" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-gradient-to-br from-magenta/50 to-transparent transform -rotate-45"></div>
-        </div>
-
-        <div className="absolute top-3/4 left-1/8 w-16 h-16" style={{opacity: 0.45}}>
-          <div className="w-full h-full border-2 border-teal/70 transform rotate-90 animate-spin" style={{animationDuration: '132s'}}></div>
-        </div>
-
-        <div className="absolute bottom-1/2 right-1/8 w-32 h-8" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-gradient-to-r from-magenta/60 to-teal/60 transform rotate-30"></div>
-        </div>
-
-        {/* MASSIVE AMOUNT OF ADDITIONAL BUBBLES AND SHAPES */}
-        <div className="absolute top-10 left-10 w-16 h-16" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-magenta/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-20 right-20 w-12 h-12" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-teal/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-40 left-1/4 w-20 h-20" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-magenta/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-60 right-1/3 w-14 h-14" style={{opacity: 0.7}}>
-          <div className="w-full h-full bg-teal/80 rounded-full"></div>
-        </div>
-        <div className="absolute top-80 left-1/2 w-18 h-18" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-magenta/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-100 right-1/4 w-10 h-10" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-teal/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-120 left-1/6 w-22 h-22" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-magenta/50 rounded-full"></div>
-        </div>
-        <div className="absolute top-140 right-1/5 w-16 h-16" style={{opacity: 0.8}}>
-          <div className="w-full h-full bg-teal/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-160 left-2/3 w-12 h-12" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-magenta/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-180 right-1/6 w-20 h-20" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-teal/80 rounded-full"></div>
-        </div>
-
-        {/* MORE SHAPES AND LINES */}
-        <div className="absolute top-200 left-1/8 w-24 h-8" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-gradient-to-r from-magenta/60 to-teal/60 transform rotate-45"></div>
-        </div>
-        <div className="absolute top-220 right-1/7 w-16 h-16" style={{opacity: 0.7}}>
-          <div className="w-full h-full border-2 border-magenta/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-240 left-1/3 w-14 h-14" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-teal/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-260 right-1/8 w-18 h-18" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-magenta/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-280 left-1/5 w-12 h-12" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-teal/80 rounded-full"></div>
-        </div>
-        <div className="absolute top-300 right-1/3 w-20 h-20" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-magenta/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-320 left-1/7 w-16 h-16" style={{opacity: 0.8}}>
-          <div className="w-full h-full bg-teal/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-340 right-1/4 w-14 h-14" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-magenta/80 rounded-full"></div>
-        </div>
-        <div className="absolute top-360 left-1/2 w-22 h-22" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-teal/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-380 right-1/5 w-18 h-18" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-magenta/70 rounded-full"></div>
-        </div>
-
-        {/* EVEN MORE BUBBLES */}
-        <div className="absolute top-400 left-1/6 w-12 h-12" style={{opacity: 0.7}}>
-          <div className="w-full h-full bg-teal/80 rounded-full"></div>
-        </div>
-        <div className="absolute top-420 right-1/9 w-20 h-20" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-magenta/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-440 left-1/4 w-16 h-16" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-teal/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-460 right-1/6 w-14 h-14" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-magenta/80 rounded-full"></div>
-        </div>
-        <div className="absolute top-480 left-1/8 w-18 h-18" style={{opacity: 0.8}}>
-          <div className="w-full h-full bg-teal/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-500 right-1/2 w-12 h-12" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-magenta/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-520 left-1/3 w-22 h-22" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-teal/80 rounded-full"></div>
-        </div>
-        <div className="absolute top-540 right-1/7 w-16 h-16" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-magenta/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-560 left-1/5 w-20 h-20" style={{opacity: 0.7}}>
-          <div className="w-full h-full bg-teal/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-580 right-1/8 w-14 h-14" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-magenta/80 rounded-full"></div>
-        </div>
-
-        {/* GRADIENT SHAPES */}
-        <div className="absolute top-600 left-1/7 w-24 h-12" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-gradient-to-r from-magenta/60 to-teal/60 transform rotate-30"></div>
-        </div>
-        <div className="absolute top-620 right-1/4 w-18 h-18" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-gradient-to-br from-teal/70 to-magenta/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-640 left-1/2 w-16 h-16" style={{opacity: 0.8}}>
-          <div className="w-full h-full bg-gradient-to-br from-magenta/60 to-teal/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-660 right-1/6 w-20 h-20" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-gradient-to-br from-teal/80 to-magenta/80 rounded-full"></div>
-        </div>
-        <div className="absolute top-680 left-1/9 w-14 h-14" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-gradient-to-br from-magenta/70 to-teal/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-700 right-1/3 w-22 h-22" style={{opacity: 0.4}}>
-          <div className="w-full h-full bg-gradient-to-br from-teal/60 to-magenta/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-720 left-1/4 w-18 h-18" style={{opacity: 0.7}}>
-          <div className="w-full h-full bg-gradient-to-br from-magenta/80 to-teal/80 rounded-full"></div>
-        </div>
-        <div className="absolute top-740 right-1/5 w-16 h-16" style={{opacity: 0.5}}>
-          <div className="w-full h-full bg-gradient-to-br from-teal/70 to-magenta/70 rounded-full"></div>
-        </div>
-        <div className="absolute top-760 left-1/6 w-12 h-12" style={{opacity: 0.8}}>
-          <div className="w-full h-full bg-gradient-to-br from-magenta/60 to-teal/60 rounded-full"></div>
-        </div>
-        <div className="absolute top-780 right-1/7 w-20 h-20" style={{opacity: 0.6}}>
-          <div className="w-full h-full bg-gradient-to-br from-teal/80 to-magenta/80 rounded-full"></div>
-        </div>
-      </div>
-      {/* Floating Navigation */}
-      <div className="fixed top-1/2 right-6 transform -translate-y-1/2 z-50">
-        <button
-          onClick={() => setShowNav(!showNav)}
-          className="bg-magenta text-white p-3 rounded-full shadow-lg hover:bg-magenta-dark transition-all duration-300"
-        >
-          {showNav ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-        
-        {showNav && (
-          <div className="absolute right-16 top-0 bg-white rounded-2xl shadow-2xl p-4 min-w-[200px]">
-            <div className="space-y-2">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.ref)}
-                  className={`w-full text-left px-4 py-2 rounded-lg transition-all duration-300 ${
-                    visibleSections.has(item.id)
-                      ? 'bg-magenta text-white'
-                      : 'hover:bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Hero Section - Keep as is */}
-      <section ref={leadRef} className="relative overflow-hidden z-10">
-        <div
-          className="h-52 md:h-64"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            transform: `translateY(${scrollY * 0.3}px)`
+        {/* Ribbon Flow */}
+        <motion.svg 
+          className="absolute top-1/4 right-20 w-96 h-64 text-purple-500"
+          viewBox="0 0 300 200"
+          animate={{ 
+            y: [0, -30, 20, 0],
+            rotate: [0, -10, 5, 0]
           }}
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
-              About MAPS International WLL
-          </h1>
-          </div>
-        </div>
-      </section>
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        >
+          <path 
+            d="M50 100 Q 100 50, 150 100 T 250 100" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="6" 
+            strokeLinecap="round"
+            opacity="0.4"
+          />
+          <path 
+            d="M60 110 Q 110 60, 160 110 T 260 110" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="4" 
+            strokeLinecap="round"
+            opacity="0.3"
+          />
+        </motion.svg>
 
-      {/* Our Story Section - New Company Focus */}
-      <section ref={storyRef} data-section="story" className="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden z-10">
-        {/* Background Animation */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-magenta rounded-full animate-pulse"></div>
-          <div className="absolute top-32 right-20 w-24 h-24 bg-teal rounded-full animate-pulse delay-1000"></div>
-          <div className="absolute bottom-20 left-1/4 w-20 h-20 bg-magenta rounded-full animate-pulse delay-2000"></div>
-          <div className="absolute bottom-32 right-1/3 w-28 h-28 bg-teal rounded-full animate-pulse delay-500"></div>
-        </div>
+        {/* Hand-drawn Circle */}
+        <motion.svg 
+          className="absolute top-1/3 left-1/4 w-48 h-48 text-[#00BCD4]"
+          viewBox="0 0 150 150"
+          animate={{ 
+            scale: [1, 1.1, 0.95, 1],
+            rotate: [0, 180, 360]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        >
+          <circle 
+            cx="75" 
+            cy="75" 
+            r="60" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="3" 
+            strokeDasharray="8,8"
+            strokeLinecap="round"
+          />
+        </motion.svg>
+
+        {/* Brush Stroke - Bottom */}
+        <motion.svg 
+          className="absolute bottom-1/4 left-1/3 w-80 h-40 text-[#FF9800]"
+          viewBox="0 0 250 120"
+          animate={{ 
+            x: [0, -40, 30, 0],
+            rotate: [0, -5, 5, 0]
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        >
+          <path 
+            d="M20 60 Q 80 30, 140 60 T 230 60" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="5" 
+            strokeLinecap="round"
+            strokeDasharray="6,10"
+          />
+        </motion.svg>
+
+        {/* Scattered Paint Dots */}
+        <motion.svg 
+          className="absolute top-1/2 right-1/4 w-96 h-96 text-gray-700"
+          viewBox="0 0 300 300"
+          animate={{ 
+            rotate: [0, 360],
+            scale: [1, 1.05, 1]
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        >
+          <circle cx="50" cy="80" r="4" fill="currentColor" opacity="0.3" />
+          <circle cx="120" cy="40" r="6" fill="currentColor" opacity="0.4" />
+          <circle cx="220" cy="100" r="3" fill="currentColor" opacity="0.3" />
+          <circle cx="80" cy="180" r="5" fill="currentColor" opacity="0.35" />
+          <circle cx="260" cy="220" r="4" fill="currentColor" opacity="0.3" />
+          <circle cx="150" cy="260" r="7" fill="currentColor" opacity="0.4" />
+          <circle cx="40" cy="240" r="3" fill="currentColor" opacity="0.3" />
+        </motion.svg>
+
+        {/* Abstract Ribbon - Right Side */}
+        <motion.svg 
+          className="absolute bottom-1/3 right-10 w-72 h-96 text-purple-400"
+          viewBox="0 0 200 300"
+          animate={{ 
+            y: [0, 40, -20, 0],
+            x: [0, -20, 10, 0]
+          }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        >
+          <path 
+            d="M100 50 Q 120 100, 100 150 T 100 250" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="8" 
+            strokeLinecap="round"
+            opacity="0.3"
+          />
+        </motion.svg>
+
+
+
+        {/* MORE ARTISTIC ELEMENTS */}
         
-        <div className="max-w-6xl mx-auto px-4 relative">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-dark mb-6">
-              Our Story
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-magenta to-teal mx-auto mb-8"></div>
+        {/* Zigzag Line - Top Center */}
+        <motion.svg 
+          className="absolute top-10 left-1/2 w-72 h-48 text-[#FF9800]"
+          viewBox="0 0 220 150"
+          animate={{ 
+            x: [0, 30, -20, 0],
+            y: [0, 15, -10, 0]
+          }}
+          transition={{ duration: 19, repeat: Infinity, ease: "easeInOut", delay: 7 }}
+        >
+          <path 
+            d="M10 20 L 40 60 L 70 30 L 100 70 L 130 40 L 160 80 L 190 50" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="3" 
+            strokeLinecap="round"
+            strokeDasharray="6,10"
+            opacity="0.35"
+          />
+        </motion.svg>
+
+
+        {/* Curved Ribbon - Middle Right */}
+        <motion.svg 
+          className="absolute top-1/2 right-32 w-56 h-80 text-[#E91E63]"
+          viewBox="0 0 180 250"
+          animate={{ 
+            y: [0, -35, 20, 0],
+            rotate: [0, 10, -8, 0]
+          }}
+          transition={{ duration: 23, repeat: Infinity, ease: "easeInOut", delay: 8 }}
+        >
+          <path 
+            d="M90 20 Q 110 80, 90 140 T 90 220" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="7" 
+            strokeLinecap="round"
+            opacity="0.3"
+          />
+          <path 
+            d="M80 30 Q 100 90, 80 150 T 80 230" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="4" 
+            strokeLinecap="round"
+            opacity="0.25"
+          />
+        </motion.svg>
+
+        {/* Triangle Sketch - Bottom Right */}
+        <motion.svg 
+          className="absolute bottom-32 right-16 w-40 h-40 text-[#00BCD4]"
+          viewBox="0 0 120 120"
+          animate={{ 
+            rotate: [0, 20, -15, 0],
+            scale: [1, 1.15, 1]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 9 }}
+        >
+          <path 
+            d="M60 20 L 100 100 L 20 100 Z" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2.5"
+            strokeDasharray="7,9"
+            strokeLinecap="round"
+          />
+        </motion.svg>
+
+        {/* Spiral Doodle - Top Right */}
+        <motion.svg 
+          className="absolute top-20 right-1/4 w-52 h-52 text-purple-500"
+          viewBox="0 0 160 160"
+          animate={{ 
+            rotate: [0, 360],
+            scale: [1, 1.05, 1]
+          }}
+          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+        >
+          <path 
+            d="M80 80 Q 90 70, 95 80 Q 100 95, 85 100 Q 65 100, 60 85 Q 60 65, 80 60 Q 105 60, 110 85 Q 110 115, 80 120" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2.5" 
+            strokeLinecap="round"
+            strokeDasharray="5,7"
+            opacity="0.35"
+          />
+        </motion.svg>
+
+        {/* Cross Hatch Pattern - Bottom Left */}
+        <motion.svg 
+          className="absolute bottom-1/4 left-16 w-48 h-48 text-gray-600"
+          viewBox="0 0 140 140"
+          animate={{ 
+            x: [0, 20, -15, 0],
+            y: [0, -20, 10, 0]
+          }}
+          transition={{ duration: 21, repeat: Infinity, ease: "easeInOut", delay: 10 }}
+        >
+          <line x1="20" y1="30" x2="70" y2="80" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
+          <line x1="30" y1="20" x2="80" y2="70" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
+          <line x1="40" y1="25" x2="90" y2="75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
+          <line x1="70" y1="30" x2="20" y2="80" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
+          <line x1="80" y1="20" x2="30" y2="70" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
+        </motion.svg>
+
+        {/* Wavy Ribbon - Center */}
+        <motion.svg 
+          className="absolute top-1/3 left-1/2 w-80 h-32 text-[#FF9800]"
+          viewBox="0 0 250 100"
+          animate={{ 
+            x: [-30, 30, -30],
+            y: [0, -20, 0]
+          }}
+          transition={{ duration: 24, repeat: Infinity, ease: "easeInOut", delay: 11 }}
+        >
+          <path 
+            d="M10 50 Q 40 30, 70 50 T 130 50 T 190 50 T 240 50" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="5" 
+            strokeLinecap="round"
+            strokeDasharray="8,12"
+            opacity="0.3"
+          />
+        </motion.svg>
+
+        {/* Star Sketch - Top Left */}
+        <motion.svg 
+          className="absolute top-40 left-1/3 w-36 h-36 text-[#E91E63]"
+          viewBox="0 0 100 100"
+          animate={{ 
+            rotate: [0, -360],
+            scale: [1, 1.2, 1]
+          }}
+          transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
+        >
+          <path 
+            d="M50 15 L55 40 L80 45 L58 60 L65 85 L50 70 L35 85 L42 60 L20 45 L45 40 Z" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2"
+            strokeDasharray="4,6"
+            strokeLinecap="round"
+            opacity="0.35"
+          />
+        </motion.svg>
+
+        {/* Looping Scribble - Bottom Center */}
+        <motion.svg 
+          className="absolute bottom-10 left-1/2 w-64 h-48 text-purple-400"
+          viewBox="0 0 200 150"
+          animate={{ 
+            y: [0, 25, -15, 0],
+            rotate: [0, 8, -5, 0]
+          }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 12 }}
+        >
+          <path 
+            d="M20 75 Q 50 50, 80 75 Q 110 100, 140 75 Q 160 60, 180 75" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="4" 
+            strokeLinecap="round"
+            strokeDasharray="6,9"
+            opacity="0.35"
+          />
+        </motion.svg>
+
+        {/* Dashed Arc - Right Side */}
+        <motion.svg 
+          className="absolute top-1/4 right-5 w-48 h-96 text-[#00BCD4]"
+          viewBox="0 0 150 300"
+          animate={{ 
+            y: [0, -30, 20, 0],
+            x: [0, 15, -10, 0]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 13 }}
+        >
+          <path 
+            d="M75 50 Q 100 100, 75 150 Q 50 200, 75 250" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="3" 
+            strokeLinecap="round"
+            strokeDasharray="10,15"
+            opacity="0.3"
+          />
+        </motion.svg>
+        </div>
+
+      {/* ============================================ */}
+      {/* HERO SECTION - Split Layout */}
+      {/* ============================================ */}
+      <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden bg-transparent">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-0 items-center max-w-7xl mx-auto">
+            {/* Left: Rashmi Speaking Image */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
+              className="relative h-full"
+            >
+              <div className="relative w-full h-[600px] lg:h-[700px]">
+                <img
+                  src={rashmiSpeaking}
+                  alt="Rashmi Agarwal Speaking"
+                  className="w-full h-full object-cover object-center rounded-3xl shadow-2xl"
+                />
+                {/* Floating Badge */}
+                <div className="absolute bottom-8 left-8 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-2xl p-6 shadow-2xl">
+                  <div className="text-white text-center">
+                    <div className="text-4xl font-bold">11+</div>
+                    <div className="text-sm font-semibold">Years Impact</div>
           </div>
-          
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="space-y-6">
-              <p className="text-xl text-gray-700 leading-relaxed">
-                Founded in 2014, MAPS International WLL has been at the forefront of cultural diplomacy and community empowerment. 
-                What started as a vision to connect cultures has grown into a global movement spanning 70+ countries.
+        </div>
+        </div>
+            </motion.div>
+
+            {/* Right: Story Text */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="lg:pl-16"
+            >
+              <p className="text-[#E91E63] font-black text-2xl mb-6 relative inline-block tracking-wide">
+                THE VISIONARY
+                {/* Hand-drawn underline */}
+                <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 150 8" preserveAspectRatio="none">
+                  <path d="M0 4 Q 37.5 6, 75 4 T 150 4" fill="none" stroke="#E91E63" strokeWidth="2.5" 
+                    style={{ strokeLinecap: 'round' }} />
+                </svg>
               </p>
-              <p className="text-xl text-gray-700 leading-relaxed">
-                Our journey began with a simple belief: that art, culture, and meaningful exchange have the power to transform 
-                communities and build bridges between nations. Today, we're proud to have connected over 400 artists, 
-                empowered 500+ youth, and created lasting impact across the globe.
+              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                "In 2014, I had a vision"
+              </h1>
+              <p className="text-2xl text-gray-700 mb-8 leading-relaxed italic">
+                What if culture could be the bridge that connects continents?
               </p>
-            </div>
-          </div>
+              <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
+                <p>
+                  Today, MAPS International WLL connects <span className="text-[#E91E63] font-bold">70+ countries</span>,
+                  empowers <span className="text-[#FF9800] font-bold">500+ youth</span>, and celebrates
+                  <span className="text-[#E91E63] font-bold"> 400+ artists</span> annually.
+                </p>
+        </div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.6 }}
+                className="mt-8"
+              >
+                <p className="text-gray-900 text-xl mb-2 font-semibold">— Rashmi Agarwal</p>
+                <p className="text-gray-600">Founder & CEO, MAPS International WLL</p>
+              </motion.div>
+            </motion.div>
+        </div>
         </div>
       </section>
 
-      {/* Our Impact Section - New */}
-      <section ref={impactRef} data-section="impact" className="py-20 bg-dark text-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Our Impact
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-magenta to-teal mx-auto mb-8"></div>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Numbers that tell the story of our global cultural impact and community reach
+      {/* ============================================ */}
+      {/* ABOUT MAPS - Company Description */}
+      {/* ============================================ */}
+      <section className="py-32 bg-gradient-to-br from-amber-50 via-orange-50/20 to-rose-50 relative overflow-hidden">
+        {/* Background Sketchy Elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-8">
+          <svg className="absolute top-20 right-[15%] w-48 h-48 text-[#E91E63]" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="currentColor" strokeWidth="2" 
+              strokeDasharray="8,10" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          <svg className="absolute bottom-32 left-[10%] w-56 h-56 text-[#00BCD4]" viewBox="0 0 150 150">
+            <circle cx="75" cy="75" r="60" fill="none" stroke="currentColor" strokeWidth="1.5" 
+              strokeDasharray="6,8" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          <svg className="absolute top-1/2 left-[20%] w-40 h-40 text-[#FF9800]" viewBox="0 0 100 100">
+            <rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" strokeWidth="2"
+              strokeDasharray="6,8" style={{ strokeLinecap: 'round' }} transform="rotate(20 50 50)" />
+          </svg>
+          
+          <svg className="absolute bottom-1/4 right-[25%] w-32 h-32 text-purple-500" viewBox="0 0 100 100">
+            <path d="M20 50 Q 40 30, 60 50 T 80 50" fill="none" stroke="currentColor" strokeWidth="1.5" 
+              strokeDasharray="4,6" style={{ strokeLinecap: 'round' }} />
+          </svg>
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-5xl mx-auto text-center"
+          >
+            <p className="text-[#E91E63] font-black text-3xl mb-8 tracking-wider relative inline-block">
+              ABOUT US
+              {/* Hand-drawn underline */}
+              <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 100 8" preserveAspectRatio="none">
+                <path d="M0 4 Q 25 6, 50 4 T 100 4" fill="none" stroke="#E91E63" strokeWidth="2.5" 
+                  style={{ strokeLinecap: 'round' }} />
+              </svg>
             </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {impactMetrics.map((metric, index) => (
-              <div key={index} className="text-center animate-item">
-                <div className="w-20 h-20 bg-gradient-to-r from-magenta to-teal rounded-full flex items-center justify-center mx-auto mb-4">
-                  {metric.icon}
-                </div>
-                <div className="text-4xl font-bold mb-2">
-                  {metric.number}{metric.suffix}
-                </div>
-                <div className="text-gray-300">{metric.label}</div>
-              </div>
-            ))}
-          </div>
+            <h2 className="text-5xl md:text-6xl font-black text-gray-900 mb-10">
+              MAPS International WLL
+            </h2>
+            <p className="text-3xl font-semibold text-gray-800 mb-16">
+              Mapping Possibilities. Building Impact.
+            </p>
+            
+            <div className="space-y-10 text-left max-w-4xl mx-auto">
+              <p className="text-2xl md:text-3xl text-gray-700 leading-[1.7] font-medium">
+                <span className="font-black text-gray-900 text-3xl md:text-4xl">MAPS International WLL</span> is a dynamic, Qatar-based enterprise specializing in <span className="font-semibold text-gray-900">arts management</span>, <span className="font-semibold text-gray-900">creative consultancy</span>, <span className="font-semibold text-gray-900">cultural diplomacy</span>, <span className="font-semibold text-gray-900">events</span>, <span className="font-semibold text-gray-900">exhibitions</span>, and <span className="font-semibold text-gray-900">youth development programs</span>.
+              </p>
+              
+              <p className="text-2xl md:text-3xl text-gray-700 leading-[1.7] font-medium">
+                Founded with a vision to integrate creativity with strategic collaboration, MAPS serves as a catalyst for connecting communities, fostering talent, and enhancing cultural exchange through impactful initiatives.
+              </p>
+              
+              <p className="text-2xl md:text-3xl text-gray-700 leading-[1.7] font-medium">
+                With a <span className="font-semibold text-gray-900">multidisciplinary approach</span>, our work spans from curating international art festivals to managing corporate branding, public-private partnerships, and community-driven cultural projects.
+              </p>
+              
+              <p className="text-2xl md:text-3xl text-gray-700 leading-[1.7] font-medium">
+                We believe in <span className="font-bold text-[#E91E63] text-3xl md:text-4xl">innovation</span>, <span className="font-bold text-[#00BCD4] text-3xl md:text-4xl">sustainability</span>, and <span className="font-bold text-[#FF9800] text-3xl md:text-4xl">purpose-driven engagement</span> to create lasting social and cultural value.
+              </p>
+        </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* What We Do Section - Enhanced */}
-      <section ref={servicesRef} data-section="services" className="py-20 bg-white relative overflow-hidden">
-        {/* Background Animation */}
-        <div className="absolute inset-0 opacity-3">
-          <div className="absolute top-20 left-20 w-40 h-40 bg-magenta/10 rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-32 w-32 h-32 bg-teal/10 rounded-full animate-pulse delay-1000"></div>
-          <div className="absolute bottom-32 left-1/3 w-24 h-24 bg-magenta/10 rounded-full animate-pulse delay-2000"></div>
-          <div className="absolute bottom-20 right-1/4 w-36 h-36 bg-teal/10 rounded-full animate-pulse delay-500"></div>
+      {/* ============================================ */}
+      {/* VISION & MISSION - Side by Side */}
+      {/* ============================================ */}
+      <section className="py-32 bg-transparent relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            
+            {/* Vision Card */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl p-12 text-white shadow-2xl hover:scale-[1.02] transition-all duration-300"
+            >
+              <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-6">
+                <Award className="w-8 h-8 text-white" />
         </div>
-        
-        <div className="max-w-6xl mx-auto px-4 relative">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-dark mb-6">
-              What We Do
+              <h3 className="text-3xl font-black mb-6">VISION</h3>
+              <p className="text-lg leading-relaxed text-white/95">
+                To be a leading cultural and creative enterprise in the Middle East and beyond, bridging global communities through art, innovation, and collaboration.
+              </p>
+            </motion.div>
+
+            {/* Mission Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="bg-gradient-to-br from-[#00BCD4] to-cyan-600 rounded-3xl p-12 text-white shadow-2xl hover:scale-[1.02] transition-all duration-300"
+            >
+              <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-6">
+                <TrendingUp className="w-8 h-8 text-white" />
+        </div>
+              <h3 className="text-3xl font-black mb-6">MISSION</h3>
+              <ul className="space-y-4 text-lg leading-relaxed text-white/95">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 mt-1 flex-shrink-0" />
+                  <span>To curate transformative art and cultural experiences that inspire, engage, and empower.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 mt-1 flex-shrink-0" />
+                  <span>To champion youth innovation and nurture the next generation of creative thinkers and leaders along with Space Science.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 mt-1 flex-shrink-0" />
+                  <span>To build strategic alliances with government, NGOs, corporates, and creatives for sustainable impact.</span>
+                </li>
+              </ul>
+            </motion.div>
+
+        </div>
+        </div>
+      </section>
+
+      {/* ============================================ */}
+      {/* SERVICES PROVIDED - Icon Grid with Images */}
+      {/* ============================================ */}
+      <section className="py-32 bg-white/50 backdrop-blur-sm relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <p className="text-[#E91E63] font-black text-2xl mb-6 tracking-wider relative inline-block">
+              WHAT WE DO
+              {/* Hand-drawn underline */}
+              <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 130 8" preserveAspectRatio="none">
+                <path d="M0 4 Q 32.5 6, 65 4 T 130 4" fill="none" stroke="#E91E63" strokeWidth="2.5" 
+                  style={{ strokeLinecap: 'round' }} />
+              </svg>
+            </p>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+              Services Provided
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-magenta to-teal mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our comprehensive approach to cultural diplomacy and community empowerment
+              Comprehensive solutions spanning arts, culture, and community development
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {/* Service 1: Arts Management */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="group"
+            >
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="h-48 bg-gradient-to-br from-purple-500 to-pink-500 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&auto=format&fit=crop"
+                    alt="Arts Management"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 shadow-lg">
+                    <Heart className="w-6 h-6 text-white" />
+        </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Arts Management</h3>
+                  <p className="text-gray-600 text-sm">Curating and managing art festivals, exhibitions, and cultural programs</p>
+        </div>
+        </div>
+            </motion.div>
+
+            {/* Service 2: Creative Consultancy */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="group"
+            >
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="h-48 bg-gradient-to-br from-[#E91E63] to-red-600 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop"
+                    alt="Creative Consultancy"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#E91E63] to-red-600 rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 shadow-lg">
+                    <TrendingUp className="w-6 h-6 text-white" />
+        </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Creative Consultancy</h3>
+                  <p className="text-gray-600 text-sm">Strategic guidance for branding, creative projects, and cultural initiatives</p>
+        </div>
+        </div>
+            </motion.div>
+
+            {/* Service 3: Cultural Diplomacy */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="group"
+            >
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="h-48 bg-gradient-to-br from-[#00BCD4] to-cyan-600 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1523908511403-7fc7b25592f4?w=800&auto=format&fit=crop"
+                    alt="Cultural Diplomacy"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#00BCD4] to-cyan-600 rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 shadow-lg">
+                    <Globe className="w-6 h-6 text-white" />
+        </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Cultural Diplomacy</h3>
+                  <p className="text-gray-600 text-sm">Building bridges between cultures through international exchange programs</p>
+        </div>
+        </div>
+            </motion.div>
+
+            {/* Service 4: Events & Exhibitions */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="group"
+            >
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="h-48 bg-gradient-to-br from-yellow-500 to-orange-500 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&auto=format&fit=crop"
+                    alt="Events & Exhibitions"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 shadow-lg">
+                    <Award className="w-6 h-6 text-white" />
+        </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Events & Exhibitions</h3>
+                  <p className="text-gray-600 text-sm">End-to-end event planning and exhibition management services</p>
+        </div>
+        </div>
+            </motion.div>
+
+            {/* Service 5: Youth Development */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="group"
+            >
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="h-48 bg-gradient-to-br from-green-500 to-emerald-600 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop"
+                    alt="Youth Development"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 shadow-lg">
+                    <Users className="w-6 h-6 text-white" />
+        </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Youth Development</h3>
+                  <p className="text-gray-600 text-sm">Programs empowering young minds through education and creative engagement</p>
+        </div>
+        </div>
+            </motion.div>
+
+            {/* Service 6: Space Science Programs */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="group"
+            >
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="h-48 bg-gradient-to-br from-blue-500 to-indigo-600 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=800&auto=format&fit=crop"
+                    alt="Space Science Programs"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 shadow-lg">
+                    <Zap className="w-6 h-6 text-white" />
+        </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Space Science Programs</h3>
+                  <p className="text-gray-600 text-sm">Inspiring innovation through STEM education and space science initiatives</p>
+        </div>
+        </div>
+            </motion.div>
+
+            {/* Service 7: Public-Private Partnerships */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="group"
+            >
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="h-48 bg-gradient-to-br from-[#00BCD4] to-cyan-600 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&auto=format&fit=crop"
+                    alt="Public-Private Partnerships"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#00BCD4] to-cyan-600 rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 shadow-lg">
+                    <Building className="w-6 h-6 text-white" />
+        </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Strategic Partnerships</h3>
+                  <p className="text-gray-600 text-sm">Facilitating collaborations between government, corporates, and NGOs</p>
+        </div>
+        </div>
+            </motion.div>
+
+            {/* Service 8: Community Projects */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="group"
+            >
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="h-48 bg-gradient-to-br from-purple-500 to-pink-500 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&auto=format&fit=crop"
+                    alt="Community Projects"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            </div>
+                <div className="p-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 shadow-lg">
+                    <Heart className="w-6 h-6 text-white" />
+          </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Community Projects</h3>
+                  <p className="text-gray-600 text-sm">Grassroots initiatives driving social impact and cultural preservation</p>
+      </div>
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================ */}
+      {/* ABOUT RASHMI - Professional Section */}
+      {/* ============================================ */}
+      <section className="py-32 bg-white/40 backdrop-blur-sm relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="grid lg:grid-cols-2 gap-16 items-center"
+            >
+              {/* Professional Image */}
+              <div className="relative">
+                <img
+                  src={rashmiImage}
+                  alt="Rashmi Agarwal - Founder & CEO"
+                  className="w-full h-[500px] object-cover object-center rounded-3xl shadow-2xl"
+                />
+        </div>
+        
+              {/* About Text */}
+              <div>
+                <p className="text-[#E91E63] font-black text-2xl mb-6 relative inline-block tracking-wider">
+                  ABOUT RASHMI
+                  {/* Hand-drawn underline */}
+                  <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 140 8" preserveAspectRatio="none">
+                    <path d="M0 4 Q 35 6, 70 4 T 140 4" fill="none" stroke="#E91E63" strokeWidth="2.5" 
+                      style={{ strokeLinecap: 'round' }} />
+                  </svg>
+                </p>
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                  Leadership Rooted in Passion
+            </h2>
+                <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
+                  <p>
+                    <span className="font-bold text-gray-900">Rashmi Agarwal</span> is a pioneering entrepreneur and cultural diplomat who founded MAPS International WLL in 2014 with a singular mission: to use culture and art as bridges that connect communities across the globe.
+                  </p>
+                  <p>
+                    With over 11 years of experience in international cultural programming, Rashmi has built strategic partnerships with Qatar's leading institutions, ministries, and cultural organizations, establishing MAPS as a trusted leader in cultural excellence.
+                  </p>
+                  <p>
+                    Under her leadership, MAPS has grown from a local initiative to a global movement, reaching <span className="text-[#E91E63] font-bold">70+ countries</span> and impacting <span className="text-[#FF9800] font-bold">thousands of lives</span> through art festivals, youth empowerment programs, and space science education.
             </p>
           </div>
+                </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================ */}
+      {/* THE JOURNEY - Horizontal Timeline */}
+      {/* ============================================ */}
+      <section className="py-20 bg-transparent relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              The Journey
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              From a vision in 2014 to a global movement spanning 70+ countries
+            </p>
+          </motion.div>
+
+          {/* Horizontal Timeline */}
+          <div className="max-w-7xl mx-auto">
+            <div className="relative">
+              {/* Horizontal Line */}
+              <div className="absolute top-8 left-0 right-0 h-1 bg-gradient-to-r from-[#E91E63] via-[#00BCD4] to-[#E91E63] hidden md:block" />
+
+              {/* Timeline Items - Horizontal Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                {timeline.map((item, index) => (
+                  <motion.div
+                    key={item.year}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    className="relative flex flex-col items-center"
+                  >
+                    {/* Circle Dot */}
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#E91E63] to-[#FF9800] rounded-full flex items-center justify-center text-white font-black text-2xl shadow-xl mb-4 relative z-10">
+                      {item.year % 100}
+          </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <div key={index} className="group animate-item">
-                <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-magenta/20">
-                  <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute top-4 right-4">
-                      <div className={`w-12 h-12 bg-gradient-to-r ${service.color} rounded-xl flex items-center justify-center`}>
-                        <div className="text-white">
-                          {service.icon}
+                    {/* Content */}
+                    <div className="text-center">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                      <p className="text-gray-600 text-sm">{item.description}</p>
                         </div>
+                  </motion.div>
+                ))}
                       </div>
                     </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-dark mb-3">{service.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{service.description}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* Our Values Section - Enhanced */}
-      <section ref={valuesRef} data-section="values" className="py-20 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-dark mb-6">
+      {/* ============================================ */}
+      {/* OUR IMPACT - Animated Numbers */}
+      {/* ============================================ */}
+      <section className="py-32 bg-gradient-to-br from-amber-50 via-orange-50/30 to-rose-50 relative overflow-hidden">
+        {/* Artistic Elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          {/* Hand-drawn circle */}
+          <svg className="absolute top-10 right-20 w-32 h-32 text-[#FF9800]" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2" 
+              strokeDasharray="5,8" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          {/* Wavy decoration */}
+          <svg className="absolute bottom-20 left-10 w-48 h-48 text-[#E91E63]" viewBox="0 0 150 150">
+            <path d="M10 75 Q 40 70, 70 75 T 130 75" fill="none" stroke="currentColor" strokeWidth="2" 
+              strokeDasharray="4,6" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          {/* Scattered dots */}
+          <svg className="absolute top-1/3 left-1/4 w-64 h-64 text-gray-700" viewBox="0 0 200 200">
+            <circle cx="30" cy="40" r="2" fill="currentColor" />
+            <circle cx="80" cy="20" r="3" fill="currentColor" />
+            <circle cx="150" cy="60" r="2" fill="currentColor" />
+            <circle cx="50" cy="120" r="2.5" fill="currentColor" />
+          </svg>
+          </div>
+          
+        {/* Floating gradient orbs */}
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.15, 0.1] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-20 right-40 w-96 h-96 bg-[#E91E63] rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.15, 0.1] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-20 left-40 w-96 h-96 bg-[#FF9800] rounded-full blur-3xl"
+          />
+                      </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 relative inline-block">
+              Our Impact
+              {/* Hand-drawn underline */}
+              <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 400 10" preserveAspectRatio="none">
+                <path d="M0 5 Q 100 8, 200 5 T 400 5" fill="none" stroke="#E91E63" strokeWidth="2.5" 
+                  style={{ strokeLinecap: 'round' }} />
+              </svg>
+            </h2>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              Numbers that tell the story of our global cultural impact
+            </p>
+          </motion.div>
+
+          {/* Bento Grid Layout */}
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-12 gap-6">
+              {/* 70+ Countries - Large Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="col-span-12 md:col-span-6 lg:col-span-7"
+              >
+                <div className="relative bg-gradient-to-br from-cyan-50/40 via-white/80 to-teal-50/30 backdrop-blur-xl rounded-3xl p-12 text-center hover:scale-[1.02] transition-all duration-300 shadow-xl border border-cyan-200/30 h-full flex flex-col items-center justify-center overflow-hidden">
+                  {/* Decorative shape */}
+                  <svg className="absolute top-4 right-4 w-16 h-16 text-cyan-300/20" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="25" fill="none" stroke="currentColor" strokeWidth="2" 
+                      strokeDasharray="5,5" style={{ strokeLinecap: 'round' }} />
+                  </svg>
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: [0, -10, 10, -10, 0] }}
+                    transition={{ duration: 0.5 }}
+                    className="w-20 h-20 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-full flex items-center justify-center mb-6 text-white"
+                  >
+                    <Globe className="w-10 h-10" />
+                  </motion.div>
+                  <AnimatedCounter 
+                    value={70} 
+                    suffix="+" 
+                    duration={2500}
+                    className="text-7xl md:text-8xl font-black text-gray-900 mb-4"
+                  />
+                  <div className="text-gray-800 text-2xl font-bold">Countries Reached</div>
+                  </div>
+              </motion.div>
+
+              {/* 450+ Artists - Medium Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="col-span-12 md:col-span-6 lg:col-span-5"
+              >
+                <div className="relative bg-gradient-to-br from-teal-50/40 via-white/80 to-cyan-50/30 backdrop-blur-xl rounded-3xl p-10 text-center hover:scale-[1.02] transition-all duration-300 shadow-xl border border-teal-200/30 h-full flex flex-col items-center justify-center overflow-hidden">
+                  {/* Decorative shape */}
+                  <svg className="absolute bottom-4 left-4 w-14 h-14 text-teal-300/20" viewBox="0 0 50 50">
+                    <rect x="10" y="10" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="2"
+                      strokeDasharray="4,4" style={{ strokeLinecap: 'round' }} transform="rotate(15 25 25)" />
+                  </svg>
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: [0, -10, 10, -10, 0] }}
+                    transition={{ duration: 0.5 }}
+                    className="w-16 h-16 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-full flex items-center justify-center mb-4 text-white"
+                  >
+                    <Users className="w-8 h-8" />
+                  </motion.div>
+                  <AnimatedCounter 
+                    value={450} 
+                    suffix="+" 
+                    duration={2500}
+                    className="text-6xl font-black text-gray-900 mb-3"
+                  />
+                  <div className="text-gray-800 text-xl font-bold">Artists Connected</div>
+                  </div>
+              </motion.div>
+
+              {/* 11+ Years - Small Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="col-span-12 md:col-span-6 lg:col-span-5"
+              >
+                <div className="relative bg-gradient-to-br from-cyan-50/40 via-white/80 to-turquoise-50/30 backdrop-blur-xl rounded-3xl p-10 text-center hover:scale-[1.02] transition-all duration-300 shadow-xl border border-cyan-200/30 h-full flex flex-col items-center justify-center overflow-hidden">
+                  {/* Decorative shape */}
+                  <svg className="absolute top-4 right-4 w-12 h-12 text-cyan-300/20" viewBox="0 0 40 40">
+                    <path d="M5 20 Q 15 10, 25 20 T 35 20" fill="none" stroke="currentColor" strokeWidth="2" 
+                      strokeDasharray="3,3" style={{ strokeLinecap: 'round' }} />
+                  </svg>
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: [0, -10, 10, -10, 0] }}
+                    transition={{ duration: 0.5 }}
+                    className="w-16 h-16 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-full flex items-center justify-center mb-4 text-white"
+                  >
+                    <Award className="w-8 h-8" />
+                  </motion.div>
+                  <AnimatedCounter 
+                    value={11} 
+                    suffix="+" 
+                    duration={2500}
+                    className="text-6xl font-black text-gray-900 mb-3"
+                  />
+                  <div className="text-gray-800 text-xl font-bold">Years of Excellence</div>
+                      </div>
+              </motion.div>
+
+              {/* 500+ Youth - Medium Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="col-span-12 md:col-span-6 lg:col-span-7"
+              >
+                <div className="relative bg-gradient-to-br from-teal-50/40 via-white/80 to-cyan-50/30 backdrop-blur-xl rounded-3xl p-12 text-center hover:scale-[1.02] transition-all duration-300 shadow-xl border border-teal-200/30 h-full flex flex-col items-center justify-center overflow-hidden">
+                  {/* Decorative shape */}
+                  <svg className="absolute bottom-4 right-4 w-16 h-16 text-teal-300/20" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="20" fill="none" stroke="currentColor" strokeWidth="2" 
+                      strokeDasharray="6,4" style={{ strokeLinecap: 'round' }} />
+                  </svg>
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: [0, -10, 10, -10, 0] }}
+                    transition={{ duration: 0.5 }}
+                    className="w-20 h-20 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-full flex items-center justify-center mb-6 text-white"
+                  >
+                    <Zap className="w-10 h-10" />
+                  </motion.div>
+                  <AnimatedCounter 
+                    value={500} 
+                    suffix="+" 
+                    duration={2500}
+                    className="text-7xl md:text-8xl font-black text-gray-900 mb-4"
+                  />
+                  <div className="text-gray-800 text-2xl font-bold">Youth Empowered</div>
+                  </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================ */}
+      {/* OUR VALUES - Bento Grid */}
+      {/* ============================================ */}
+      <section className="py-32 bg-white relative overflow-hidden">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Our Values
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-magenta to-teal mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              The principles that guide everything we do and every community we serve
+              The principles that guide everything we do
             </p>
-          </div>
+          </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => (
-              <div key={index} className="animate-item">
-                <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group h-full">
-                  <div className="relative h-40 overflow-hidden">
-                  <img
-                    src={value.image}
-                      alt={value.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          {/* Bento Grid - 2x2 */}
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-12 gap-10">
+              {/* Cultural Excellence */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="col-span-12 md:col-span-6 group"
+              >
+                <div className="bg-black rounded-3xl overflow-hidden border-2 border-gray-800/20 hover:-translate-y-2 transition-all duration-300">
+                  {/* Image */}
+                  <div className="aspect-[4/3]">
+                    <img
+                      src={culturalExcellence}
+                      alt="Cultural Excellence"
+                      className="w-full h-full object-cover object-center"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <div className="absolute top-3 right-3 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <div className="text-white">
-                        {value.icon}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-lg font-bold text-dark mb-3">{value.title}</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-4">{value.text}</p>
-                  </div>
                 </div>
+                  
+                  {/* Glassmorphism Text Bar */}
+                  <div className="bg-gradient-to-br from-amber-50/95 via-orange-50/90 to-rose-50/95 backdrop-blur-xl border-t border-orange-200/40 px-5 py-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-xl flex items-center justify-center text-white">
+                        <Heart className="w-5 h-5" />
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                      <h3 className="text-xl font-black text-gray-900">Cultural Excellence</h3>
+                </div>
+                    <p className="text-gray-800 font-semibold text-sm">
+                      Celebrating diverse artistic expressions and preserving cultural heritage
+              </p>
+              </div>
+            </div>
+              </motion.div>
 
-      {/* Leadership Section - Enhanced Rashmi Section */}
-      <section ref={leadershipRef} data-section="leadership" className="py-20 bg-white relative overflow-hidden">
-        {/* Background Animation */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-16 left-16 w-36 h-36 bg-magenta/10 rounded-full animate-pulse"></div>
-          <div className="absolute top-32 right-24 w-28 h-28 bg-teal/10 rounded-full animate-pulse delay-1000"></div>
-          <div className="absolute bottom-24 left-1/4 w-32 h-32 bg-magenta/10 rounded-full animate-pulse delay-2000"></div>
-        </div>
-        
-        <div className="max-w-6xl mx-auto px-4 relative">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-dark mb-6">
-              Leadership
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-magenta to-teal mx-auto mb-8"></div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Visionary leadership driving cultural diplomacy and global impact
-            </p>
-          </div>
-          
-          <div className="max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-magenta/5 to-teal/5 rounded-3xl p-8 md:p-12">
-              <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="text-center">
-                  <div className="w-80 h-80 mx-auto bg-gradient-to-br from-magenta to-teal rounded-3xl flex items-center justify-center mb-8 shadow-2xl">
-                    <img 
-                      src={rashmiImage} 
-                      alt="Rashmi Agarwal"
-                      className="w-72 h-72 rounded-2xl object-cover"
+              {/* Youth Empowerment */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="col-span-12 md:col-span-6 group"
+              >
+                <div className="bg-black rounded-3xl overflow-hidden border-2 border-gray-800/20 hover:-translate-y-2 transition-all duration-300">
+                  {/* Image */}
+                  <div className="aspect-[4/3]">
+                    <img
+                      src={youthEmpowerment}
+                      alt="Youth Empowerment"
+                      className="w-full h-full object-cover object-center"
                     />
-                  </div>
+                </div>
+          
+                  {/* Glassmorphism Text Bar */}
+                  <div className="bg-gradient-to-br from-amber-50/95 via-orange-50/90 to-rose-50/95 backdrop-blur-xl border-t border-orange-200/40 px-5 py-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-xl flex items-center justify-center text-white">
+                        <Users className="w-5 h-5" />
+              </div>
+                      <h3 className="text-xl font-black text-gray-900">Youth Empowerment</h3>
+                </div>
+                    <p className="text-gray-800 font-semibold text-sm">
+                      Inspiring the next generation through education, art, and science
+                    </p>
+              </div>
+            </div>
+              </motion.div>
+
+              {/* Global Collaboration */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="col-span-12 md:col-span-6 group"
+              >
+                <div className="bg-black rounded-3xl overflow-hidden border-2 border-gray-800/20 hover:-translate-y-2 transition-all duration-300">
+                  {/* Image */}
+                  <div className="aspect-[4/3]">
+                    <img
+                      src={globalCollab}
+                      alt="Global Collaboration"
+                      className="w-full h-full object-cover object-center"
+                    />
                 </div>
                 
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-4xl font-bold text-dark mb-2">Rashmi Agarwal</h3>
-                    <p className="text-2xl text-magenta font-semibold mb-6">Founder & CEO</p>
-                  </div>
-                  
-                  <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                    A visionary cultural leader with over 20 years of experience in cultural diplomacy and community empowerment. 
-                    Rashmi has led MAPS International WLL to connect 70+ countries and empower thousands of youth worldwide.
-                  </p>
-                  
-                  <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                    Her expertise spans international cultural exchange, youth development, and strategic partnerships. 
-                    Under her leadership, MAPS has become a global platform for cultural diplomacy and community impact.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                    <div className="flex items-center space-x-3 bg-white/50 rounded-lg p-4">
-                      <Trophy className="w-6 h-6 text-magenta" />
-                      <div>
-                        <div className="font-semibold text-dark">20+ Years</div>
-                        <div className="text-sm text-gray-600">Experience</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-3 bg-white/50 rounded-lg p-4">
-                      <Globe className="w-6 h-6 text-teal" />
-                      <div>
-                        <div className="font-semibold text-dark">70+ Countries</div>
-                        <div className="text-sm text-gray-600">Global Reach</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-3 bg-white/50 rounded-lg p-4">
-                      <Award className="w-6 h-6 text-magenta" />
-                      <div>
-                        <div className="font-semibold text-dark">Multiple</div>
-                        <div className="text-sm text-gray-600">Awards</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="pt-4">
-                    <a 
-                      href="https://www.rashmiagarwal.net" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-3 bg-gradient-to-r from-magenta to-teal text-white px-8 py-4 rounded-full hover:shadow-lg transition-all duration-300 text-lg font-semibold"
-                    >
-                      <span>View Portfolio</span>
-                      <ExternalLink className="w-5 h-5" />
-                    </a>
-                  </div>
+                  {/* Glassmorphism Text Bar */}
+                  <div className="bg-gradient-to-br from-amber-50/95 via-orange-50/90 to-rose-50/95 backdrop-blur-xl border-t border-orange-200/40 px-5 py-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-xl flex items-center justify-center text-white">
+                        <Globe className="w-5 h-5" />
+              </div>
+                      <h3 className="text-xl font-black text-gray-900">Global Collaboration</h3>
                 </div>
+                    <p className="text-gray-800 font-semibold text-sm">
+                      From Qatar to 70+ countries worldwide, we believe in the power of international collaboration
+                    </p>
               </div>
             </div>
-          </div>
-        </div>
+              </motion.div>
+
+              {/* Innovation */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="col-span-12 md:col-span-6 group"
+              >
+                <div className="bg-black rounded-3xl overflow-hidden border-2 border-gray-800/20 hover:-translate-y-2 transition-all duration-300">
+                  {/* Image */}
+                  <div className="aspect-[4/3]">
+                    <img
+                      src={innovation}
+                      alt="Innovation"
+                      className="w-full h-full object-cover object-center"
+                    />
+                </div>
+                  
+                  {/* Glassmorphism Text Bar */}
+                  <div className="bg-gradient-to-br from-amber-50/95 via-orange-50/90 to-rose-50/95 backdrop-blur-xl border-t border-orange-200/40 px-5 py-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-gradient-to-r from-[#E91E63] to-[#FF9800] rounded-xl flex items-center justify-center text-white">
+                        <TrendingUp className="w-5 h-5" />
+              </div>
+                      <h3 className="text-xl font-black text-gray-900">Innovation</h3>
+                </div>
+                    <p className="text-gray-800 font-semibold text-sm">
+                      Pioneering new ways to engage communities through technology and creativity
+                    </p>
+              </div>
+            </div>
+              </motion.div>
+                </div>
+              </div>
+                </div>
       </section>
 
-      {/* Partnerships Section */}
-      <section ref={partnershipsRef} data-section="partnerships" className="py-20 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-dark mb-6">
-              Our Partnerships
+      {/* ============================================ */}
+      {/* PARTNERSHIPS - Complete Bento Grid */}
+      {/* ============================================ */}
+      <section className="py-32 bg-white/50 backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Strategic Partnerships
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-magenta to-teal mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Building bridges across cultures through strategic partnerships with government bodies, embassies, NGOs, and cultural institutions worldwide.
+              Building bridges with Qatar's leading cultural and educational institutions
             </p>
-          </div>
+          </motion.div>
+
+          {/* Bento Grid for ALL 15 Partnerships */}
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-12 gap-8">
+              
+              {/* Row 1: Ministries - PINK/RED GRADIENT */}
+              {/* Ministry of Culture - Landscape Large */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="col-span-12 md:col-span-6 lg:col-span-6 group"
+              >
+                <div className="bg-gradient-to-br from-[#E91E63] to-red-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[280px]">
+                  <div className="h-[220px] bg-white/95 p-4">
+                    <img src={ministryCulture} alt="Ministry of Culture" className="w-full h-full object-contain" />
+                </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
+                    <h3 className="text-lg font-black text-gray-900">Ministry of Culture</h3>
+              </div>
+                </div>
+              </motion.div>
+
+              {/* Ministry of Education - Square */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="col-span-12 md:col-span-6 lg:col-span-3 group"
+              >
+                <div className="bg-gradient-to-br from-[#E91E63] to-red-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[280px]">
+                  <div className="h-[220px] bg-white/95 p-4">
+                    <img src={ministryEducation} alt="Ministry of Education" className="w-full h-full object-contain" />
+                </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
+                    <h3 className="text-base font-black text-gray-900">Education</h3>
+              </div>
+                </div>
+              </motion.div>
+
+              {/* Row 2: More Ministries (PINK) + Gov Bodies (TEAL) */}
+              {/* Ministry Youth & Sports - Landscape - PINK */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="col-span-12 md:col-span-4 lg:col-span-4 group"
+              >
+                <div className="bg-gradient-to-br from-[#E91E63] to-red-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[240px]">
+                  <div className="h-[180px] bg-white/95 p-3">
+                    <img src={ministryYouthSports} alt="Ministry of Youth & Sports" className="w-full h-full object-contain" />
+                  </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
+                    <h3 className="text-sm font-black text-gray-900">Youth & Sports</h3>
+                </div>
+                </div>
+              </motion.div>
+
+              {/* Qatar Foundation - Landscape - TEAL */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="col-span-12 md:col-span-4 lg:col-span-4 group"
+              >
+                <div className="bg-gradient-to-br from-[#00BCD4] to-cyan-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[240px]">
+                  <div className="h-[180px] bg-white/95 p-3">
+                    <img src={qatarFoundation} alt="Qatar Foundation" className="w-full h-full object-contain" />
+              </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
+                    <h3 className="text-sm font-black text-gray-900">Qatar Foundation</h3>
+                </div>
+              </div>
+              </motion.div>
+
+              {/* Row 3: Cultural Institutions - PURPLE/PINK & TEAL */}
+              {/* Katara Cultural Village - Wide - TEAL (Gov Body) */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="col-span-12 md:col-span-6 lg:col-span-4 group"
+              >
+                <div className="bg-gradient-to-br from-[#00BCD4] to-cyan-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[200px]">
+                  <div className="h-[140px] bg-white/95 p-3">
+                    <img src={kataraCultural} alt="Katara Cultural Village" className="w-full h-full object-contain" />
+                </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
+                    <h3 className="text-sm font-black text-gray-900">Katara Village</h3>
+              </div>
+                </div>
+              </motion.div>
+
+              {/* National Museum Qatar - Square - PURPLE */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="col-span-6 md:col-span-3 lg:col-span-2 group"
+              >
+                <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[200px]">
+                  <div className="h-[140px] bg-white/95 p-2">
+                    <img src={nationalMuseumQatar} alt="National Museum Qatar" className="w-full h-full object-contain" />
+                </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-3 py-2">
+                    <h3 className="text-xs font-black text-gray-900">Nat. Museum</h3>
+              </div>
+                </div>
+              </motion.div>
+
+              {/* Mathaf Arab Museum - Landscape - PURPLE */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.45 }}
+                className="col-span-12 md:col-span-6 lg:col-span-4 group"
+              >
+                <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[200px]">
+                  <div className="h-[140px] bg-white/95 p-3">
+                    <img src={mathafArabMuseum} alt="Mathaf Arab Museum" className="w-full h-full object-contain" />
+                </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
+                    <h3 className="text-sm font-black text-gray-900">Mathaf Museum</h3>
+              </div>
+                </div>
+              </motion.div>
+
+              {/* Row 4: More Cultural (PURPLE) + NGOs (GREEN) */}
+              {/* Fire State Artists - Very Wide - PURPLE */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="col-span-12 md:col-span-6 lg:col-span-6 group"
+              >
+                <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[180px]">
+                  <div className="h-[120px] bg-white/95 p-3">
+                    <img src={fireStateArtists} alt="Fire State Artists" className="w-full h-full object-contain" />
+                </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
+                    <h3 className="text-sm font-black text-gray-900">Fire State Artists</h3>
+              </div>
+                </div>
+              </motion.div>
+
+              {/* Row 5: NGO - GREEN */}              {/* Education Above All - Square - GREEN */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.65 }}
+                className="col-span-6 md:col-span-3 lg:col-span-3 group"
+              >
+                <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[240px]">
+                  <div className="h-[180px] bg-white/95 p-3">
+                    <img src={educationAboveAll} alt="Education Above All" className="w-full h-full object-contain" />
+                </div>
+                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
+                    <h3 className="text-sm font-black text-gray-900">Education Above All</h3>
+              </div>
+                </div>
+              </motion.div>
+
+                </div>
+              </div>
+                </div>
+      </section>
+
+      {/* ============================================ */}
+      {/* CTA SECTION */}
+      {/* ============================================ */}
+      <section className="py-32 bg-gradient-to-br from-amber-50 via-orange-50/30 to-rose-50 relative overflow-hidden">
+        {/* Artistic Elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          {/* Tilted square */}
+          <svg className="absolute top-20 left-20 w-24 h-24 text-[#E91E63]" viewBox="0 0 80 80">
+            <rect x="10" y="10" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="2"
+              strokeDasharray="6,6" style={{ strokeLinecap: 'round' }} transform="rotate(15 40 40)" />
+          </svg>
           
-          {/* Partnership Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {/* Government Ministries */}
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={ministryCulture} 
-                  alt="Ministry of Culture Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-magenta text-white rounded-full text-xs font-semibold">
-                    Strategic
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Ministry of Culture</h3>
-                <p className="text-sm text-gray-600 mb-3">Strategic partnership for cultural initiatives and international arts programs.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2018</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={ministryEducation} 
-                  alt="Ministry of Education Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-teal text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Ministry of Education</h3>
-                <p className="text-sm text-gray-600 mb-3">Educational outreach programs and youth development initiatives.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2019</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={ministryYouth} 
-                  alt="Ministry of Youth & Sports Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-magenta text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Ministry of Youth & Sports</h3>
-                <p className="text-sm text-gray-600 mb-3">Youth empowerment through arts and cultural sports programs.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2020</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={ministryForeign} 
-                  alt="Ministry of Foreign Affairs Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-teal text-white rounded-full text-xs font-semibold">
-                    Strategic
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Ministry of Foreign Affairs</h3>
-                <p className="text-sm text-gray-600 mb-3">Cultural diplomacy and international cultural exchange programs.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2021</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Government Bodies */}
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={qatarLibrary} 
-                  alt="Qatar National Library Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-magenta text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Qatar National Library</h3>
-                <p className="text-sm text-gray-600 mb-3">Literary and cultural programming in Qatar's premier library space.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2020</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={kataraCultural} 
-                  alt="Katara Cultural Village Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-teal text-white rounded-full text-xs font-semibold">
-                    Strategic
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Katara Cultural Village</h3>
-                <p className="text-sm text-gray-600 mb-3">Premier cultural destination hosting major art exhibitions and cultural events.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2018</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={qatarFoundation} 
-                  alt="Qatar Foundation Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-magenta text-white rounded-full text-xs font-semibold">
-                    Strategic
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Qatar Foundation</h3>
-                <p className="text-sm text-gray-600 mb-3">Educational and cultural development initiatives and programs.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2019</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src="https://yt3.googleusercontent.com/Beh5SwHH0dzwqs-DHFM1LuoeWHGB0_uv2-El01lCTox_hLakBZtmLyJRe7cKVsBZmKp0gqDPvQ=s900-c-k-c0x00ffffff-no-rj" 
-                  alt="Qatar Museums Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const placeholder = target.nextElementSibling as HTMLElement;
-                      if (placeholder) placeholder.style.display = 'flex';
-                    }}
-                  />
-                {/* Fallback placeholder */}
-                  <div 
-                  className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-magenta/20 to-teal/20"
-                    style={{ display: 'none' }}
-                  >
-                    <div className="text-center">
-                    <Building className="w-12 h-12 text-magenta/60 mx-auto mb-2" />
-                    <p className="text-magenta/80 font-medium text-sm">Qatar Museums</p>
-                    <p className="text-magenta/60 text-xs">Logo Coming Soon</p>
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-teal text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Qatar Museums</h3>
-                <p className="text-sm text-gray-600 mb-3">Art exhibitions and cultural programming across Qatar's museum network.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2020</span>
-                </div>
-              </div>
-            </div>
-
-            {/* NGOs */}
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={educationAboveAll} 
-                  alt="Education Above All Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-teal text-white rounded-full text-xs font-semibold">
-                    Strategic
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Education Above All</h3>
-                <p className="text-sm text-gray-600 mb-3">Global education initiatives through cultural arts programming.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2020</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={qatarCharity} 
-                  alt="Qatar Charity Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-magenta text-white rounded-full text-xs font-semibold">
-                    Long-term
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Qatar Charity</h3>
-                <p className="text-sm text-gray-600 mb-3">Community-focused cultural and educational development programs.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2019</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={reachOutAsia} 
-                  alt="Reach Out to Asia Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-teal text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Reach Out to Asia</h3>
-                <p className="text-sm text-gray-600 mb-3">Cross-cultural programs promoting Asian heritage and understanding.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2021</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={alFakhoora} 
-                  alt="Al Fakhoora Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-magenta text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Al Fakhoora</h3>
-                <p className="text-sm text-gray-600 mb-3">Educational support and cultural development for underserved communities.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2022</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Cultural Institutions */}
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={nationalMuseum} 
-                  alt="National Museum of Qatar Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-teal text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">National Museum of Qatar</h3>
-                <p className="text-sm text-gray-600 mb-3">Qatari heritage preservation and cultural education initiatives.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2021</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={fireStateArtists} 
-                  alt="Fire State Artists Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-magenta text-white rounded-full text-xs font-semibold">
-                    Long-term
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Fire State Artists</h3>
-                <p className="text-sm text-gray-600 mb-3">International artist residency programs and cultural exchange.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2019</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={qatarPhilharmonic} 
-                  alt="Qatar Philharmonic Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-teal text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Qatar Philharmonic</h3>
-                <p className="text-sm text-gray-600 mb-3">Musical collaborations and cross-cultural artistic performances.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2022</span>
-                </div>
-                  </div>
+          {/* Wavy lines */}
+          <svg className="absolute bottom-20 right-20 w-48 h-48 text-[#FF9800]" viewBox="0 0 150 150">
+            <path d="M20 100 Q 50 95, 80 100 T 140 100" fill="none" stroke="currentColor" strokeWidth="2" 
+              strokeDasharray="4,6" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          {/* Scattered dots */}
+          <svg className="absolute top-1/2 right-1/4 w-64 h-64 text-gray-700" viewBox="0 0 200 200">
+            <circle cx="40" cy="30" r="2.5" fill="currentColor" />
+            <circle cx="100" cy="60" r="2" fill="currentColor" />
+            <circle cx="160" cy="100" r="3" fill="currentColor" />
+          </svg>
                 </div>
                 
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
-              <div className="relative h-40 overflow-hidden">
-                <img 
-                  src={mathafMuseum} 
-                  alt="Mathaf Arab Museum Partnership"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <span className="px-2 py-1 bg-magenta text-white rounded-full text-xs font-semibold">
-                    Active
-                  </span>
+        {/* Floating gradient orbs */}
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.15, 0.1] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#E91E63] rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.15, 0.1] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#FF9800] rounded-full blur-3xl"
+          />
                 </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-dark mb-2">Mathaf Arab Museum</h3>
-                <p className="text-sm text-gray-600 mb-3">Contemporary Arab art exhibitions and cultural programming.</p>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Doha, Qatar</span>
-                  <span>Since 2021</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-
-      {/* Call to Action Section */}
-      <section className="py-20 bg-gradient-to-br from-magenta to-teal text-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 relative inline-block">
             Ready to Make an Impact?
+            {/* Hand-drawn underline */}
+            <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 600 10" preserveAspectRatio="none">
+              <path d="M0 5 Q 150 8, 300 5 T 600 5" fill="none" stroke="#E91E63" strokeWidth="2.5" 
+                style={{ strokeLinecap: 'round' }} />
+            </svg>
           </h2>
-          <p className="text-xl mb-8 opacity-90">
+            <p className="text-xl text-gray-700 mb-12 leading-relaxed">
             Join us in building bridges across cultures and empowering communities worldwide
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-magenta px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center justify-center space-x-2">
-              <span>Explore Our Work</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-magenta transition-all duration-300 flex items-center justify-center space-x-2">
-              <span>Get in Touch</span>
-              <Mail className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer Section */}
-      <footer className="relative overflow-hidden">
-        <div
-          className="h-64"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            transform: `translateY(${scrollY * 0.2}px)`
-          }}
-        />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h3 className="text-3xl md:text-4xl font-bold mb-4">
-              MAPS International WLL
-            </h3>
-            <p className="text-lg md:text-xl mb-6 opacity-90">
-              Building bridges across cultures, empowering communities, creating lasting impact.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <button 
                 onClick={() => window.location.href = '/work'}
-                className="bg-magenta text-white px-6 py-3 rounded-full font-semibold hover:bg-magenta-dark transition-all duration-300"
+                className="group px-10 py-5 bg-gradient-to-r from-[#E91E63] to-[#FF9800] text-white text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl"
               >
+                <span className="flex items-center gap-2">
                 Explore Our Work
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </button>
               <button 
                 onClick={() => window.location.href = '/connect'}
-                className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-magenta transition-all duration-300"
+                className="px-10 py-5 border-2 border-gray-800 text-gray-900 text-lg font-semibold rounded-full hover:bg-gray-900 hover:text-white transition-all duration-300 hover:scale-105"
               >
-                Connect With Us
+                Get in Touch
               </button>
             </div>
+          </motion.div>
           </div>
-        </div>
-      </footer>
+      </section>
 
-      {/* CSS for animations */}
-      <style jsx>{`
-        .animate-item {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .animate-item.reveal {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        
-        .reveal {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        
-        section {
-          opacity: 0;
-          transform: translateY(50px);
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        section.reveal {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        
-        /* Background elements should NEVER fade */
-        .fixed.inset-0 {
-          opacity: 1 !important;
-        }
-        
-        .fixed.inset-0 * {
-          opacity: inherit !important;
-        }
-      `}</style>
+      {/* ============================================ */}
+      {/* FOOTER */}
+      {/* ============================================ */}
+      <Footer />
     </div>
   );
 };

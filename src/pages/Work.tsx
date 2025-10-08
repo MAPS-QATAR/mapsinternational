@@ -1,19 +1,13 @@
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { ArrowRight, Sparkles, Star } from "lucide-react";
 import { projects } from "@/data/projects";
-import backgroundImage from "@/assets/background.jpg";
+import Footer from "@/components/Footer";
+import { RippleButton } from "@/components/ui/ripple-button";
+import { ProgressiveImage } from "@/components/ui/progressive-image";
 
 const Work = () => {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState("All Projects");
-  const [scrollY, setScrollY] = useState(0);
-
-  // Handle scroll for background color changes
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleProjectClick = (projectId: string) => {
     if (projectId === "youth-platform") {
@@ -22,320 +16,539 @@ const Work = () => {
     navigate(`/projects/${projectId}`);
   };
 
-  // Filter projects
-  const filteredProjects = projects.filter(project => {
-    if (filter === "All Projects") return true;
-    return project.category === filter;
-  });
-
-  // Get background color based on scroll position
-  const getBackgroundColor = () => {
-    const sectionHeight = window.innerHeight;
-    const currentSection = Math.floor(scrollY / sectionHeight);
-    
-    switch (currentSection % 4) {
-      case 0: return "#F5F5DC"; // Cream
-      case 1: return "#E8F4F8"; // Light Teal
-      case 2: return "#FDF2F8"; // Light Magenta
-      case 3: return "#F5F5DC"; // Back to Cream
-      default: return "#F5F5DC";
-    }
-  };
-
-  const categories = [
-    "All Projects",
-    "Arts & Culture", 
-    "Youth & Innovation",
-    "Education & STEM",
-    "Heritage & Culture",
-    "Fashion & Heritage",
-    "Science & Education",
-    "Science & Art"
-  ];
+  // Find specific projects
+  const qiaf = projects.find(p => p.id === "qiaf-2025");
+  const kssp = projects.find(p => p.id === "kssp");
+  const youth = projects.find(p => p.id === "youth-platform");
+  const colors = projects.find(p => p.id === "colours-of-desert");
+  const bharat = projects.find(p => p.id === "bharat-vastram");
+  const cosmic = projects.find(p => p.id === "cosmic-canvas");
+  const astro = projects.find(p => p.id === "astro-fair");
 
   return (
-    <div 
-      className="min-h-screen transition-colors duration-1000"
-      style={{ backgroundColor: getBackgroundColor() }}
-    >
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div
-          className="h-64 md:h-80"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+    <div className="bg-transparent overflow-hidden relative">
+      {/* ============================================ */}
+      {/* FULL PAGE ANIMATED COLOR BALLOONS */}
+      {/* ============================================ */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {/* Balloon 1 - Pink - Diagonal Journey */}
+        <motion.div
+          animate={{ 
+            x: [-100, 200, 100, -100], 
+            y: [-50, 100, 200, -50] 
           }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute top-0 left-0 w-96 h-96 bg-[#E91E63] rounded-full opacity-10 blur-3xl"
         />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white" style={{
-            textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)'
-          }}>
-            Our Work
-          </h1>
-        </div>
-      </section>
+        
+        {/* Balloon 2 - Teal - Circular Path */}
+        <motion.div
+          animate={{ 
+            x: [-200, -100, 100, 200, 100, -100, -200], 
+            y: [100, 300, 400, 300, 100, -50, 100] 
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#00BCD4] rounded-full opacity-10 blur-3xl"
+        />
+        
+        {/* Balloon 3 - Purple - Floating Right to Left */}
+        <motion.div
+          animate={{ 
+            x: [400, -400], 
+            y: [0, -80, 0, 80, 0] 
+          }}
+          transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[30%] right-0 w-80 h-80 bg-[#9C27B0] rounded-full opacity-8 blur-3xl"
+        />
+        
+        {/* Balloon 4 - Orange - Rising Motion */}
+        <motion.div
+          animate={{ 
+            x: [0, 100, -50, 0], 
+            y: [500, -100, 500] 
+          }}
+          transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-0 left-[10%] w-64 h-64 bg-[#FF9800] rounded-full opacity-8 blur-2xl"
+        />
+        
+        {/* Balloon 5 - Pink - Wave Pattern */}
+        <motion.div
+          animate={{ 
+            x: [-100, 50, 200, 300, 200, 50, -100], 
+            y: [200, 150, 200, 250, 300, 250, 200] 
+          }}
+          transition={{ duration: 32, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute top-[35%] left-0 w-72 h-72 bg-[#E91E63] rounded-full opacity-8 blur-3xl"
+        />
+        
+        {/* Balloon 6 - Teal - Zigzag */}
+        <motion.div
+          animate={{ 
+            x: [300, 100, 300, 500, 300], 
+            y: [0, 150, 300, 150, 0] 
+          }}
+          transition={{ duration: 26, repeat: Infinity, ease: "linear", delay: 4 }}
+          className="absolute top-[50%] right-0 w-96 h-96 bg-[#00BCD4] rounded-full opacity-10 blur-3xl"
+        />
+        
+        {/* Balloon 7 - Purple - Sine Wave */}
+        <motion.div
+          animate={{ 
+            x: [0, 150, 300, 150, 0, -150, -300, -150, 0], 
+            y: [0, -100, 0, 100, 0, 100, 0, -100, 0] 
+          }}
+          transition={{ duration: 40, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute top-[65%] left-[30%] w-80 h-80 bg-[#9C27B0] rounded-full opacity-8 blur-3xl"
+        />
+        
+        {/* Balloon 8 - Orange - Bouncing */}
+        <motion.div
+          animate={{ 
+            x: [200, 0, 200, 400, 200], 
+            y: [0, 100, 50, 100, 0] 
+          }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          className="absolute bottom-[15%] right-[5%] w-64 h-64 bg-[#FF9800] rounded-full opacity-8 blur-2xl"
+        />
+        
+        {/* Balloon 9 - Pink - Figure-8 */}
+        <motion.div
+          animate={{ 
+            x: [-150, 0, 150, 0, -150], 
+            y: [100, 200, 100, 0, 100] 
+          }}
+          transition={{ duration: 34, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+          className="absolute bottom-[30%] left-[20%] w-72 h-72 bg-[#E91E63] rounded-full opacity-8 blur-3xl"
+        />
+        
+        {/* Balloon 10 - Teal - Spiral */}
+        <motion.div
+          animate={{ 
+            x: [0, 200, 300, 200, 0, -200, -300, -200, 0], 
+            y: [0, -50, 0, 50, 100, 50, 0, -50, 0],
+            scale: [1, 1.3, 1.1, 1.3, 1]
+          }}
+          transition={{ duration: 45, repeat: Infinity, ease: "easeInOut", delay: 6 }}
+          className="absolute bottom-0 right-[30%] w-80 h-80 bg-[#00BCD4] rounded-full opacity-10 blur-3xl"
+        />
+      </div>
 
-      {/* Description Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-              From <span className="text-magenta font-semibold">cultural diplomacy</span> to <span className="text-teal font-semibold">youth empowerment</span> — discover the projects that have transformed Qatar's cultural landscape and connected communities across <span className="text-magenta font-semibold">70+ countries</span>.
+      {/* ============================================ */}
+      {/* HERO SECTION - Artistic & Compact */}
+      {/* ============================================ */}
+      <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-transparent z-10">
+        
+        {/* Sketchy Artistic Elements */}
+        <div className="absolute inset-0 opacity-20">
+          {/* Hand-drawn circles */}
+          <svg className="absolute top-10 right-20 w-32 h-32 text-gray-800" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="1.5" 
+              strokeDasharray="3,3" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          <svg className="absolute bottom-20 left-10 w-24 h-24 text-gray-800" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="2" 
+              strokeDasharray="5,8" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          {/* Scattered dots */}
+          <svg className="absolute top-1/4 left-1/4 w-64 h-64 text-gray-700" viewBox="0 0 200 200">
+            <circle cx="30" cy="40" r="2" fill="currentColor" />
+            <circle cx="80" cy="20" r="3" fill="currentColor" />
+            <circle cx="150" cy="60" r="2" fill="currentColor" />
+            <circle cx="50" cy="120" r="2.5" fill="currentColor" />
+            <circle cx="170" cy="140" r="2" fill="currentColor" />
+            <circle cx="100" cy="180" r="3" fill="currentColor" />
+          </svg>
+          
+          {/* Hand-drawn lines */}
+          <svg className="absolute top-1/3 right-1/4 w-48 h-48 text-gray-800" viewBox="0 0 150 150">
+            <path d="M10 75 Q 40 70, 70 75 T 130 75" fill="none" stroke="currentColor" strokeWidth="1.5" 
+              strokeDasharray="4,6" style={{ strokeLinecap: 'round' }} />
+            <path d="M20 100 Q 50 95, 80 100 T 140 100" fill="none" stroke="currentColor" strokeWidth="1" 
+              strokeDasharray="3,5" style={{ strokeLinecap: 'round' }} />
+          </svg>
+          
+          {/* Accent shapes */}
+          <svg className="absolute bottom-1/4 right-1/3 w-20 h-20 text-[#E91E63]" viewBox="0 0 80 80">
+            <rect x="10" y="10" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="2"
+              strokeDasharray="6,6" style={{ strokeLinecap: 'round' }} transform="rotate(15 40 40)" />
+          </svg>
+        </div>
+
+        {/* Hero Content */}
+        <div className="container mx-auto px-6 relative z-10 text-center max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Main Title */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-8 leading-none relative inline-block">
+              The Work That Matters
+              {/* Hand-drawn underline */}
+              <svg className="absolute -bottom-3 left-0 w-full h-4" viewBox="0 0 300 10" preserveAspectRatio="none">
+                <path d="M0 5 Q 75 8, 150 5 T 300 5" fill="none" stroke="#E91E63" strokeWidth="2.5" 
+                  style={{ strokeLinecap: 'round' }} />
+              </svg>
+            </h1>
+            
+            {/* Description Copy */}
+            <div className="space-y-4 text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
+              <p className="font-semibold">
+                Every festival. Every workshop. Every connection.
+              </p>
+              <p>
+                <span className="font-bold text-gray-900">70+ countries.</span> Thousands of minds ignited.
+                <br />
+                Cultures bridged. Futures reimagined.
+              </p>
+              <p className="text-base md:text-lg italic text-gray-600">
+                Because impact isn't measured in attendance—
+                <br />
+                it's measured in lives transformed.
             </p>
           </div>
+          </motion.div>
         </div>
+        
+        {/* Subtle scroll indicator */}
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <ArrowRight className="w-6 h-6 text-gray-400 rotate-90" />
+        </motion.div>
       </section>
 
-      {/* Filter Section */}
-      <section className="py-8">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setFilter(category)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  filter === category
-                    ? 'bg-magenta text-white shadow-lg'
-                    : 'bg-white/80 text-gray-700 hover:bg-magenta/10 hover:text-magenta'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+      {/* ============================================ */}
+      {/* BENTO GRID - All Projects + CTA */}
+      {/* ============================================ */}
+      <section className="relative w-full pt-20 pb-0 bg-transparent z-10">
+        <div className="container mx-auto px-8 md:px-12">
+          {/* Grid Container - 12 columns, constrained width with padding */}
+          <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-12 max-w-7xl mx-auto">
+            
+            {/* ========== QIAF - HERO CARD (LARGEST) ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -12, scale: 1.02 }}
+              onClick={() => handleProjectClick("qiaf-2025")}
+              className="md:col-span-6 lg:col-span-6 lg:row-span-2 group cursor-pointer"
+            >
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                {/* Image - 100% PRISTINE, NO OVERLAYS */}
+                <div className="relative w-full aspect-square overflow-hidden">
+                  <img
+                    src={qiaf?.heroImage}
+                    alt="QIAF 2025"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
+                  />
+                </div>
+                
+                {/* Glassmorphism Text Bar */}
+                <div className="relative bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-6 py-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="inline-block bg-gradient-to-r from-emerald-500 to-green-600 text-white px-3 py-1 rounded-full text-[10px] font-bold mb-2 shadow-lg">
+                        FLAGSHIP EVENT
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-1 leading-tight">
+                        QIAF 2025
+                      </h3>
+                      <p className="text-sm md:text-base text-gray-800 font-bold">
+                        400+ Artists • 70+ Countries
+                      </p>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-emerald-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-2" />
+                  </div>
           </div>
         </div>
-      </section>
+            </motion.div>
 
-      {/* Projects Grid - Mark Kimathi Style */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-             {filteredProjects.map((project, index) => {
-               // Get unique colors for each project based on their theme/image
-               const getProjectColors = (projectId: string) => {
-                 switch (projectId) {
-                   case "qiaf-2025":
-                     return {
-                       card: "bg-gradient-to-br from-emerald-500/20 to-green-600/20",
-                       border: "border-emerald-500/30",
-                       categoryBadge: "bg-emerald-500/90",
-                       yearBadge: "bg-green-600/90",
-                       title: "group-hover:text-emerald-600",
-                       button: "text-emerald-600 group-hover:text-emerald-700",
-                       stats: "bg-emerald-500/10 text-emerald-600"
-                     };
-                   case "youth-platform":
-                     return {
-                       card: "bg-gradient-to-br from-blue-500/20 to-cyan-500/20",
-                       border: "border-blue-500/30",
-                       categoryBadge: "bg-blue-500/90",
-                       yearBadge: "bg-cyan-500/90",
-                       title: "group-hover:text-blue-600",
-                       button: "text-blue-600 group-hover:text-blue-700",
-                       stats: "bg-blue-500/10 text-blue-600"
-                     };
-                   case "kssp":
-                     return {
-                       card: "bg-gradient-to-br from-purple-500/20 to-violet-600/20",
-                       border: "border-purple-500/30",
-                       categoryBadge: "bg-purple-500/90",
-                       yearBadge: "bg-violet-600/90",
-                       title: "group-hover:text-purple-600",
-                       button: "text-purple-600 group-hover:text-purple-700",
-                       stats: "bg-purple-500/10 text-purple-600"
-                     };
-                   case "colours-of-desert":
-                     return {
-                       card: "bg-gradient-to-br from-orange-500/20 to-amber-500/20",
-                       border: "border-orange-500/30",
-                       categoryBadge: "bg-orange-500/90",
-                       yearBadge: "bg-amber-500/90",
-                       title: "group-hover:text-orange-600",
-                       button: "text-orange-600 group-hover:text-orange-700",
-                       stats: "bg-orange-500/10 text-orange-600"
-                     };
-                   case "bharat-vastram":
-                     return {
-                       card: "bg-gradient-to-br from-rose-500/20 to-pink-600/20",
-                       border: "border-rose-500/30",
-                       categoryBadge: "bg-rose-500/90",
-                       yearBadge: "bg-pink-600/90",
-                       title: "group-hover:text-rose-600",
-                       button: "text-rose-600 group-hover:text-rose-700",
-                       stats: "bg-rose-500/10 text-rose-600"
-                     };
-                   case "astro-fair":
-                     return {
-                       card: "bg-gradient-to-br from-indigo-500/20 to-blue-600/20",
-                       border: "border-indigo-500/30",
-                       categoryBadge: "bg-indigo-500/90",
-                       yearBadge: "bg-blue-600/90",
-                       title: "group-hover:text-indigo-600",
-                       button: "text-indigo-600 group-hover:text-indigo-700",
-                       stats: "bg-indigo-500/10 text-indigo-600"
-                     };
-                   case "cosmic-canvas":
-                     return {
-                       card: "bg-gradient-to-br from-violet-500/20 to-purple-600/20",
-                       border: "border-violet-500/30",
-                       categoryBadge: "bg-violet-500/90",
-                       yearBadge: "bg-purple-600/90",
-                       title: "group-hover:text-violet-600",
-                       button: "text-violet-600 group-hover:text-violet-700",
-                       stats: "bg-violet-500/10 text-violet-600"
-                     };
-                   default:
-                     return {
-                       card: "bg-gradient-to-br from-gray-500/20 to-slate-500/20",
-                       border: "border-gray-500/30",
-                       categoryBadge: "bg-gray-500/90",
-                       yearBadge: "bg-slate-500/90",
-                       title: "group-hover:text-gray-600",
-                       button: "text-gray-600 group-hover:text-gray-700",
-                       stats: "bg-gray-500/10 text-gray-600"
-                     };
-                 }
-               };
-
-               const colors = getProjectColors(project.id);
-
-               return (
-                 <div
-                   key={project.id}
-                   onClick={() => handleProjectClick(project.id)}
-                   className={`group cursor-pointer transition-all duration-500 hover:scale-105 ${
-                     project.id === "youth-platform" ? "opacity-75" : ""
-                   }`}
-                   style={{
-                     animationDelay: `${index * 100}ms`
-                   }}
-                 >
-                   <div className={`${colors.card} backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border ${colors.border}`}>
-                     {/* Project Image */}
-                     <div className="relative h-48 overflow-hidden">
-                       <img 
-                         src={project.heroImage} 
-                         alt={project.title}
-                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                       />
-                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                       
-                       {/* Category Badge */}
-                       <div className="absolute top-4 left-4">
-                         <span className={`px-3 py-1 ${colors.categoryBadge} text-white rounded-full text-xs font-semibold backdrop-blur-sm`}>
-                           {project.category}
-                         </span>
+            {/* ========== KSSP ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              onClick={() => handleProjectClick("kssp")}
+              className="md:col-span-3 lg:col-span-3 group cursor-pointer"
+            >
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                {/* Image - 100% PRISTINE */}
+                <div className="relative w-full aspect-square overflow-hidden">
+                  <img
+                    src={kssp?.heroImage}
+                    alt="KSSP"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
+                  />
                        </div>
 
-                       {/* Year Badge */}
-                       <div className="absolute top-4 right-4">
-                         <span className={`px-3 py-1 ${colors.yearBadge} text-white rounded-full text-xs font-semibold backdrop-blur-sm`}>
-                           {project.year}
-                         </span>
+                {/* Glassmorphism Text Bar */}
+                <div className="relative bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-4 py-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <h3 className="text-base md:text-lg font-black text-gray-900 mb-1 leading-tight">
+                        Space Science
+                      </h3>
+                      <p className="text-xs md:text-sm text-gray-800 font-bold">
+                        3,000+ Students
+                      </p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-purple-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* ========== YOUTH PLATFORM ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="md:col-span-3 lg:col-span-3 group cursor-not-allowed opacity-90"
+            >
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none">
+                {/* Image - 100% PRISTINE */}
+                <div className="relative w-full aspect-square overflow-hidden">
+                  <img
+                    src={youth?.heroImage}
+                    alt="Youth Platform"
+                    className="w-full h-full object-cover object-center"
+                  />
+                  {/* Coming Soon Badge */}
+                  <div className="absolute top-3 right-3">
+                    <div className="bg-gradient-to-r from-[#E91E63] to-[#00BCD4] text-white px-3 py-1 rounded-full text-xs font-bold shadow-xl">
+                      Coming 2025
+                    </div>
+                  </div>
                        </div>
 
-                       {/* Coming Soon Overlay */}
-                       {project.id === "youth-platform" && (
-                         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                           <span className="text-white text-lg font-bold">Coming Soon</span>
+                {/* Glassmorphism Text Bar */}
+                <div className="relative bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-4 py-3">
+                  <div className="flex-1">
+                    <h3 className="text-base md:text-lg font-black text-gray-900 mb-1 leading-tight">
+                      Youth Platform
+                    </h3>
+                    <p className="text-xs md:text-sm text-gray-800 font-bold">
+                      500+ Youth • 8 Areas
+                    </p>
+                  </div>
                          </div>
-                       )}
+                     </div>
+            </motion.div>
+
+            {/* ========== COLOURS OF DESERT ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              onClick={() => handleProjectClick("colours-of-desert")}
+              className="md:col-span-3 lg:col-span-3 group cursor-pointer"
+            >
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                {/* Image - 100% PRISTINE */}
+                <div className="relative w-full aspect-square overflow-hidden">
+                  <img
+                    src={colors?.heroImage}
+                    alt="Colours of Desert"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
+                  />
                      </div>
 
-                     {/* Project Content */}
-                     <div className="p-6">
-                       <h3 className={`text-xl font-bold text-gray-800 mb-3 ${colors.title} transition-colors duration-300`}>
-                         {project.title}
+                {/* Glassmorphism Text Bar */}
+                <div className="relative bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-4 py-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="inline-block bg-orange-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold mb-1.5">
+                        Heritage
+                      </div>
+                      <h3 className="text-base md:text-lg font-black text-gray-900 leading-tight">
+                        Colours of Desert
                        </h3>
-                       <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
-                         {project.description}
-                       </p>
-                       
-                       {/* Stats */}
-                       <div className="flex flex-wrap gap-2 mb-4">
-                         {project.stats.artists && (
-                           <span className={`px-2 py-1 ${colors.stats} text-xs rounded-full`}>
-                             {project.stats.artists} Artists
-                           </span>
-                         )}
-                         {project.stats.countries && (
-                           <span className={`px-2 py-1 ${colors.stats} text-xs rounded-full`}>
-                             {project.stats.countries} Countries
-                           </span>
-                         )}
-                         {project.stats.editions && (
-                           <span className={`px-2 py-1 ${colors.stats} text-xs rounded-full`}>
-                             {project.stats.editions} Editions
-                           </span>
-                         )}
-                         {project.stats.participants && (
-                           <span className={`px-2 py-1 ${colors.stats} text-xs rounded-full`}>
-                             {project.stats.participants} Participants
-                           </span>
-                         )}
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-orange-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* ========== BHARAT VASTRAM ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              onClick={() => handleProjectClick("bharat-vastram")}
+              className="md:col-span-3 lg:col-span-3 group cursor-pointer"
+            >
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                {/* Image - 100% PRISTINE - Wide Landscape */}
+                <div className="relative w-full aspect-[2/1] overflow-hidden">
+                  <img
+                    src={bharat?.heroImage}
+                    alt="Bharat Vastram"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
+                  />
                        </div>
 
-                       {/* View Project Button */}
-                       {project.id !== "youth-platform" && (
-                         <div className={`flex items-center ${colors.button} text-sm font-medium transition-colors duration-300`}>
-                           <span>View Project</span>
-                           <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                           </svg>
+                {/* Glassmorphism Text Bar */}
+                <div className="relative bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-4 py-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="inline-block bg-rose-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold mb-1.5">
+                        Fashion
+                      </div>
+                      <h3 className="text-base md:text-lg font-black text-gray-900 leading-tight">
+                        Bharat Vastram
+                      </h3>
                          </div>
-                       )}
+                    <ArrowRight className="w-4 h-4 text-rose-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
                      </div>
                    </div>
                  </div>
-               );
-             })}
+            </motion.div>
+
+            {/* ========== COSMIC CANVAS ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              onClick={() => handleProjectClick("cosmic-canvas")}
+              className="md:col-span-3 lg:col-span-3 group cursor-pointer"
+            >
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                {/* Image - 100% PRISTINE */}
+                <div className="relative w-full aspect-square overflow-hidden">
+                  <img
+                    src={cosmic?.heroImage}
+                    alt="Cosmic Canvas"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
+                  />
+                </div>
+                
+                {/* Glassmorphism Text Bar */}
+                <div className="relative bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-4 py-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="inline-block bg-violet-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold mb-1.5">
+                        Art
+                      </div>
+                      <h3 className="text-base md:text-lg font-black text-gray-900 leading-tight">
+                        Cosmic Canvas
+                      </h3>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-violet-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
+                  </div>
+          </div>
+        </div>
+            </motion.div>
+
+            {/* ========== ASTRO FAIR ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              onClick={() => handleProjectClick("astro-fair")}
+              className="md:col-span-3 lg:col-span-3 group cursor-pointer"
+            >
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                {/* Image - 100% PRISTINE */}
+                <div className="relative w-full aspect-square overflow-hidden">
+                  <img
+                    src={astro?.heroImage}
+                    alt="Astro Fair"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
+                  />
+                </div>
+                
+                {/* Glassmorphism Text Bar */}
+                <div className="relative bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-4 py-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="inline-block bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold mb-1.5">
+                        Science
+                      </div>
+                      <h3 className="text-base md:text-lg font-black text-gray-900 leading-tight">
+                        Astro Fair
+                      </h3>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-indigo-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* ========== COLORFUL CTA CARD ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+                onClick={() => navigate('/connect')}
+              className="md:col-span-6 lg:col-span-6 group cursor-pointer"
+            >
+              <div className="relative w-full aspect-[2/1] rounded-2xl overflow-hidden bg-gradient-to-br from-[#E91E63] via-[#9C27B0] to-[#00BCD4] border-2 border-gray-800/10 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                {/* Animated gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#00BCD4] via-[#9C27B0] to-[#E91E63] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Content */}
+                <div className="absolute inset-0 p-6 md:p-8 flex flex-col items-center justify-center text-center">
+                  <motion.div
+                    animate={{ rotate: [0, 15, -15, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    className="mb-4"
+                  >
+                    <Sparkles className="w-10 h-10 md:w-14 md:h-14 text-white" />
+                  </motion.div>
+                  
+                  <h3 
+                    className="text-2xl md:text-4xl font-black text-white mb-4 leading-tight"
+                    style={{
+                      textShadow: '0 0 30px rgba(0,0,0,0.5), 0 4px 20px rgba(0,0,0,0.3)'
+                    }}
+                  >
+                    Ready to Create<br />Impact Together?
+                  </h3>
+                  
+                  <p 
+                    className="text-sm md:text-lg text-white/90 mb-6 max-w-md font-bold"
+                    style={{
+                      textShadow: '0 2px 10px rgba(0,0,0,0.5)'
+                    }}
+                  >
+                    Join our mission to connect cultures
+                  </p>
+                  
+                  <div className="inline-flex items-center gap-2 bg-white text-[#E91E63] px-6 py-3 rounded-full text-base font-black shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                    <span>Partner With Us</span>
+                    <Star className="w-5 h-5" />
+                  </div>
+                </div>
+            </div>
+            </motion.div>
+
           </div>
         </div>
       </section>
 
-      {/* Footer Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        />
-        
-        <div className="container mx-auto px-6 text-center max-w-4xl relative z-10">
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6" style={{
-              textShadow: '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)'
-            }}>
-              Ready to Create Impact Together?
-            </h2>
-            <p className="text-lg text-white/90 mb-8">
-              Join our mission to create meaningful cultural impact across the globe. Let's build something extraordinary together.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => navigate('/connect')}
-                className="bg-magenta hover:bg-magenta-dark text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                Get In Touch
-              </button>
-              <button
-                onClick={() => navigate('/about')}
-                className="border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 hover:scale-105"
-              >
-                Learn More
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ============================================ */}
+      {/* FOOTER */}
+      {/* ============================================ */}
+      <Footer />
     </div>
   );
 };
