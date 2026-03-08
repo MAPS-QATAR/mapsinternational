@@ -21,7 +21,7 @@ const TestimonialsSection = () => {
     },
     {
       id: 3,
-      quote: "As an artist, QIAF provided me with an incredible platform to showcase my work and connect with fellow artists from 70+ countries. It's a life-changing experience.",
+      quote: "As an artist, QIAF provided me with an incredible platform to showcase my work and connect with fellow artists from 80+ countries. It's a life-changing experience.",
       author: "Victoria De La Serna",
       position: "Contemporary Artist, Argentina",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"

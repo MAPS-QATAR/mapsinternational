@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowDown, Sparkles, Globe, Users, Zap, Calendar } from "lucide-react";
+import { ArrowDown, Sparkles, Globe, Users, Zap } from "lucide-react";
 import mapsLogo from "@/assets/maps-logo.jpg";
-import qiafCardImage from "@/assets/projects/qiaf-2025/qiaf-card.jpg";
+import colorsDesertImage from "@/assets/events/colors-of-desert-2025.jpg";
 import heroQiaf from "@/assets/hero-qiaf-festival.jpg";
 import heroYouth from "@/assets/hero-youth-platform.jpg";
 import heroSpace from "@/assets/hero-space-science.jpg";
@@ -10,28 +10,8 @@ import ksspCard from "@/assets/projects/kssp/kssp-card.jpg";
 import youthCard from "@/assets/projects/youth-platform/youth-card.jpg";
 import Footer from "@/components/Footer";
 import { RippleButton } from "@/components/ui/ripple-button";
-import { AnimatedCounter } from "@/components/ui/animated-counter";
-import { ProgressiveImage } from "@/components/ui/progressive-image";
 
 const Index = () => {
-  // Calculate initial countdown immediately
-  const calculateInitialTime = () => {
-    const now = new Date();
-    const qiafDate = new Date('December 7, 2025 00:00:00');
-    const difference = qiafDate.getTime() - now.getTime();
-
-    if (difference > 0) {
-      return {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((difference % (1000 * 60)) / 1000)
-      };
-    }
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateInitialTime());
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -41,28 +21,6 @@ const Index = () => {
   
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1]);
-
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = new Date();
-      const qiafDate = new Date('December 7, 2025 00:00:00');
-      const difference = qiafDate.getTime() - now.getTime();
-
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        setTimeLeft({ days, hours, minutes, seconds });
-      } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      }
-    };
-
-    const timer = setInterval(calculateTimeLeft, 1000);
-    return () => clearInterval(timer);
-  }, []);
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -82,7 +40,7 @@ const Index = () => {
     {
       quote: "QIAF has transformed how we think about cultural exchange. It's not just an art festival—it's a movement.",
       author: "International Artist",
-      country: "70+ Countries Represented",
+      country: "80+ Countries Represented",
       stars: 5
     },
     {
@@ -219,8 +177,8 @@ const Index = () => {
             className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4"
             style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
           >
-            From Doha to <span className="text-[#E91E63] font-semibold">70+ countries</span>, connecting{' '}
-            <span className="text-[#00BCD4] font-semibold">400+ artists</span> and empowering{' '}
+            From Doha to <span className="text-[#E91E63] font-semibold">80+ countries</span>, connecting{' '}
+            <span className="text-[#00BCD4] font-semibold">500+ artists</span> and empowering{' '}
             <span className="text-[#E91E63] font-semibold">thousands of youth</span> through culture, innovation, and impact.
           </motion.p>
 
@@ -432,7 +390,7 @@ const Index = () => {
                   </motion.div>
                   <h3 className="text-3xl font-bold text-white mb-2">QIAF 2025</h3>
                   <p className="text-white/80 text-lg mb-4">
-                    400+ Artists from 70+ Countries
+                    500+ Artists from 80+ Countries
                   </p>
                   <div className="flex gap-4 text-sm text-white/60">
                     <span>Dec 7-12</span>
@@ -523,23 +481,43 @@ const Index = () => {
       </section>
 
       {/* ============================================ */}
-      {/* QIAF COUNTDOWN - Enhanced */}
+      {/* COLOURS OF DESERT 2026 - Featured Gallery */}
       {/* ============================================ */}
-      <section className="relative py-20 bg-gradient-to-br from-gray-50 to-white overflow-hidden">
+      <section className="relative py-20 bg-gradient-to-br from-amber-50 via-orange-50/30 to-rose-50/50 overflow-hidden">
         {/* Artistic background decorations */}
         <div className="absolute inset-0 pointer-events-none opacity-5">
-          <svg className="absolute top-10 right-[20%] w-48 h-48 text-[#9C27B0]" viewBox="0 0 120 120">
-            <rect x="20" y="20" width="80" height="80" fill="none" stroke="currentColor" strokeWidth="3"
-              strokeDasharray="10,10" style={{ strokeLinecap: 'round' }} transform="rotate(15 60 60)" />
+          <svg className="absolute top-10 left-[15%] w-52 h-52 text-orange-600" viewBox="0 0 120 120">
+            <polygon points="60,15 95,95 25,95" fill="none" stroke="currentColor" strokeWidth="3"
+              strokeDasharray="10,10" style={{ strokeLinecap: 'round' }} transform="rotate(20 60 60)" />
           </svg>
           
-          <svg className="absolute bottom-10 left-[10%] w-56 h-56 text-[#FF9800]" viewBox="0 0 150 150">
+          <svg className="absolute bottom-10 right-[10%] w-64 h-64 text-amber-600" viewBox="0 0 150 150">
             <circle cx="75" cy="75" r="65" fill="none" stroke="currentColor" strokeWidth="2.5" 
               strokeDasharray="12,10" style={{ strokeLinecap: 'round' }} />
           </svg>
-          </div>
+        </div>
 
         <div className="container mx-auto px-6 relative z-10">
+          {/* Headline: event happening now */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-8"
+          >
+            <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white text-sm font-bold uppercase tracking-wide shadow-lg">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+              </span>
+              Happening Now
+            </span>
+            <p className="mt-3 text-lg text-gray-600 font-medium">
+              Visit our Art Gallery at Pullman Doha West Bay
+            </p>
+          </motion.div>
+
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -548,143 +526,96 @@ const Index = () => {
               transition={{ duration: 0.8 }}
               className="bg-white rounded-3xl shadow-2xl overflow-hidden"
             >
-              {/* Countdown Timer */}
-              <div className="p-8 text-center bg-gradient-to-r from-[#004344] to-[#006667]">
-                <div className="flex items-center justify-center gap-3 mb-6">
-                  <Calendar className="w-7 h-7 text-white" />
-                  <h3 className="text-2xl font-bold text-white">Event Starts In</h3>
-                </div>
-                
-                {/* Real-time Countdown */}
-                <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-                  <motion.div 
-                    key="countdown-days"
-                    initial={{ scale: 1.2, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 min-w-[70px] sm:min-w-[90px]"
-                  >
-                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
-                      {timeLeft.days.toString().padStart(2, '0')}
-                    </div>
-                    <div className="text-xs sm:text-sm text-white/80 uppercase tracking-wide font-semibold">Days</div>
-                  </motion.div>
-                  <motion.div
-                    key="countdown-hours"
-                    initial={{ scale: 1.2, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 min-w-[70px] sm:min-w-[90px]"
-                  >
-                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
-                      {timeLeft.hours.toString().padStart(2, '0')}
-                    </div>
-                    <div className="text-xs sm:text-sm text-white/80 uppercase tracking-wide font-semibold">Hours</div>
-                  </motion.div>
-                  <motion.div
-                    key="countdown-minutes"
-                    initial={{ scale: 1.2, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 min-w-[70px] sm:min-w-[90px]"
-                  >
-                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
-                      {timeLeft.minutes.toString().padStart(2, '0')}
-                    </div>
-                    <div className="text-xs sm:text-sm text-white/80 uppercase tracking-wide font-semibold">Minutes</div>
-                  </motion.div>
-                  <motion.div
-                    key="countdown-seconds"
-                    initial={{ scale: 1.2, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 sm:p-4 min-w-[70px] sm:min-w-[90px]"
-                  >
-                    <div className="text-2xl sm:text-3xl font-bold text-white mb-1">
-                      {timeLeft.seconds.toString().padStart(2, '0')}
-                    </div>
-                    <div className="text-xs sm:text-sm text-white/80 uppercase tracking-wide font-semibold">Seconds</div>
-                  </motion.div>
-                </div>
-              </div>
-
               {/* Main Content - Image Left, Text Right */}
-              <div className="grid lg:grid-cols-2 gap-0">
-                {/* Left Side - QIAF Card Image */}
-                <div className="relative overflow-hidden h-[350px] sm:h-[400px] md:h-[450px] lg:h-auto">
+              <div className="grid lg:grid-cols-2 gap-0 lg:min-h-[520px]">
+                {/* Left Side - Featured Image: full image visible, no crop */}
+                <div className="relative flex items-center justify-center min-h-[320px] sm:min-h-[380px] lg:min-h-[520px] bg-gradient-to-br from-amber-100/80 to-orange-100/60">
                   <img
-                    src={qiafCardImage}
-                    alt="Qatar International Art Festival 2025 - 7th Edition"
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                    src={colorsDesertImage}
+                    alt="Colours of Desert 2026 - 8th Edition"
+                    className="w-full h-full object-contain transition-transform duration-700 hover:scale-[1.02]"
                   />
                   <div className="absolute top-6 left-6">
-                    <div className="bg-[#004344] text-white px-5 py-2 rounded-full font-bold text-base shadow-xl">
-                      7th Edition
+                    <div className="bg-gradient-to-r from-orange-600 to-amber-600 text-white px-5 py-2 rounded-full font-bold text-base shadow-xl">
+                      8th Edition
                     </div>
                   </div>
                   <div className="absolute top-6 right-6">
-                    <div className="bg-white/95 backdrop-blur-sm px-5 py-2 rounded-full font-bold text-sm shadow-xl text-[#004344]">
-                      FEATURED EVENT
+                    <div className="bg-white/95 backdrop-blur-sm px-5 py-2 rounded-full font-bold text-sm shadow-xl text-orange-600">
+                      NEW ART GALLERY
                     </div>
                   </div>
                 </div>
 
-                {/* Right Side - Event Details */}
-                <div className="p-10 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-white to-gray-50">
+                {/* Right Side - Event Details (warm light background) */}
+                <div className="p-10 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-amber-50/90 via-orange-50/50 to-amber-100/40">
                   <div className="mb-6">
-                    <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4 leading-tight">
-                      Qatar International Art Festival 2025
+                    <h3 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4 leading-tight">
+                      Colours of Desert 2026
                     </h3>
+                    <p className="text-xl font-bold text-orange-600 mb-4">
+                      Theme: Cultural Reflection
+                    </p>
+                    <p className="text-lg text-gray-700 italic mb-6 leading-relaxed">
+                      "Every grain of sand holds a story — Timeless sands. Timeless stories. Timeless art. We let ART tell it."
+                    </p>
                     <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-                      Join 400+ artists from 70+ countries for the world's most celebrated art festival. 
-                      Experience 15 major event components including VIP ceremonies, international exhibitions, 
-                      and cultural exchanges.
+                      MAPS International WLL inaugurates its Art Gallery hosted at Pullman Doha West Bay by bringing the 8th Edition of Colours of Desert 2026. 
+                      The 8th Edition evolves into a refined, curated gallery experience, presenting selected professional paintings and sculptures 
+                      that explore identity, heritage, and contemporary expression.
+                    </p>
+                    <p className="text-base text-gray-600 leading-relaxed">
+                      The Gallery showcase prioritizes artistic depth, aesthetic sophistication, and meaningful cultural dialogue 
+                      through immersive and thoughtfully designed workshops. Join us where art becomes reflection, and culture becomes conversation.
                     </p>
                   </div>
 
-
-                  {/* Event Info Cards - FIXED COLORS */}
+                  {/* Event Info Cards */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-4 border border-orange-200">
                       <div className="flex items-center gap-2 mb-2">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#004344' }}>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#ea580c' }}>
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         <span className="text-sm font-semibold text-gray-600">DATES</span>
                       </div>
-                      <div className="text-gray-800 font-bold">Dec 7-12, 2025</div>
+                      <div className="text-gray-800 font-bold">Feb 22 - Apr 30, 2026</div>
                     </div>
                     
-                    <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-4 border border-orange-200">
                       <div className="flex items-center gap-2 mb-2">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#004344' }}>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#ea580c' }}>
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         <span className="text-sm font-semibold text-gray-600">VENUE</span>
                       </div>
-                      <div className="text-gray-800 font-bold">Katara Cultural Village</div>
+                      <div className="text-gray-800 font-bold">Pullman Doha West Bay</div>
                     </div>
                     
-                    <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-4 border border-orange-200">
                       <div className="flex items-center gap-2 mb-2">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#004344' }}>
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#ea580c' }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <span className="text-sm font-semibold text-gray-600">SCALE</span>
+                        <span className="text-sm font-semibold text-gray-600">FORMAT</span>
                       </div>
-                      <div className="text-gray-800 font-bold">400+ Artists, 70+ Countries</div>
+                      <div className="text-gray-800 font-bold">Gallery Experience</div>
                     </div>
                   </div>
 
                   {/* CTA Button */}
                   <button 
-                    onClick={() => window.open('https://qiaf.net', '_blank')}
-                    className="group bg-[#004344] hover:bg-[#006667] text-white px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center gap-3 shadow-xl hover:shadow-2xl hover:scale-105"
+                    onClick={() => window.location.href = '/work'}
+                    className="group bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center gap-3 shadow-xl hover:shadow-2xl hover:scale-105"
                   >
-                    <span>Register at QIAF.net</span>
+                    <span>Explore Gallery Details</span>
                     <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </button>
-                </div>
               </div>
+            </div>
             </motion.div>
           </div>
         </div>
@@ -746,7 +677,7 @@ const Index = () => {
               </svg>
             </h2>
             <p className="text-xl text-gray-700">
-              Stories from artists, students, and partners across 70+ countries
+              Stories from artists, students, and partners across 80+ countries
             </p>
           </motion.div>
 

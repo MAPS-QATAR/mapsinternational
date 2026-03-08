@@ -8,7 +8,7 @@ const NewsUpdates = () => {
     {
       id: 1,
       title: "QIAF 2025 Final Preparations Underway",
-      description: "With just 2 months to go, QIAF 2025 is entering its final preparation phase. 400+ artists from 70+ countries are confirmed to participate in the 7th edition.",
+      description: "With just 2 months to go, QIAF 2025 is entering its final preparation phase. 500+ artists from 80+ countries are confirmed to participate in the 7th edition.",
       date: "October 15, 2025",
       category: "Event",
       icon: <Calendar className="w-6 h-6" />,
@@ -56,7 +56,7 @@ const NewsUpdates = () => {
     {
       id: 5,
       title: "MAPS International WLL Celebrates 11 Years of Impact",
-      description: "Founded in 2014, MAPS International WLL marks 11 years of cultural diplomacy excellence, having connected 70+ countries through transformative experiences.",
+      description: "Founded in 2014, MAPS International WLL marks 11 years of cultural diplomacy excellence, having connected 80+ countries through transformative experiences.",
       date: "October 1, 2025",
       category: "Milestone",
       icon: <Users className="w-6 h-6" />,

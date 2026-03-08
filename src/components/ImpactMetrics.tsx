@@ -13,14 +13,14 @@ const ImpactMetrics = () => {
   const metrics = [
     {
       icon: <Users className="w-8 h-8" />,
-      value: 400,
+      value: 500,
       label: "Artists Connected",
       suffix: "+",
       color: "from-magenta to-pink-500"
     },
     {
       icon: <Globe className="w-8 h-8" />,
-      value: 70,
+      value: 80,
       label: "Countries Reached",
       suffix: "+",
       color: "from-teal to-cyan-500"
@@ -88,8 +88,8 @@ const ImpactMetrics = () => {
     };
 
     // Stagger the animations
-    setTimeout(() => animateValue('artists', 400), 0);
-    setTimeout(() => animateValue('countries', 70), 200);
+    setTimeout(() => animateValue('artists', 500), 0);
+    setTimeout(() => animateValue('countries', 80), 200);
     setTimeout(() => animateValue('years', 11), 400);
   }, [isVisible]);
 

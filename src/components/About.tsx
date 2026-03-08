@@ -37,7 +37,7 @@ const About = () => {
             <div className="bg-gradient-primary rounded-2xl p-8 text-white animate-scale-in">
               <h3 className="text-2xl font-semibold mb-4">Our Vision</h3>
               <p className="text-lg leading-relaxed">
-                To be the leading cultural & creative enterprise in the Middle East and beyond, connecting 70+ countries through transformative cultural experiences.
+                To be the leading cultural & creative enterprise in the Middle East and beyond, connecting 80+ countries through transformative cultural experiences.
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ const About = () => {
                 Rashmi Agarwal, Founder & President of MAPS International WLL, is a cultural diplomat who has shaped Qatar's cultural landscape for 11+ years, leading global festivals and youth programs.
               </p>
               <p className="text-white/90 leading-relaxed">
-                Rashmi Agarwal founded MAPS International WLL in 2014 with a vision to bridge cultures through artistic excellence. Over 11+ years, she has built Qatar's premier cultural organization, connecting 400+ artists from 70+ countries, launching The YOUTH platform, and establishing government-backed educational programs. Her leadership has transformed Qatar's cultural landscape and created lasting international partnerships.
+                Rashmi Agarwal founded MAPS International WLL in 2014 with a vision to bridge cultures through artistic excellence. Over 11+ years, she has built Qatar's premier cultural organization, connecting 500+ artists from 80+ countries, launching The YOUTH platform, and establishing government-backed educational programs. Her leadership has transformed Qatar's cultural landscape and created lasting international partnerships.
               </p>
             </div>
             <div className="relative">

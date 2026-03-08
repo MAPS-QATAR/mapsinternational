@@ -60,7 +60,7 @@ const Connect = () => {
       id: "artist",
       label: "Artist",
       title: "Join Our Network",
-      description: "Showcase your work to audiences across 70+ countries",
+      description: "Showcase your work to audiences across 80+ countries",
       icon: <Users className="w-8 h-8" />,
       gradient: "from-purple-500 to-pink-500"
     },
@@ -145,10 +145,10 @@ const Connect = () => {
       const data = await response.json();
 
       if (data.success) {
-        toast({
+    toast({
           title: "Message Sent! ✅",
           description: `Thank you! We'll get back to you at ${formData.email} within 24 hours.`,
-        });
+    });
       resetForm();
       } else {
         throw new Error(data.message || 'Submission failed');
@@ -304,7 +304,7 @@ const Connect = () => {
             value={formData.budget}
             onChange={handleInputChange}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
-              >
+          >
                 <option value="">Select range</option>
                 <option value="under-50k">Under $50,000</option>
                 <option value="50k-100k">$50,000 - $100,000</option>
@@ -367,7 +367,7 @@ const Connect = () => {
         />
       </div>
         </>
-      );
+  );
     }
 
     // PARTNER FORM - Collaborate with Us
@@ -420,7 +420,7 @@ const Connect = () => {
             value={formData.type}
             onChange={handleInputChange}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
-              >
+          >
                 <option value="">Select type</option>
                 <option value="government">Government Body</option>
                 <option value="ngo">NGO/Non-Profit</option>
@@ -530,7 +530,7 @@ const Connect = () => {
                 value={formData.medium}
             onChange={handleInputChange}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
-              >
+          >
                 <option value="">Select medium</option>
             <option value="painting">Painting</option>
                 <option value="sculpture">Sculpture</option>
@@ -586,7 +586,7 @@ const Connect = () => {
             onChange={handleFileUpload}
             className="hidden"
                 id="portfolio-upload"
-              />
+          />
               <label htmlFor="portfolio-upload" className="cursor-pointer">
                 <span className="text-[#E91E63] font-semibold">Click to upload</span>
                 <span className="text-gray-600"> or drag and drop</span>
@@ -627,7 +627,7 @@ const Connect = () => {
         />
       </div>
         </>
-      );
+  );
     }
 
     // YOUTH FORM - Get Empowered
@@ -697,7 +697,7 @@ const Connect = () => {
             value={formData.interest}
             onChange={handleInputChange}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
-            >
+          >
               <option value="">Select your interests</option>
               <option value="arts">Visual Arts & Culture</option>
               <option value="stem">STEM & Space Science</option>
@@ -738,7 +738,7 @@ const Connect = () => {
         />
       </div>
         </>
-      );
+  );
     }
 
     // PRESS FORM - Cover Our Story
@@ -862,7 +862,7 @@ const Connect = () => {
         />
       </div>
         </>
-      );
+  );
     }
 
     // GENERAL INQUIRY FORM (Default)
@@ -895,7 +895,7 @@ const Connect = () => {
             value={formData.inquiryType}
             onChange={handleInputChange}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#E91E63] focus:border-transparent transition-all"
-            >
+          >
               <option value="">Select type</option>
               <option value="general">General Question</option>
               <option value="event">Event Information</option>
@@ -921,7 +921,7 @@ const Connect = () => {
                     />
                   </div>
       </>
-    );
+  );
   };
 
   return (
@@ -997,7 +997,7 @@ const Connect = () => {
                 onClick={() => setActiveForm(option.id)}
                 className={`group cursor-pointer relative overflow-hidden rounded-3xl bg-gradient-to-br ${option.gradient} p-8 text-white hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl ${
                   activeForm === option.id ? 'ring-4 ring-white scale-105' : ''
-                }`}
+                    }`}
               >
                 <div className="relative z-10">
                   <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
@@ -1095,7 +1095,7 @@ const Connect = () => {
             <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2" 
               strokeDasharray="5,8" style={{ strokeLinecap: 'round' }} />
           </svg>
-          
+
           {/* Wavy decoration */}
           <svg className="absolute bottom-20 right-20 w-48 h-48 text-[#FF9800]" viewBox="0 0 150 150">
             <path d="M10 75 Q 40 70, 70 75 T 130 75" fill="none" stroke="currentColor" strokeWidth="2" 
@@ -1145,7 +1145,7 @@ const Connect = () => {
               We're always happy to hear from you
             </p>
           </motion.div>
-
+            
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -1212,7 +1212,7 @@ const Connect = () => {
           >
             <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-xl rounded-full px-8 py-4 shadow-lg border border-gray-200/50">
               <Globe className="w-6 h-6 text-[#E91E63]" />
-              <span className="text-lg font-bold text-gray-900">Connecting 70+ Countries Worldwide</span>
+              <span className="text-lg font-bold text-gray-900">Connecting 80+ Countries Worldwide</span>
                 </div>
           </motion.div>
 

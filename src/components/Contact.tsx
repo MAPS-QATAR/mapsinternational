@@ -49,7 +49,7 @@ const Contact = () => {
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-dark mb-6">Let's Build Cultural Connections</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Join our mission to connect cultures, empower youth, and create lasting impact across 70+ countries. Choose how you want to collaborate with MAPS International WLL.
+            Join our mission to connect cultures, empower youth, and create lasting impact across 80+ countries. Choose how you want to collaborate with MAPS International WLL.
           </p>
         </div>
 

@@ -33,12 +33,12 @@ const CallToActionAdmin = ({ onBack }: { onBack?: () => void }) => {
     {
       id: 1,
       title: "Join QIAF 2025",
-      description: "Be part of the world's most celebrated art festival. Connect with 400+ artists from 70+ countries.",
+      description: "Be part of the world's most celebrated art festival. Connect with 500+ artists from 80+ countries.",
       buttonText: "Apply as Artist",
       buttonLink: "/connect",
       color: "from-magenta to-pink-500",
       bgColor: "from-pink-50 to-pink-100",
-      stats: ["400+ Artists", "70+ Countries", "6 Days"],
+      stats: ["500+ Artists", "80+ Countries", "6 Days"],
       image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop&crop=center"
     },
     {

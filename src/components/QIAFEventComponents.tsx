@@ -33,7 +33,7 @@ const QIAFEventComponents = () => {
       id: 2,
       title: "International Exhibitions",
       icon: Palette,
-      description: "Gallery exhibitions from 400+ artists",
+      description: "Gallery exhibitions from 500+ artists",
       shortTitle: "Exhibitions"
     },
     {
@@ -217,11 +217,11 @@ const QIAFEventComponents = () => {
                 <div className="text-gray-500 font-light">Days</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-light text-black mb-2">400+</div>
+                <div className="text-4xl font-light text-black mb-2">500+</div>
                 <div className="text-gray-500 font-light">Artists</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-light text-black mb-2">70+</div>
+                <div className="text-4xl font-light text-black mb-2">80+</div>
                 <div className="text-gray-500 font-light">Countries</div>
               </div>
             </div>

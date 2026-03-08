@@ -10,8 +10,13 @@ const Work = () => {
   const navigate = useNavigate();
 
   const handleProjectClick = (projectId: string) => {
+    if (projectId === "qiaf-2025") {
+      window.open("https://qiaf.net", "_blank", "noopener,noreferrer");
+      return;
+    }
     if (projectId === "youth-platform") {
-      return; // Coming soon
+      window.open("https://theyouth.qa", "_blank", "noopener,noreferrer");
+      return;
     }
     navigate(`/projects/${projectId}`);
   };
@@ -137,7 +142,7 @@ const Work = () => {
                 Every festival. Every workshop. Every connection.
               </p>
               <p>
-                <span className="font-bold text-gray-900">70+ countries.</span> Thousands of minds ignited.
+                <span className="font-bold text-gray-900">80+ countries.</span> Thousands of minds ignited.
                 <br />
                 Cultures bridged. Futures reimagined.
               </p>
@@ -199,7 +204,7 @@ const Work = () => {
                         QIAF 2025
                       </h3>
                       <p className="text-sm md:text-base text-gray-800 font-bold">
-                        400+ Artists • 70+ Countries
+                        500+ Artists • 80+ Countries
                       </p>
                     </div>
                     <ArrowRight className="w-5 h-5 text-emerald-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-2" />
@@ -221,11 +226,11 @@ const Work = () => {
               <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
                 {/* Image - 100% PRISTINE */}
                 <div className="relative w-full aspect-square overflow-hidden">
-                  <img
+                       <img 
                     src={kssp?.heroImage}
                     alt="KSSP"
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
-                  />
+                       />
                        </div>
 
                 {/* Glassmorphism Text Bar */}
@@ -251,20 +256,22 @@ const Work = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="md:col-span-3 lg:col-span-3 group cursor-not-allowed opacity-90"
+              whileHover={{ y: -8, scale: 1.02 }}
+              onClick={() => handleProjectClick("youth-platform")}
+              className="md:col-span-3 lg:col-span-3 group cursor-pointer"
             >
-              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none">
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-xl">
                 {/* Image - 100% PRISTINE */}
                 <div className="relative w-full aspect-square overflow-hidden">
                   <img
                     src={youth?.heroImage}
                     alt="Youth Platform"
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
-                  {/* Coming Soon Badge */}
+                  {/* Visit theyouth.qa badge */}
                   <div className="absolute top-3 right-3">
                     <div className="bg-gradient-to-r from-[#E91E63] to-[#00BCD4] text-white px-3 py-1 rounded-full text-xs font-bold shadow-xl">
-                      Coming 2025
+                      Visit theyouth.qa
                     </div>
                   </div>
                        </div>
@@ -319,7 +326,7 @@ const Work = () => {
                 </div>
               </div>
             </motion.div>
-
+                       
             {/* ========== BHARAT VASTRAM ========== */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 30 }}

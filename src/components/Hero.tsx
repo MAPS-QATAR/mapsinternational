@@ -19,7 +19,7 @@ const Hero = () => {
   
   const heroImages = [
     { src: heroRashmi, alt: "Rashmi Agarwal engaging with international dignitaries at cultural diplomacy event" },
-    { src: heroQiaf, alt: "Qatar International Art Festival showcasing 70+ countries cultural celebration" },
+    { src: heroQiaf, alt: "Qatar International Art Festival showcasing 80+ countries cultural celebration" },
     { src: heroYouth, alt: "Young innovators from Qatar engaged in space science and cultural programs" },
     { src: heroSpace, alt: "Katara Space Science Program with students learning astronomy under desert sky" }
   ];
@@ -38,7 +38,7 @@ const Hero = () => {
   useEffect(() => {
     if (!isNumbersVisible) return;
 
-    const targets = { artists: 400, countries: 70, years: 11 };
+    const targets = { artists: 500, countries: 80, years: 11 };
     const duration = 2000; // 2 seconds
     const steps = 60; // 60fps
     const stepDuration = duration / steps;

@@ -37,7 +37,7 @@ const QIAFTimeline = () => {
             QIAF Evolution
           </h2>
           <p className="text-xl text-gray-500 max-w-2xl mx-auto font-light">
-            From 232 artists to 400+ artists. Seven years of cultural excellence.
+            From 232 artists to 500+ artists. Seven years of cultural excellence.
           </p>
         </div>
 

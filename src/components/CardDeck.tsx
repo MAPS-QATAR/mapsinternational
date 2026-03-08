@@ -45,7 +45,7 @@ const CardDeck = () => {
               textShadow: '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6)'
             }}>Our Legacy Projects</h2>
             <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Discover our flagship initiatives that have transformed Qatar's cultural landscape and connected communities across 70+ countries.
+              Discover our flagship initiatives that have transformed Qatar's cultural landscape and connected communities across 80+ countries.
             </p>
           </div>
 

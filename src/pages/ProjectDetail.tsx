@@ -63,7 +63,7 @@ const ProjectDetail = () => {
   // QIAF Evolution Timeline Data
   const qiafEvolution = [
     {
-      year: 2019,
+      year: 2018,
       artists: 232,
       countries: 64,
       image: qiaf2019LivePainting,
@@ -92,8 +92,8 @@ const ProjectDetail = () => {
     },
     {
       year: 2025,
-      artists: 400,
-      countries: 70,
+      artists: 500,
+      countries: 80,
       image: qiafHeaderImage,
       highlights: ["15 Major Components", "VIP Ceremonies", "International Recognition"]
     }
@@ -111,7 +111,7 @@ const ProjectDetail = () => {
     {
       id: 2,
       title: "International Exhibitions",
-      description: "Gallery exhibitions from 400+ artists",
+      description: "Gallery exhibitions from 500+ artists",
       image: qiaf2021ArtGallery,
       category: "Exhibition"
     },

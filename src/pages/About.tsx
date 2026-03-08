@@ -12,23 +12,25 @@ import youthEmpowerment from "@/assets/values/Youthempowerment.jpg";
 import globalCollab from "@/assets/values/globalcollab.jpg";
 import innovation from "@/assets/values/innovation.jpg";
 
-// Partnership logos - Selected partnerships
-// Ministries (3 - removed Foreign Affairs)
-import ministryCulture from "@/assets/partnerships/ministries/culture/partnership.jpg";
-import ministryEducation from "@/assets/partnerships/ministries/education/collaboration.jpg";
-import ministryYouthSports from "@/assets/partnerships/ministries/youth-sports/partnership.jpg";
-
-// Government Bodies (2 - removed Qatar National Library)
-import qatarFoundation from "@/assets/partnerships/government-bodies/qatar-foundation/partnership.jpg";
-import kataraCultural from "@/assets/partnerships/government-bodies/katara-cultural-village/collaboration.jpg";
-
-// Cultural Institutions (3 - removed Philharmonic)
-import mathafArabMuseum from "@/assets/partnerships/cultural-institutions/mathaf-arab-museum/collaboration.jpg";
-import fireStateArtists from "@/assets/partnerships/cultural-institutions/fire-state-artists/residency.jpg";
-import nationalMuseumQatar from "@/assets/partnerships/cultural-institutions/national-museum-qatar/partnership.jpg";
-
-// NGOs (1 - removed Qatar Charity, Al Fakhoora, Reach Out Asia)
-import educationAboveAll from "@/assets/partnerships/ngos/education-above-all/programs.jpg";
+// Partnership logos - new-partners (QIAF / event partners)
+import qiafLogo from "@/assets/partnerships/new-partners/qiaf-logo.avif";
+import kataraCulturalLogo from "@/assets/partnerships/new-partners/Katara - Cultural    Partner[2][2][1][1][2][3][2][1] (1)_page-0001.avif";
+import britishCouncilLogo from "@/assets/partnerships/new-partners/British Council Logo from QIAF.avif";
+import kataraHallLogo from "@/assets/partnerships/new-partners/Katara Halls Logo - Qatar Art Festival.avif";
+import experienceQatarLogo from "@/assets/partnerships/new-partners/Experience  Logo.avif";
+import alBahieLogo from "@/assets/partnerships/new-partners/al-bahie.avif";
+import ivaanLogo from "@/assets/partnerships/new-partners/ivaan-magazine.avif";
+import factLogo from "@/assets/partnerships/new-partners/fact-logo.avif";
+import marhabaLogo from "@/assets/partnerships/new-partners/Marhaba Logo Qatar Art Festival.avif";
+import qatarEventsLogo from "@/assets/partnerships/new-partners/qatar-events.avif";
+import qatartainmentLogo from "@/assets/partnerships/new-partners/qatartainment.avif";
+import edarabiaLogo from "@/assets/partnerships/new-partners/Edarabia-logo.avif";
+import alJazeeraPrintingLogo from "@/assets/partnerships/new-partners/aljazeera-printingpress.avif";
+import retajLogo from "@/assets/partnerships/new-partners/Retaj Al Rayyan Logo.avif";
+import dusitLogo from "@/assets/partnerships/new-partners/Dusit-d2_black logo.avif";
+import westoreLogo from "@/assets/partnerships/new-partners/westore.avif";
+import pullmanLogo from "@/assets/partnerships/new-partners/Pullman Hotels Logo.avif";
+import newtonLogo from "@/assets/partnerships/new-partners/NEWTON GROUP LOGO-page-001 (4)_page-0001.avif";
 
 const About = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -53,8 +55,8 @@ const About = () => {
   }, []);
 
   const impactMetrics = [
-    { number: 70, suffix: "+", label: "Countries Reached", icon: <Globe className="w-6 h-6" /> },
-    { number: 450, suffix: "+", label: "Artists Connected", icon: <Users className="w-6 h-6" /> },
+    { number: 80, suffix: "+", label: "Countries Reached", icon: <Globe className="w-6 h-6" /> },
+    { number: 500, suffix: "+", label: "Artists Connected", icon: <Users className="w-6 h-6" /> },
     { number: 11, suffix: "+", label: "Years of Excellence", icon: <Award className="w-6 h-6" /> },
     { number: 500, suffix: "+", label: "Youth Empowered", icon: <Zap className="w-6 h-6" /> }
   ];
@@ -76,7 +78,7 @@ const About = () => {
     },
     {
       title: "Global Collaboration",
-      text: "From Qatar to 70+ countries worldwide, we believe in the power of international collaboration.",
+      text: "From Qatar to 80+ countries worldwide, we believe in the power of international collaboration.",
       image: globalCollab,
       icon: <Globe className="w-8 h-8" />,
       color: "from-purple-500 to-purple-700"
@@ -92,37 +94,35 @@ const About = () => {
 
   const timeline = [
     { year: 2014, title: "Founded", description: "MAPS International WLL established in Doha" },
-    { year: 2019, title: "QIAF Begins", description: "First Qatar International Art Festival launched" },
-    { year: 2021, title: "Global Expansion", description: "Reached 60+ countries with cultural programs" },
+    { year: 2018, title: "QIAF Begins", description: "First Qatar International Art Festival launched" },
+    { year: 2021, title: "Global Expansion", description: "Reached 80+ countries with cultural programs" },
     { year: 2024, title: "KSSP Launches", description: "Katara Space Science Program inspires thousands" },
-    { year: 2025, title: "400+ Artists", description: "QIAF grows to 70+ countries participation" }
+    { year: 2025, title: "500+ Artists", description: "QIAF grows to 80+ countries participation" }
   ];
 
-  const featuredPartnerships = [
-    {
-      name: "Qatar Foundation",
-      description: "Educational and cultural development initiatives",
-      image: qatarFoundation,
-      years: "Since 2019"
-    },
-    {
-      name: "Katara Cultural Village",
-      description: "Premier cultural destination for exhibitions",
-      image: kataraCultural,
-      years: "Since 2018"
-    },
-    {
-      name: "Ministry of Culture",
-      description: "Strategic partnership for cultural initiatives",
-      image: ministryCulture,
-      years: "Since 2018"
-    },
-    {
-      name: "Ministry of Education",
-      description: "Youth development and educational programs",
-      image: ministryEducation,
-      years: "Since 2019"
-    }
+  // Strategic partners (QIAF / event partners) – same bento design, new list
+  // labelBg: darker vibrant colors (magenta, turquoise, green, yellow/amber, purple, blue) for label strip
+  type Partner = { role: string; name: string; logo: string | null; gradient: string; labelBg: string; colSpan: string; height: number; imgHeight: number };
+  // Proper bento grid: asymmetric mix of 8/6/4/3/2 cols and varied heights (no uniform rows)
+  const strategicPartners: Partner[] = [
+    { role: "Organizers", name: "Qatar International Art Festival", logo: qiafLogo, gradient: "from-[#E91E63] to-red-600", labelBg: "bg-[#AD1457]", colSpan: "col-span-12 md:col-span-8 lg:col-span-8", height: 300, imgHeight: 240 },
+    { role: "Cultural Partner", name: "Katara Cultural Village", logo: kataraCulturalLogo, gradient: "from-[#00BCD4] to-cyan-600", labelBg: "bg-[#00838F]", colSpan: "col-span-12 md:col-span-4 lg:col-span-4", height: 300, imgHeight: 240 },
+    { role: "Institutional Partner", name: "British Council Qatar", logo: britishCouncilLogo, gradient: "from-[#00BCD4] to-cyan-600", labelBg: "bg-[#00838F]", colSpan: "col-span-12 md:col-span-4 lg:col-span-4", height: 260, imgHeight: 200 },
+    { role: "Venue Partner", name: "Katara Hall", logo: kataraHallLogo, gradient: "from-[#00BCD4] to-cyan-600", labelBg: "bg-[#006064]", colSpan: "col-span-12 md:col-span-4 lg:col-span-4", height: 260, imgHeight: 200 },
+    { role: "Official Tourism Partner", name: "Experience Qatar", logo: experienceQatarLogo, gradient: "from-purple-500 to-pink-500", labelBg: "bg-[#6A1B9A]", colSpan: "col-span-12 md:col-span-4 lg:col-span-4", height: 260, imgHeight: 200 },
+    { role: "Auction Partner", name: "Al Bahie Auction House", logo: alBahieLogo, gradient: "from-purple-500 to-pink-500", labelBg: "bg-[#7B1FA2]", colSpan: "col-span-12 md:col-span-4 lg:col-span-3", height: 240, imgHeight: 180 },
+    { role: "Magazine Partner", name: "IVAAN Magazine", logo: ivaanLogo, gradient: "from-purple-500 to-pink-500", labelBg: "bg-[#6A1B9A]", colSpan: "col-span-12 md:col-span-4 lg:col-span-3", height: 240, imgHeight: 180 },
+    { role: "Media Partners", name: "Fact Magazine", logo: factLogo, gradient: "from-blue-500 to-indigo-600", labelBg: "bg-[#1565C0]", colSpan: "col-span-12 md:col-span-4 lg:col-span-6", height: 240, imgHeight: 180 },
+    { role: "Media Partners", name: "Marhaba", logo: marhabaLogo, gradient: "from-blue-500 to-indigo-600", labelBg: "bg-[#0D47A1]", colSpan: "col-span-12 md:col-span-6 lg:col-span-3", height: 220, imgHeight: 160 },
+    { role: "Media Partners", name: "Qatar Events", logo: qatarEventsLogo, gradient: "from-blue-500 to-indigo-600", labelBg: "bg-[#1565C0]", colSpan: "col-span-12 md:col-span-6 lg:col-span-3", height: 220, imgHeight: 160 },
+    { role: "Media Partners", name: "QATARTAINMENT", logo: qatartainmentLogo, gradient: "from-blue-500 to-indigo-600", labelBg: "bg-[#0D47A1]", colSpan: "col-span-12 md:col-span-6 lg:col-span-3", height: 220, imgHeight: 160 },
+    { role: "Media Partners", name: "EDARABIA", logo: edarabiaLogo, gradient: "from-blue-500 to-indigo-600", labelBg: "bg-[#1A237E]", colSpan: "col-span-12 md:col-span-6 lg:col-span-3", height: 220, imgHeight: 160 },
+    { role: "Printing Partner", name: "Al Jazeera Printing Press", logo: alJazeeraPrintingLogo, gradient: "from-amber-500 to-orange-600", labelBg: "bg-[#E65100]", colSpan: "col-span-12 md:col-span-6 lg:col-span-6", height: 240, imgHeight: 180 },
+    { role: "Hospitality Partner", name: "Retaj Al Rayyan Hotel West Bay", logo: retajLogo, gradient: "from-green-500 to-emerald-600", labelBg: "bg-[#2E7D32]", colSpan: "col-span-12 md:col-span-6 lg:col-span-3", height: 240, imgHeight: 180 },
+    { role: "Hospitality Partner", name: "dusitD2 Salwa Doha", logo: dusitLogo, gradient: "from-green-500 to-emerald-600", labelBg: "bg-[#1B5E20]", colSpan: "col-span-12 md:col-span-6 lg:col-span-3", height: 240, imgHeight: 180 },
+    { role: "Logistic Partner", name: "WeStore", logo: westoreLogo, gradient: "from-green-500 to-emerald-600", labelBg: "bg-[#2E7D32]", colSpan: "col-span-12 md:col-span-6 lg:col-span-2", height: 240, imgHeight: 140 },
+    { role: "Food & Beverage Partner", name: "Pullman Hotels & Resorts", logo: pullmanLogo, gradient: "from-amber-500 to-orange-600", labelBg: "bg-[#F57C00]", colSpan: "col-span-12 md:col-span-6 lg:col-span-2", height: 240, imgHeight: 140 },
+    { role: "Education Partner", name: "Newton International School", logo: newtonLogo, gradient: "from-green-500 to-emerald-600", labelBg: "bg-[#1B5E20]", colSpan: "col-span-12 md:col-span-12 lg:col-span-8", height: 220, imgHeight: 160 },
   ];
 
   return (
@@ -298,7 +298,7 @@ const About = () => {
                   <div className="text-white text-center">
                     <div className="text-4xl font-bold">11+</div>
                     <div className="text-sm font-semibold">Years Impact</div>
-          </div>
+        </div>
         </div>
         </div>
             </motion.div>
@@ -326,9 +326,9 @@ const About = () => {
               </p>
               <div className="space-y-3 sm:space-y-4 text-base sm:text-lg text-gray-700 leading-relaxed">
                 <p>
-                  Today, MAPS International WLL connects <span className="text-[#E91E63] font-bold">70+ countries</span>,
+                  Today, MAPS International WLL connects <span className="text-[#E91E63] font-bold">80+ countries</span>,
                   empowers <span className="text-[#FF9800] font-bold">500+ youth</span>, and celebrates
-                  <span className="text-[#E91E63] font-bold"> 400+ artists</span> annually.
+                  <span className="text-[#E91E63] font-bold"> 500+ artists</span> annually.
                 </p>
         </div>
               <motion.div
@@ -342,7 +342,7 @@ const About = () => {
               </motion.div>
             </motion.div>
         </div>
-        </div>
+          </div>
       </section>
 
       {/* ============================================ */}
@@ -764,7 +764,7 @@ const About = () => {
                     With over 11 years of experience in international cultural programming, Rashmi has built strategic partnerships with Qatar's leading institutions, ministries, and cultural organizations, establishing MAPS as a trusted leader in cultural excellence.
                   </p>
                   <p>
-                    Under her leadership, MAPS has grown from a local initiative to a global movement, reaching <span className="text-[#E91E63] font-bold">70+ countries</span> and impacting <span className="text-[#FF9800] font-bold">thousands of lives</span> through art festivals, youth empowerment programs, and space science education.
+                    Under her leadership, MAPS has grown from a local initiative to a global movement, reaching <span className="text-[#E91E63] font-bold">80+ countries</span> and impacting <span className="text-[#FF9800] font-bold">thousands of lives</span> through art festivals, youth empowerment programs, and space science education.
             </p>
           </div>
                 </div>
@@ -789,7 +789,7 @@ const About = () => {
               The Journey
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From a vision in 2014 to a global movement spanning 70+ countries
+              From a vision in 2014 to a global movement spanning 80+ countries
             </p>
           </motion.div>
 
@@ -893,7 +893,7 @@ const About = () => {
           {/* Bento Grid Layout */}
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-12 gap-6">
-              {/* 70+ Countries - Large Card */}
+              {/* 80+ Countries - Large Card */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -915,7 +915,7 @@ const About = () => {
                     <Globe className="w-10 h-10" />
                   </motion.div>
                   <AnimatedCounter 
-                    value={70} 
+                    value={80} 
                     suffix="+" 
                     duration={2500}
                     className="text-7xl md:text-8xl font-black text-gray-900 mb-4"
@@ -924,7 +924,7 @@ const About = () => {
                   </div>
               </motion.div>
 
-              {/* 450+ Artists - Medium Card */}
+              {/* 500+ Artists - Medium Card */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -946,7 +946,7 @@ const About = () => {
                     <Users className="w-8 h-8" />
                   </motion.div>
                   <AnimatedCounter 
-                    value={450} 
+                    value={500} 
                     suffix="+" 
                     duration={2500}
                     className="text-6xl font-black text-gray-900 mb-3"
@@ -1137,7 +1137,7 @@ const About = () => {
                       <h3 className="text-xl font-black text-gray-900">Global Collaboration</h3>
                 </div>
                     <p className="text-gray-800 font-semibold text-sm">
-                      From Qatar to 70+ countries worldwide, we believe in the power of international collaboration
+                      From Qatar to 80+ countries worldwide, we believe in the power of international collaboration
                     </p>
               </div>
             </div>
@@ -1181,7 +1181,7 @@ const About = () => {
       </section>
 
       {/* ============================================ */}
-      {/* PARTNERSHIPS - Complete Bento Grid */}
+      {/* PARTNERSHIPS - Bento Grid (QIAF / event partners) */}
       {/* ============================================ */}
       <section className="py-32 bg-white/50 backdrop-blur-sm">
         <div className="container mx-auto px-6">
@@ -1200,179 +1200,44 @@ const About = () => {
             </p>
           </motion.div>
 
-          {/* Bento Grid for ALL 15 Partnerships */}
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-12 gap-8">
-              
-              {/* Row 1: Ministries - PINK/RED GRADIENT */}
-              {/* Ministry of Culture - Landscape Large */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="col-span-12 md:col-span-6 lg:col-span-6 group"
-              >
-                <div className="bg-gradient-to-br from-[#E91E63] to-red-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[280px]">
-                  <div className="h-[220px] bg-white/95 p-4">
-                    <img src={ministryCulture} alt="Ministry of Culture" className="w-full h-full object-contain" />
-                </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
-                    <h3 className="text-lg font-black text-gray-900">Ministry of Culture</h3>
-              </div>
-                </div>
-              </motion.div>
-
-              {/* Ministry of Education - Square */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="col-span-12 md:col-span-6 lg:col-span-3 group"
-              >
-                <div className="bg-gradient-to-br from-[#E91E63] to-red-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[280px]">
-                  <div className="h-[220px] bg-white/95 p-4">
-                    <img src={ministryEducation} alt="Ministry of Education" className="w-full h-full object-contain" />
-                </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
-                    <h3 className="text-base font-black text-gray-900">Education</h3>
-              </div>
-                </div>
-              </motion.div>
-
-              {/* Row 2: More Ministries (PINK) + Gov Bodies (TEAL) */}
-              {/* Ministry Youth & Sports - Landscape - PINK */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                className="col-span-12 md:col-span-4 lg:col-span-4 group"
-              >
-                <div className="bg-gradient-to-br from-[#E91E63] to-red-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[240px]">
-                  <div className="h-[180px] bg-white/95 p-3">
-                    <img src={ministryYouthSports} alt="Ministry of Youth & Sports" className="w-full h-full object-contain" />
-                  </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
-                    <h3 className="text-sm font-black text-gray-900">Youth & Sports</h3>
-                </div>
-                </div>
-              </motion.div>
-
-              {/* Qatar Foundation - Landscape - TEAL */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="col-span-12 md:col-span-4 lg:col-span-4 group"
-              >
-                <div className="bg-gradient-to-br from-[#00BCD4] to-cyan-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[240px]">
-                  <div className="h-[180px] bg-white/95 p-3">
-                    <img src={qatarFoundation} alt="Qatar Foundation" className="w-full h-full object-contain" />
-              </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
-                    <h3 className="text-sm font-black text-gray-900">Qatar Foundation</h3>
-                </div>
-              </div>
-              </motion.div>
-
-              {/* Row 3: Cultural Institutions - PURPLE/PINK & TEAL */}
-              {/* Katara Cultural Village - Wide - TEAL (Gov Body) */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="col-span-12 md:col-span-6 lg:col-span-4 group"
-              >
-                <div className="bg-gradient-to-br from-[#00BCD4] to-cyan-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[200px]">
-                  <div className="h-[140px] bg-white/95 p-3">
-                    <img src={kataraCultural} alt="Katara Cultural Village" className="w-full h-full object-contain" />
-                </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
-                    <h3 className="text-sm font-black text-gray-900">Katara Village</h3>
-              </div>
-                </div>
-              </motion.div>
-
-              {/* National Museum Qatar - Square - PURPLE */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="col-span-6 md:col-span-3 lg:col-span-2 group"
-              >
-                <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[200px]">
-                  <div className="h-[140px] bg-white/95 p-2">
-                    <img src={nationalMuseumQatar} alt="National Museum Qatar" className="w-full h-full object-contain" />
-                </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-3 py-2">
-                    <h3 className="text-xs font-black text-gray-900">Nat. Museum</h3>
-              </div>
-                </div>
-              </motion.div>
-
-              {/* Mathaf Arab Museum - Landscape - PURPLE */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.45 }}
-                className="col-span-12 md:col-span-6 lg:col-span-4 group"
-              >
-                <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[200px]">
-                  <div className="h-[140px] bg-white/95 p-3">
-                    <img src={mathafArabMuseum} alt="Mathaf Arab Museum" className="w-full h-full object-contain" />
-                </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
-                    <h3 className="text-sm font-black text-gray-900">Mathaf Museum</h3>
-              </div>
-                </div>
-              </motion.div>
-
-              {/* Row 4: More Cultural (PURPLE) + NGOs (GREEN) */}
-              {/* Fire State Artists - Very Wide - PURPLE */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="col-span-12 md:col-span-6 lg:col-span-6 group"
-              >
-                <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[180px]">
-                  <div className="h-[120px] bg-white/95 p-3">
-                    <img src={fireStateArtists} alt="Fire State Artists" className="w-full h-full object-contain" />
-                </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
-                    <h3 className="text-sm font-black text-gray-900">Fire State Artists</h3>
-              </div>
-                </div>
-              </motion.div>
-
-              {/* Row 5: NGO - GREEN */}              {/* Education Above All - Square - GREEN */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.65 }}
-                className="col-span-6 md:col-span-3 lg:col-span-3 group"
-              >
-                <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl h-[240px]">
-                  <div className="h-[180px] bg-white/95 p-3">
-                    <img src={educationAboveAll} alt="Education Above All" className="w-full h-full object-contain" />
-                </div>
-                  <div className="bg-white/90 backdrop-blur-xl px-4 py-3">
-                    <h3 className="text-sm font-black text-gray-900">Education Above All</h3>
-              </div>
-                </div>
-              </motion.div>
-
-                </div>
-              </div>
-                </div>
+              {strategicPartners.map((partner, index) => {
+                const initials = partner.name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+                return (
+                  <motion.div
+                    key={`${partner.role}-${partner.name}`}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    className={`${partner.colSpan} group`}
+                  >
+                    <div
+                      className={`bg-gradient-to-br ${partner.gradient} rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-300 shadow-xl`}
+                      style={{ height: `${partner.height}px` }}
+                    >
+                      <div
+                        className="bg-white/95 p-3 flex items-center justify-center w-full"
+                        style={{ height: `${partner.imgHeight}px` }}
+                      >
+                        {partner.logo ? (
+                          <img src={partner.logo} alt={partner.name} className="w-full h-full object-contain" />
+                        ) : (
+                          <span className="text-3xl font-black text-gray-400 select-none">{initials}</span>
+                        )}
+                      </div>
+                      <div className={`${partner.labelBg} px-4 py-3 min-h-[4rem] border-t-2 border-black/10 flex flex-col justify-center`}>
+                        <p className="text-xs font-bold text-white/90 uppercase tracking-wider">{partner.role}</p>
+                        <h3 className="text-sm font-black text-white leading-snug mt-0.5 break-words">{partner.name}</h3>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ============================================ */}

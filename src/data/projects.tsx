@@ -2,7 +2,7 @@ import { Users, Trophy, Star, Globe } from "lucide-react";
 import heroQiaf from "@/assets/projects/qiaf-2025/qiaf-card.jpg";
 import heroYouth from "@/assets/projects/youth-platform/youth-card.jpg";
 import heroSpace from "@/assets/projects/kssp/kssp-card.jpg";
-import colorsDesert from "@/assets/projects/colors-desert/colors-desert-card.jpg";
+import colorsDesert from "@/assets/events/colors-of-desert-2025.jpg";
 import bharatVastram from "@/assets/projects/bharat-vastram/exhibition.jpg";
 import astroFair from "@/assets/projects/astro-fair/astro-fair-card.jpg";
 import cosmicCanvas from "@/assets/projects/cosmic-canvas/cosmic-card.jpg";
@@ -71,12 +71,12 @@ export const projects: Project[] = [
     dates: "December 7-12, 2025",
     venue: "Katara Cultural Village, Building 12",
     theme: "Sustainability and Innovation in Art",
-    description: "One of the world's most celebrated art gatherings, connecting 400+ artists from 70+ countries through 15 major event components.",
-    longDescription: "The Qatar International Art Festival (QIAF) stands as one of the most prestigious cultural events in the Middle East, bringing together artists, curators, and art enthusiasts from over 70 countries. Since its inception in 2019, QIAF has grown from 232 artists from 64 countries to 400+ artists from 70+ countries, establishing itself as a global platform for cultural exchange, artistic innovation, and international collaboration. The 2025 edition features 15 major event components including VIP opening ceremonies, international exhibitions, master classes, live painting symposiums, sustainable fashion shows, cultural musical evenings, heritage tours, networking dinners, desert safari experiences, art auctions, innovation workshops, award ceremonies, and grand closing events.",
+    description: "One of the world's most celebrated art gatherings, connecting 500+ artists from 80+ countries through 15 major event components.",
+    longDescription: "The Qatar International Art Festival (QIAF) stands as one of the most prestigious cultural events in the Middle East, bringing together artists, curators, and art enthusiasts from over 80 countries. Since its inception in 2018, QIAF has grown from 232 artists from 64 countries to 500+ artists from 80+ countries, establishing itself as a global platform for cultural exchange, artistic innovation, and international collaboration. The 2025 edition features 15 major event components including VIP opening ceremonies, international exhibitions, master classes, live painting symposiums, sustainable fashion shows, cultural musical evenings, heritage tours, networking dinners, desert safari experiences, art auctions, innovation workshops, award ceremonies, and grand closing events.",
     stats: { 
       editions: 7, 
-      artists: 400, 
-      countries: 70, 
+      artists: 500, 
+      countries: 80, 
       engagements: 54603
     },
     heroImage: heroQiaf,
@@ -255,14 +255,73 @@ export const projects: Project[] = [
       {
         id: "colours-of-desert",
         title: "Colours of Desert",
-        year: 2024,
-        description: "7 editions of cultural heritage celebration showcasing traditional Qatari culture meets contemporary art",
-        longDescription: "Colours of Desert is a unique cultural initiative that bridges traditional Qatari heritage with contemporary artistic expression. Through 7 successful editions, this program has celebrated the rich cultural tapestry of Qatar while introducing modern artistic interpretations. The initiative brings together local and international artists to explore themes of desert life, traditional crafts, and cultural identity in innovative ways.",
-        stats: { editions: 7, artists: 150, exhibitions: 25 },
+        year: 2026,
+        edition: "8th Edition",
+        dates: "February 22 - April 30, 2026",
+        venue: "Pullman Doha West Bay",
+        theme: "Cultural Reflection",
+        description: "MAPS International WLL inaugurates its Art Gallery at Pullman Doha West Bay with the 8th Edition of Colours of Desert 2026 - A curated gallery experience celebrating cultural reflection through professional paintings and sculptures.",
+        longDescription: "MAPS International WLL proudly inaugurates its Art Gallery hosted at Pullman Doha West Bay by bringing the 8th Edition of Colours of Desert 2026. Theme: Cultural Reflection - 'Every grain of sand holds a story - Timeless sands. Timeless stories. Timeless art. We let ART tell it.' The 8th Edition evolves into a refined, curated gallery experience, presenting selected professional paintings and sculptures that explore identity, heritage, and contemporary expression. The Gallery showcase prioritizes artistic depth, aesthetic sophistication, and meaningful cultural dialogue through immersive and thoughtfully designed workshops. Join us where art becomes reflection, and culture becomes conversation.",
+        stats: { 
+          editions: 8, 
+          artists: 200, 
+          exhibitions: 30,
+          duration_days: 68,
+          workshops: 15
+        },
         heroImage: colorsDesert,
-        category: "Heritage & Culture",
+        category: "Art Gallery & Heritage",
         iconType: 'trophy',
-        featured: false
+        featured: true,
+        eventComponents: [
+          "Art Gallery Inauguration at Pullman Doha West Bay",
+          "Professional Paintings Exhibition",
+          "Sculpture Showcase",
+          "Immersive Art Workshops",
+          "Cultural Reflection Dialogues",
+          "Heritage & Contemporary Expression Integration",
+          "Identity Exploration Through Art",
+          "Aesthetic Sophistication Presentations",
+          "Artist Networking & Collaboration Sessions",
+          "Gallery Tours & Curator Talks"
+        ],
+        activities: [
+          "Curated Gallery Experience - Selected professional artworks exploring cultural themes",
+          "Painting Exhibition - Contemporary and traditional artistic expressions",
+          "Sculpture Showcase - Three-dimensional cultural narratives",
+          "Immersive Workshops - Hands-on creative sessions with professional artists",
+          "Cultural Dialogue Sessions - Meaningful conversations about identity and heritage",
+          "Artist Talks - Insights into creative processes and cultural inspirations",
+          "Gallery Tours - Guided explorations of exhibited works",
+          "Networking Events - Connecting artists, collectors, and cultural enthusiasts"
+        ],
+        partnerships: [
+          "Pullman Doha West Bay - Main venue partner and gallery host",
+          "Qatar Tourism Authority - Cultural promotion and support",
+          "Local Art Galleries - Collaboration and artist selection",
+          "International Art Networks - Global artist participation"
+        ],
+        achievements: [
+          "Inaugural MAPS International Art Gallery at Pullman Doha West Bay",
+          "8th Edition milestone achievement",
+          "Evolution to curated gallery experience format",
+          "Focus on professional artistic depth and sophistication",
+          "Integration of cultural reflection and contemporary expression",
+          "Extended 68-day gallery showcase",
+          "Meaningful cultural dialogue platform creation"
+        ],
+        hashtags: [
+          "#coloursofdesert",
+          "#coloursofdesert2026",
+          "#culturalreflection",
+          "#pullmanwestbay",
+          "#mapsartgallery",
+          "#qatarart",
+          "#desertart",
+          "#timelessart",
+          "#mapsqatar",
+          "#dohaartgallery"
+        ]
       },
       {
         id: "bharat-vastram",
@@ -433,8 +492,8 @@ export const qiafEditions = [
     year: 2025,
     edition: "7th Edition",
     dates: "December 7-12, 2025",
-    artists: 400,
-    countries: 70,
+    artists: 500,
+    countries: 80,
     theme: "Sustainability and Innovation in Art",
     highlights: ["15 major components", "VIP ceremonies", "International recognition"]
   }

@@ -102,13 +102,13 @@ const Footer = () => {
               </svg>
             </h3>
             <p className="text-gray-700 text-base leading-relaxed mb-6">
-              Connecting cultures, inspiring minds, and empowering communities across 70+ countries worldwide.
+              Connecting cultures, inspiring minds, and empowering communities across 80+ countries worldwide.
             </p>
             
             {/* Impact Badge */}
             <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-xl rounded-full px-5 py-3 shadow-lg border border-gray-200/50">
               <Globe className="w-5 h-5 text-[#E91E63]" />
-              <span className="text-gray-900 font-bold text-sm">70+ Countries</span>
+              <span className="text-gray-900 font-bold text-sm">80+ Countries</span>
             </div>
           </motion.div>
 

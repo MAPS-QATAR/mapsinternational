@@ -224,7 +224,7 @@ const FounderSection = () => {
                     <strong>Recent Recognition:</strong> Featured in Huffmag as "A Visionary at the Crossroads of Art, Business, and Social Impact" and recognized by The Arab Leaders as one of the "Top Arab Cultural Leaders 2025". Her work has been covered by major Qatar news outlets including Gulf Times, Qatar News Agency, and Al Raya.
                   </p>
                   <p className="text-muted-foreground leading-relaxed">
-                    <strong>Global Impact:</strong> Under her leadership, MAPS International WLL has connected 400+ artists from 70+ countries, created 150+ transformative events, and empowered 5,000+ young leaders. QIAF has been described as "one of the world's most celebrated art gatherings" and is now integrated into Qatar's educational calendar.
+                    <strong>Global Impact:</strong> Under her leadership, MAPS International WLL has connected 500+ artists from 80+ countries, created 150+ transformative events, and empowered 5,000+ young leaders. QIAF has been described as "one of the world's most celebrated art gatherings" and is now integrated into Qatar's educational calendar.
                   </p>
                 </div>
               </div>
