@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Globe, Users, Award, Zap, Heart, ExternalLink, ArrowRight, Building, CheckCircle, TrendingUp } from "lucide-react";
 import backgroundImage from "@/assets/background.jpg";
@@ -33,6 +34,7 @@ import pullmanLogo from "@/assets/partnerships/new-partners/Pullman Hotels Logo.
 import newtonLogo from "@/assets/partnerships/new-partners/NEWTON GROUP LOGO-page-001 (4)_page-0001.avif";
 
 const About = () => {
+  const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
   const [activeValue, setActiveValue] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -1301,7 +1303,7 @@ const About = () => {
           </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <button 
-                onClick={() => window.location.href = '/work'}
+                onClick={() => navigate('/work')}
                 className="group px-10 py-5 bg-gradient-to-r from-[#E91E63] to-[#FF9800] text-white text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl"
               >
                 <span className="flex items-center gap-2">
@@ -1310,7 +1312,7 @@ const About = () => {
                 </span>
               </button>
               <button 
-                onClick={() => window.location.href = '/connect'}
+                onClick={() => navigate('/connect')}
                 className="px-10 py-5 border-2 border-gray-800 text-gray-900 text-lg font-semibold rounded-full hover:bg-gray-900 hover:text-white transition-all duration-300 hover:scale-105"
               >
                 Get in Touch

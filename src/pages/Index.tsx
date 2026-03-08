@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowDown, Sparkles, Globe, Users, Zap } from "lucide-react";
 import mapsLogo from "@/assets/maps-logo.jpg";
@@ -12,6 +13,7 @@ import Footer from "@/components/Footer";
 import { RippleButton } from "@/components/ui/ripple-button";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -189,7 +191,7 @@ const Index = () => {
             transition={{ duration: 1, delay: 1.2 }}
           >
             <RippleButton
-              onClick={() => window.location.href = '/work'}
+              onClick={() => navigate('/work')}
               className="group relative px-10 py-5 bg-white text-gray-900 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-white/20"
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -606,7 +608,7 @@ const Index = () => {
 
                   {/* CTA Button */}
                   <button 
-                    onClick={() => window.location.href = '/work'}
+                    onClick={() => navigate('/work')}
                     className="group bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center gap-3 shadow-xl hover:shadow-2xl hover:scale-105"
                   >
                     <span>Explore Gallery Details</span>

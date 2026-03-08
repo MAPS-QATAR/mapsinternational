@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Users, Handshake, Palette, Calendar, Mail, ArrowRight, Settings } from "lucide-react";
 
 const CallToActionSection = ({ showAdmin = false, onToggleAdmin }: { showAdmin?: boolean; onToggleAdmin?: () => void } = {}) => {
+  const navigate = useNavigate();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [cards, setCards] = useState<any[]>([]);
 
@@ -68,7 +70,7 @@ const CallToActionSection = ({ showAdmin = false, onToggleAdmin }: { showAdmin?:
 
   const handleCardClick = (link: string) => {
     if (link.startsWith('/')) {
-      window.location.href = link;
+      navigate(link);
     } else {
       window.open(link, '_blank');
     }

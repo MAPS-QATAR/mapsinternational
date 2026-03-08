@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Calendar, ExternalLink, TrendingUp, Award, Users, Globe } from "lucide-react";
 
 const NewsUpdates = () => {
+  const navigate = useNavigate();
   const [currentNews, setCurrentNews] = useState(0);
 
   const newsItems = [
@@ -97,7 +99,7 @@ const NewsUpdates = () => {
 
   const handleNewsClick = (link: string) => {
     if (link.startsWith('/')) {
-      window.location.href = link;
+      navigate(link);
     } else {
       window.open(link, '_blank');
     }

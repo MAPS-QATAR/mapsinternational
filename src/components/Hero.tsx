@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import backgroundImage from "@/assets/background.jpg";
 import mapsLogo from "@/assets/maps-logo.jpg";
 import heroRashmi from "@/assets/hero-rashmi-diplomacy.jpg";
@@ -7,6 +8,7 @@ import heroYouth from "@/assets/hero-youth-platform.jpg";
 import heroSpace from "@/assets/projects/kssp/kssp-card.jpg";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [currentImage, setCurrentImage] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [animatedNumbers, setAnimatedNumbers] = useState({
@@ -214,7 +216,7 @@ const Hero = () => {
         {/* Action Button - FIXED COLORS */}
         <div className="flex justify-center animate-slide-up" style={{ animationDelay: '0.5s' }}>
           <button 
-            onClick={() => window.location.href = '/work'}
+            onClick={() => navigate('/work')}
             className="bg-magenta hover:bg-magenta-dark text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
           >
             Explore Our Work
