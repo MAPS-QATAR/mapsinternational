@@ -60,7 +60,7 @@ const CallToActionAdmin = ({ onBack }: { onBack?: () => void }) => {
       buttonLink: "/connect",
       color: "from-magenta to-pink-500",
       bgColor: "from-pink-50 to-pink-100",
-      stats: ["500+ Youth", "Innovation", "Leadership"],
+      stats: ["3000+ Youth", "Innovation", "Leadership"],
       image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop&crop=center"
     },
     {

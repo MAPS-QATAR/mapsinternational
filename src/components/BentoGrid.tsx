@@ -124,8 +124,8 @@ const BentoGrid: React.FC<BentoGridProps> = ({ projects }) => {
       return 'medium'; // 1182x1182 - medium quality, medium card
     }
     
-    if (project.id === 'katara-football-card') {
-      return 'small'; // 960x960 - smaller image, small card
+    if (project.id === 'katara-football') {
+      return 'small'; // Card image — compact bento tile
     }
     
     if (project.id === 'qatar-literature') {

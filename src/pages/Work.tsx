@@ -29,6 +29,7 @@ const Work = () => {
   const bharat = projects.find(p => p.id === "bharat-vastram");
   const cosmic = projects.find(p => p.id === "cosmic-canvas");
   const astro = projects.find(p => p.id === "astro-fair");
+  const kataraFootball = projects.find(p => p.id === "katara-football");
 
   return (
     <div className="bg-transparent overflow-hidden relative">
@@ -283,7 +284,7 @@ const Work = () => {
                       Youth Platform
                     </h3>
                     <p className="text-xs md:text-sm text-gray-800 font-bold">
-                      500+ Youth • 8 Areas
+                      3000+ Youth • 8 Areas
                     </p>
                   </div>
                          </div>
@@ -320,6 +321,9 @@ const Work = () => {
                       <h3 className="text-base md:text-lg font-black text-gray-900 leading-tight">
                         Colours of Desert
                        </h3>
+                      <p className="mt-1 text-[11px] font-semibold text-gray-800">
+                        MAPS International WLL - Pullman Doha West Bay
+                      </p>
                     </div>
                     <ArrowRight className="w-4 h-4 text-orange-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
                   </div>
@@ -433,6 +437,43 @@ const Work = () => {
                       </h3>
                     </div>
                     <ArrowRight className="w-4 h-4 text-indigo-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* ========== KATARA FOOTBALL ========== */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              onClick={() => handleProjectClick("katara-football")}
+              className="md:col-span-3 lg:col-span-3 group cursor-pointer"
+            >
+              <div className="relative w-full rounded-2xl overflow-hidden bg-white border-2 border-gray-800/20 shadow-none hover:shadow-none transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2">
+                <div className="relative w-full aspect-square overflow-hidden">
+                  <img
+                    src={kataraFootball?.heroImage}
+                    alt="Katara Football"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
+                  />
+                </div>
+                <div className="relative bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-4 py-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <div className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[10px] font-bold mb-1.5">
+                        Sports
+                      </div>
+                      <h3 className="text-base md:text-lg font-black text-gray-900 leading-tight">
+                        Katara Football
+                      </h3>
+                      <p className="text-xs md:text-sm text-gray-800 font-bold mt-0.5">
+                        Katara • Community & youth
+                      </p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-emerald-600 group-hover:translate-x-1 transition-transform flex-shrink-0 mt-1" />
                   </div>
                 </div>
               </div>

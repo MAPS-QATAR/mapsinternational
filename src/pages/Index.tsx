@@ -468,7 +468,7 @@ const Index = () => {
                   </motion.div>
                   <h3 className="text-3xl font-bold text-white mb-2">Youth Platform</h3>
                   <p className="text-white/80 text-lg mb-4">
-                    500+ Youth Empowered
+                    3000+ Youth Empowered
                   </p>
                   <div className="flex gap-4 text-sm text-white/60">
                     <span>Coming 2025</span>

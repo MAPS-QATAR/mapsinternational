@@ -60,7 +60,7 @@ const About = () => {
     { number: 80, suffix: "+", label: "Countries Reached", icon: <Globe className="w-6 h-6" /> },
     { number: 500, suffix: "+", label: "Artists Connected", icon: <Users className="w-6 h-6" /> },
     { number: 11, suffix: "+", label: "Years of Excellence", icon: <Award className="w-6 h-6" /> },
-    { number: 500, suffix: "+", label: "Youth Empowered", icon: <Zap className="w-6 h-6" /> }
+    { number: 3000, suffix: "+", label: "Youth Empowered", icon: <Zap className="w-6 h-6" /> }
   ];
 
   const values = [
@@ -329,7 +329,7 @@ const About = () => {
               <div className="space-y-3 sm:space-y-4 text-base sm:text-lg text-gray-700 leading-relaxed">
                 <p>
                   Today, MAPS International WLL connects <span className="text-[#E91E63] font-bold">80+ countries</span>,
-                  empowers <span className="text-[#FF9800] font-bold">500+ youth</span>, and celebrates
+                  empowers <span className="text-[#FF9800] font-bold">3000+ youth</span>, and celebrates
                   <span className="text-[#E91E63] font-bold"> 500+ artists</span> annually.
                 </p>
         </div>
@@ -988,7 +988,7 @@ const About = () => {
                       </div>
               </motion.div>
 
-              {/* 500+ Youth - Medium Card */}
+              {/* 3000+ Youth - Medium Card */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1010,8 +1010,8 @@ const About = () => {
                     <Zap className="w-10 h-10" />
                   </motion.div>
                   <AnimatedCounter 
-                    value={500} 
-                    suffix="+" 
+                    value={3000}
+                    suffix="+"
                     duration={2500}
                     className="text-7xl md:text-8xl font-black text-gray-900 mb-4"
                   />

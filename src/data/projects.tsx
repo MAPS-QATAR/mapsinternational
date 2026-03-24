@@ -8,6 +8,13 @@ import astroFair from "@/assets/projects/astro-fair/astro-fair-card.jpg";
 import cosmicCanvas from "@/assets/projects/cosmic-canvas/cosmic-card.jpg";
 import kataraFootball from "@/assets/projects/katara-football-card/katara-football-card.jpg";
 
+const colorsDesert2026Gallery = Object.values(
+  import.meta.glob("@/assets/colors of desert 2026/*.jpg", {
+    eager: true,
+    import: "default",
+  })
+) as string[];
+
 export interface Project {
   id: string;
   title: string;
@@ -270,6 +277,7 @@ export const projects: Project[] = [
           workshops: 15
         },
         heroImage: colorsDesert,
+        gallery: colorsDesert2026Gallery,
         category: "Art Gallery & Heritage",
         iconType: 'trophy',
         featured: true,
@@ -438,6 +446,40 @@ export const projects: Project[] = [
         category: "Science & Art",
         iconType: 'star',
         featured: false
+      },
+      {
+        id: "katara-football",
+        title: "Katara Football",
+        year: 2024,
+        venue: "Katara Cultural Village",
+        description: "Community football and cultural engagement at Katara—bringing youth, families, and international visitors together through sport in Qatar’s flagship cultural district.",
+        longDescription: "Katara Football is a MAPS International WLL initiative rooted in Katara Cultural Village, combining the energy of the game with cultural programming. The project supports youth participation, community tournaments, and cross-cultural connection—aligning athletic excellence with Katara’s mission as a hub for arts, heritage, and dialogue. Activities emphasize teamwork, inclusion, and visibility for Qatar’s sporting and cultural landscape.",
+        stats: {
+          focus_areas: 3,
+          participants: 250,
+          workshops: 6
+        },
+        heroImage: kataraFootball,
+        category: "Sports & Culture",
+        iconType: 'trophy',
+        featured: false,
+        activities: [
+          "Youth and community football sessions",
+          "Tournaments and friendly matches at Katara",
+          "Cultural tie-ins with Katara’s arts and heritage programming",
+          "Team-building and inclusion-focused outreach"
+        ],
+        partnerships: [
+          "Katara Cultural Village",
+          "Local schools and youth organizations"
+        ],
+        hashtags: [
+          "#katara",
+          "#kataraqatar",
+          "#football",
+          "#youthsports",
+          "#mapsqatar"
+        ]
       },
 ];
 
