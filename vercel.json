@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/signature100_form",
+      "destination": "https://docs.google.com/forms/d/e/1FAIpQLSdIc753AVV63NgJe6NmIc2Fjq_XbcI9-oMnOmv8_rB_QF4xfA/viewform?hl=en",
+      "permanent": true
+    }
+  ]
+}
